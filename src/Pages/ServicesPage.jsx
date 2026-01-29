@@ -1,21 +1,14 @@
-function ServicesPage() {
-  const services = [
-    { id: 1, title: 'Diseño Web', description: 'Diseño moderno y responsivo' },
-    { id: 2, title: 'Desarrollo', description: 'Desarrollo con React y tecnologías modernas' },
-    { id: 3, title: 'Marketing Digital', description: 'Estrategias de marketing efectivas' },
-  ]
+import Hero from '../components/Services/Hero'
+import ServicesList from '../components/Services/ServicesList'
+import Pricing from '../components/Services/Pricing'
+import './ServicesPage.css'
 
+function ServicesPage() {
   return (
     <div className="services-page">
-      <h1>Nuestros Servicios</h1>
-      <div className="services-grid">
-        {services.map(service => (
-          <div key={service.id} className="service-card">
-            <h3>{service.title}</h3>
-            <p>{service.description}</p>
-          </div>
-        ))}
-      </div>
+      <Hero />
+      <ServicesList />
+      <Pricing />
     </div>
   )
 }
