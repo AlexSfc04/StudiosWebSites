@@ -1,14 +1,19 @@
-import Header from "./Header.jsx";
-import Footer from "./Footer.jsx";
+import Header from './Header'
+import Footer from './Footer'
+import './Layout.css'
 
 function Layout({ children }) {
-return (
-    <>
-    <Header />
-    <main>{children}</main>
-    <Footer />
-    </>
-    );
+  return (
+    <div className="layout">
+      <Header />
+      <main className="main-content">
+        {children}
+      </main>
+      <Footer />
+    </div>
+  )
 }
 
-export default Layout;
+export default Layout
+
+
