@@ -32,18 +32,13 @@
   color: white;
 }
 
-.footer-logo-icon {
+.footer-logo-img {
   width: 40px;
-  height: 40px;
-  background: var(--gradient-primary);
-  color: white;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 20px;
+  height: auto;
+  display: block;
+  object-fit: contain;
 }
+
 
 .footer-tagline {
   font-size: 1.125rem;

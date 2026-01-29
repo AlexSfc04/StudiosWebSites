@@ -8,7 +8,7 @@ function Footer() {
         <div className="footer-content">
           <div className="footer-section footer-brand">
             <div className="footer-logo">
-              <div className="footer-logo-icon">S</div>
+              <img src="/logo-studios.png" alt="SWS Logo" className="footer-logo-img" />
               <span>SWS</span>
             </div>
             <p className="footer-tagline">
