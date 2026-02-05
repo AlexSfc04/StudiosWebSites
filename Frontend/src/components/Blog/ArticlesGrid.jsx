@@ -14,7 +14,7 @@ function ArticlesGrid() {
     { id: 'trends', name: 'Trends' },
   ]
 
-  // Aquí irán tus artículos reales
+  // Aquí irán artículos reales
   const articles = [
     // Ejemplo de estructura de artículo (comentado porque no hay artículos aún)
     // {

@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout/Layout'
-import HomePage from './Pages/HomePage'
-import ServicesPage from './Pages/ServicesPage'
-import SectorsPage from './Pages/SectorsPage'
-import PortfolioPage from './Pages/PortfolioPage'
-import BlogPage from './Pages/BlogPage'
-import ContactPage from './Pages/ContactPage'
+import HomePage from './pages/HomePage'
+import ServicesPage from './pages/ServicesPage'
+import SectorsPage from './pages/SectorsPage'
+import PortfolioPage from './pages/PortfolioPage'
+import BlogPage from './pages/BlogPage'
+import ContactPage from './pages/ContactPage'
 
 function App() {
   return (
@@ -23,3 +23,4 @@ function App() {
 }
 
 export default App
+
