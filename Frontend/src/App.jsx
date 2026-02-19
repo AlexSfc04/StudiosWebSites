@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
 import Layout from './components/Layout/Layout'
 import HomePage from './pages/HomePage'
 import ServicesPage from './pages/ServicesPage'
@@ -6,21 +7,27 @@ import SectorsPage from './pages/SectorsPage'
 import PortfolioPage from './pages/PortfolioPage'
 import BlogPage from './pages/BlogPage'
 import ContactPage from './pages/ContactPage'
+import LoginPage from './pages/LoginPage'
+import AdminPage from './pages/AdminPage'
 
 function App() {
   return (
-    <Layout>
+    <AuthProvider>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/servicios" element={<ServicesPage />} />
-        <Route path="/sectores" element={<SectorsPage />} />
-        <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/contacto" element={<ContactPage />} />
+        {/* Rutas públicas CON Layout */}
+        <Route path="/" element={<Layout><HomePage /></Layout>} />
+        <Route path="/servicios" element={<Layout><ServicesPage /></Layout>} />
+        <Route path="/sectores" element={<Layout><SectorsPage /></Layout>} />
+        <Route path="/portfolio" element={<Layout><PortfolioPage /></Layout>} />
+        <Route path="/blog" element={<Layout><BlogPage /></Layout>} />
+        <Route path="/contacto" element={<Layout><ContactPage /></Layout>} />
+        <Route path="/login" element={<Layout><LoginPage /></Layout>} />
+
+        {/* Rutas admin SIN Layout público */}
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
-    </Layout>
+    </AuthProvider>
   )
 }
 
 export default App
-

@@ -4,9 +4,9 @@ import './Layout.css'
 
 function Layout({ children }) {
   return (
-    <div className="layout">
-      <Header />
-      <main className="main-content">
+    <div>
+      <Header />  {/* ← cambiado de Navbar a Header */}
+      <main>
         {children}
       </main>
       <Footer />
@@ -15,5 +15,3 @@ function Layout({ children }) {
 }
 
 export default Layout
-
-
