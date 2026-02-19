@@ -3,73 +3,73 @@ import './ServicesList.css'
 function ServicesList() {
   const services = [
     {
-      title: 'Professional Web Design',
-      description: 'Modern and attractive designs that capture the essence of your brand.',
+      title: 'Diseño Web Profesional',
+      description: 'Diseños modernos y atractivos que capturan la esencia de tu marca.',
       features: [
-        'Responsive design',
-        'Custom UI/UX',
-        'Brand integration',
-        'Optimized layouts'
+        'Diseño responsive',
+        'UI/UX personalizado',
+        'Integración de marca',
+        'Maquetación optimizada'
       ]
     },
     {
-      title: 'SEO Optimization',
-      description: 'Improve your visibility in search engines and attract more customers.',
+      title: 'Optimización SEO',
+      description: 'Mejora tu visibilidad en buscadores y atrae más clientes.',
       features: [
-        'Keyword research',
-        'On-page optimization',
-        'Technical SEO',
-        'Performance tracking'
+        'Investigación de palabras clave',
+        'Optimización on-page',
+        'SEO técnico',
+        'Seguimiento de rendimiento'
       ]
     },
     {
-      title: 'E-commerce Development',
-      description: 'Complete online stores ready to sell and grow your business.',
+      title: 'Desarrollo E-commerce',
+      description: 'Tiendas online completas listas para vender y hacer crecer tu negocio.',
       features: [
-        'Payment integration',
-        'Inventory management',
-        'Shopping cart',
-        'Order tracking'
+        'Integración de pagos',
+        'Gestión de inventario',
+        'Carrito de compra',
+        'Seguimiento de pedidos'
       ]
     },
     {
-      title: 'Admin Portfolio',
-      description: 'Complete management systems for your business operations.',
+      title: 'Panel de Administración',
+      description: 'Sistemas de gestión completos para las operaciones de tu negocio.',
       features: [
-        'Dashboard analytics',
-        'User management',
-        'Content administration',
-        'Reporting tools'
+        'Analíticas del dashboard',
+        'Gestión de usuarios',
+        'Administración de contenido',
+        'Herramientas de reportes'
       ]
     },
     {
-      title: 'Maintenance & Support',
-      description: 'Continuous support to keep your website running smoothly.',
+      title: 'Mantenimiento y Soporte',
+      description: 'Soporte continuo para mantener tu web funcionando sin problemas.',
       features: [
-        'Regular updates',
-        'Bug fixes',
-        'Security patches',
-        'Technical support 24/7'
+        'Actualizaciones periódicas',
+        'Corrección de errores',
+        'Parches de seguridad',
+        'Soporte técnico 24/7'
       ]
     },
     {
-      title: 'Web Security',
-      description: 'Protect your website and customer data with advanced security measures.',
+      title: 'Seguridad Web',
+      description: 'Protege tu web y los datos de tus clientes con medidas de seguridad avanzadas.',
       features: [
-        'SSL certificates',
-        'Firewall protection',
-        'Regular backups',
-        'Security monitoring'
+        'Certificados SSL',
+        'Protección con firewall',
+        'Copias de seguridad',
+        'Monitorización de seguridad'
       ]
     },
     {
-      title: 'Performance Optimization',
-      description: 'Fast loading speeds and optimal performance for better user experience.',
+      title: 'Optimización de Rendimiento',
+      description: 'Velocidad de carga rápida y rendimiento óptimo para una mejor experiencia.',
       features: [
-        'Speed optimization',
-        'Image compression',
-        'Code minification',
-        'CDN integration'
+        'Optimización de velocidad',
+        'Compresión de imágenes',
+        'Minificación de código',
+        'Integración CDN'
       ]
     }
   ]

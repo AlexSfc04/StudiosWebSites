@@ -6,16 +6,16 @@ function Hero() {
     <section className="services-hero">
       <div className="services-hero-container">
         <h1 className="services-hero-title">
-          Everything You Need for<br />
-          Your Digital Presence
+          Todo lo que Necesitas para<br />
+          tu Presencia Digital
         </h1>
         <p className="services-hero-description">
-          We offer comprehensive web design and development solutions 
-          tailored to your business needs. From concept to launch, 
-          we're with you every step of the way.
+          Ofrecemos soluciones completas de diseño y desarrollo web
+          adaptadas a las necesidades de tu negocio. Desde el concepto
+          hasta el lanzamiento, estamos contigo en cada paso.
         </p>
         <Link to="/contacto" className="services-hero-btn">
-          Get Started Now
+          Empieza Ahora
         </Link>
       </div>
     </section>

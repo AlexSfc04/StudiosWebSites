@@ -4,37 +4,37 @@ import './Pricing.css'
 function Pricing() {
   const plans = [
     {
-      name: 'Basic',
-      description: 'Perfect for small businesses and startups.',
+      name: 'Básico',
+      description: 'Perfecto para pequeños negocios y startups.',
       features: [
-        'Up to 5 pages',
-        'Responsive design',
-        'Basic SEO',
-        'Contact form',
-        '1 month support'
+        'Hasta 5 páginas',
+        'Diseño responsive',
+        'SEO básico',
+        'Formulario de contacto',
+        '1 mes de soporte'
       ]
     },
     {
       name: 'Premium',
-      description: 'Ideal for growing businesses.',
+      description: 'Ideal para negocios en crecimiento.',
       features: [
-        'Up to 15 pages',
-        'Advanced design',
-        'Complete SEO',
-        'Payment integration',
-        '6 months support'
+        'Hasta 15 páginas',
+        'Diseño avanzado',
+        'SEO completo',
+        'Integración de pagos',
+        '6 meses de soporte'
       ],
       popular: true
     },
     {
-      name: 'Enterprise',
-      description: 'For large companies with specific needs.',
+      name: 'Empresa',
+      description: 'Para grandes empresas con necesidades específicas.',
       features: [
-        'Unlimited pages',
-        'Custom solutions',
-        'Priority support',
-        'Advanced integrations',
-        '12 months support'
+        'Páginas ilimitadas',
+        'Soluciones personalizadas',
+        'Soporte prioritario',
+        'Integraciones avanzadas',
+        '12 meses de soporte'
       ]
     }
   ]
@@ -43,20 +43,20 @@ function Pricing() {
     <section className="pricing-section">
       <div className="pricing-container">
         <div className="pricing-header">
-          <h2 className="pricing-title">Plans Tailored to Your Business</h2>
+          <h2 className="pricing-title">Planes Adaptados a tu Negocio</h2>
           <p className="pricing-subtitle">
-            Choose the plan that best fits your needs. All plans include 
-            professional design and ongoing support.
+            Elige el plan que mejor se adapte a tus necesidades. Todos los planes incluyen
+            diseño profesional y soporte continuo.
           </p>
         </div>
 
         <div className="pricing-grid">
           {plans.map((plan, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`pricing-card ${plan.popular ? 'pricing-card-popular' : ''}`}
             >
-              {plan.popular && <div className="pricing-badge">Most Popular</div>}
+              {plan.popular && <div className="pricing-badge">Más Popular</div>}
               <h3 className="pricing-card-name">{plan.name}</h3>
               <p className="pricing-card-description">{plan.description}</p>
               <ul className="pricing-features">
@@ -71,7 +71,7 @@ function Pricing() {
                 ))}
               </ul>
               <Link to="/contacto" className="pricing-btn">
-                Get Started
+                Empezar
               </Link>
             </div>
           ))}
