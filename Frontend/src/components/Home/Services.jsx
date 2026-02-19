@@ -2,19 +2,19 @@ import './Services.css'
 
 function Services() {
   const services = [
-    { name: 'Professional Design', icon: '✓' },
-    { name: 'Functionality', icon: '✓' },
-    { name: 'Brand Identity', icon: '✓' },
-    { name: 'SEO Content', icon: '✓' },
+    { name: 'Diseño Profesional', icon: '✓' },
+    { name: 'Funcionalidad', icon: '✓' },
+    { name: 'Identidad de Marca', icon: '✓' },
+    { name: 'Contenido SEO', icon: '✓' },
   ]
 
   return (
     <section className="services-section">
       <div className="services-container">
         <div className="services-header">
-          <h2 className="services-title">Our Services</h2>
+          <h2 className="services-title">Nuestros Servicios</h2>
           <p className="services-subtitle">
-            We offer complete solutions for your digital presence.
+            Ofrecemos soluciones completas para tu presencia digital.
           </p>
         </div>
 

@@ -4,23 +4,23 @@ function WhyUs() {
   const features = [
     {
       icon: '⚡',
-      title: 'Fast Development',
-      description: 'We launch your project in the shortest time possible.',
+      title: 'Desarrollo Rápido',
+      description: 'Lanzamos tu proyecto en el menor tiempo posible.',
     },
     {
       icon: '💬',
-      title: 'Real Support',
-      description: 'We are always available to help you.',
+      title: 'Soporte Real',
+      description: 'Siempre disponibles para ayudarte cuando lo necesites.',
     },
     {
       icon: '🌐',
-      title: 'Web Optimization',
-      description: 'Unique designs tailored to your brand.',
+      title: 'Optimización Web',
+      description: 'Diseños únicos adaptados a tu marca y objetivos.',
     },
     {
       icon: '📱',
-      title: 'Responsive Design',
-      description: 'Your website will look perfect on any device.',
+      title: 'Diseño Responsive',
+      description: 'Tu web se verá perfecta en cualquier dispositivo.',
     },
   ]
 
@@ -28,10 +28,10 @@ function WhyUs() {
     <section className="why-us-section">
       <div className="why-us-container">
         <div className="why-us-header">
-          <h2 className="why-us-title">Why Choose Us?</h2>
+          <h2 className="why-us-title">¿Por Qué Elegirnos?</h2>
           <p className="why-us-subtitle">
-            We combine creativity, technology and dedication to create 
-            exceptional web experiences.
+            Combinamos creatividad, tecnología y dedicación para crear
+            experiencias web excepcionales.
           </p>
         </div>
 

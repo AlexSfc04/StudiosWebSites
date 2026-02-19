@@ -6,7 +6,7 @@ function Newsletter() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Email subscribed:', email)
+    console.log('Email suscrito:', email)
     setEmail('')
   }
 
@@ -15,26 +15,26 @@ function Newsletter() {
       <div className="newsletter-container">
         <div className="newsletter-content">
           <h2 className="newsletter-title">
-            Ready to Take<br />
-            Your Business to the<br />
-            Next Level?
+            ¿Listo para Llevar<br />
+            tu Negocio al<br />
+            Siguiente Nivel?
           </h2>
           <p className="newsletter-description">
-            Subscribe to our newsletter and receive exclusive tips 
-            on web design and development.
+            Suscríbete a nuestro newsletter y recibe consejos exclusivos
+            sobre diseño y desarrollo web.
           </p>
-          
+
           <form onSubmit={handleSubmit} className="newsletter-form">
             <input
               type="email"
-              placeholder="Your email here"
+              placeholder="Tu email aquí"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="newsletter-input"
               required
             />
             <button type="submit" className="newsletter-button">
-              Subscribe
+              Suscribirse
             </button>
           </form>
         </div>

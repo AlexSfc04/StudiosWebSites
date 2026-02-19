@@ -7,16 +7,16 @@ function Hero() {
       <div className="hero-container">
         <div className="hero-content">
           <h1 className="hero-title">
-            <span className="hero-title-purple">Your Business</span><br />
-            <span className="hero-title-black">Deserves an Web</span><br />
-            <span className="hero-title-black">Exceptional</span>
+            <span className="hero-title-purple">Tu Negocio</span><br />
+            <span className="hero-title-black">Merece una Web</span><br />
+            <span className="hero-title-black">Excepcional</span>
           </h1>
           <p className="hero-description">
-            We design and develop professional websites that help 
-            businesses grow in the digital world.
+            Diseñamos y desarrollamos sitios web profesionales que ayudan
+            a los negocios a crecer en el mundo digital.
           </p>
           <Link to="/contacto" className="hero-btn">
-            Get Started Now
+            Empieza Ahora
           </Link>
         </div>
       </div>

@@ -2,9 +2,9 @@ import './Stats.css'
 
 function Stats() {
   const stats = [
-    { number: '50+', label: 'Projects' },
-    { number: '100%', label: 'Clients' },
-    { number: '24/7', label: 'Support' },
+    { number: '50+', label: 'Proyectos' },
+    { number: '100%', label: 'Clientes Satisfechos' },
+    { number: '24/7', label: 'Soporte' },
   ]
 
   return (

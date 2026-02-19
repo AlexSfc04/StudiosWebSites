@@ -3,17 +3,17 @@ import './Maintenance.css'
 
 function Maintenance() {
   const maintenanceItems = [
-    'API Integrations',
-    'Data Analytics',
-    'Security Backups',
-    'SSL Certificates',
+    'Integraciones API',
+    'Análisis de Datos',
+    'Copias de Seguridad',
+    'Certificados SSL',
   ]
 
   return (
     <section className="maintenance-section">
       <div className="maintenance-container">
         <div className="maintenance-header">
-          <h2 className="maintenance-title">Maintenance</h2>
+          <h2 className="maintenance-title">Mantenimiento</h2>
         </div>
 
         <div className="maintenance-list">
@@ -31,7 +31,7 @@ function Maintenance() {
         </div>
 
         <Link to="/servicios" className="maintenance-btn">
-          See Our Services →
+          Ver Nuestros Servicios →
         </Link>
       </div>
     </section>
