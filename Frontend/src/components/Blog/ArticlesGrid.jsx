@@ -6,37 +6,24 @@ function ArticlesGrid() {
   const [activeFilter, setActiveFilter] = useState('all')
 
   const categories = [
-    { id: 'all', name: 'All Articles' },
-    { id: 'web-design', name: 'Web Design' },
-    { id: 'digital-marketing', name: 'Digital Marketing' },
+    { id: 'all', name: 'Todos los Artículos' },
+    { id: 'web-design', name: 'Diseño Web' },
+    { id: 'digital-marketing', name: 'Marketing Digital' },
     { id: 'seo', name: 'SEO' },
-    { id: 'business-tips', name: 'Business Tips' },
-    { id: 'trends', name: 'Trends' },
+    { id: 'business-tips', name: 'Consejos de Negocio' },
+    { id: 'trends', name: 'Tendencias' },
   ]
 
-  // Aquí irán artículos reales
-  const articles = [
-    // Ejemplo de estructura de artículo (comentado porque no hay artículos aún)
-    // {
-    //   id: 1,
-    //   title: '10 Web Design Trends for 2026',
-    //   category: 'web-design',
-    //   image: '/images/blog/article1.jpg',
-    //   excerpt: 'Discover the latest trends in web design that will dominate this year.',
-    //   author: 'Alejandro Amor',
-    //   date: '2026-02-01',
-    //   readTime: '5 min read',
-    //   link: '/blog/web-design-trends-2026'
-    // },
-  ]
+  const articles = []
 
-  const filteredArticles = activeFilter === 'all' 
-    ? articles 
+  const filteredArticles = activeFilter === 'all'
+    ? articles
     : articles.filter(article => article.category === activeFilter)
 
   return (
     <section className="articles-section">
       <div className="articles-container">
+
         {/* Filtros */}
         <div className="filters-container">
           {categories.map(category => (
@@ -50,19 +37,19 @@ function ArticlesGrid() {
           ))}
         </div>
 
-        {/* Grid de artículos o mensaje vacío */}
+        {/* Grid o estado vacío */}
         {filteredArticles.length > 0 ? (
           <div className="articles-grid">
             {filteredArticles.map(article => (
-              <Link 
-                key={article.id} 
-                to={article.link} 
+              <Link
+                key={article.id}
+                to={article.link}
                 className="article-card"
               >
                 <div className="article-image-container">
-                  <img 
-                    src={article.image} 
-                    alt={article.title} 
+                  <img
+                    src={article.image}
+                    alt={article.title}
                     className="article-image"
                   />
                   <span className="article-category-badge">
@@ -95,15 +82,16 @@ function ArticlesGrid() {
               <line x1="23" y1="38" x2="57" y2="38" stroke="#e5e7eb" strokeWidth="3" strokeLinecap="round"/>
               <line x1="23" y1="46" x2="45" y2="46" stroke="#e5e7eb" strokeWidth="3" strokeLinecap="round"/>
             </svg>
-            <h3 className="empty-title">No articles published yet</h3>
+            <h3 className="empty-title">Aún no hay artículos publicados</h3>
             <p className="empty-description">
-              We're working on amazing content. Stay tuned for updates!
+              Estamos trabajando en contenido increíble. ¡Vuelve pronto!
             </p>
             <Link to="/contacto" className="empty-btn">
-              Contact Us
+              Contáctanos
             </Link>
           </div>
         )}
+
       </div>
     </section>
   )

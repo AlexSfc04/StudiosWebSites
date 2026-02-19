@@ -5,13 +5,13 @@ function Hero() {
     <section className="sectors-hero">
       <div className="sectors-hero-container">
         <h1 className="sectors-hero-title">
-          Sectors We Transform<br />
-          <span className="sectors-hero-title-highlight">Digitally</span>
+          Sectores que Transformamos<br />
+          <span className="sectors-hero-title-highlight">Digitalmente</span>
         </h1>
         <p className="sectors-hero-description">
-          We specialize in creating tailored digital solutions for various 
-          industries. From restaurants to fitness centers, we understand the 
-          unique needs of each sector.
+          Nos especializamos en crear soluciones digitales a medida para distintos
+          sectores. Desde restaurantes hasta centros de fitness, entendemos las
+          necesidades únicas de cada industria.
         </p>
       </div>
     </section>

@@ -5,11 +5,11 @@ function Hero() {
     <section className="blog-hero">
       <div className="blog-hero-container">
         <h1 className="blog-hero-title">
-          Learn about<br />
-          <span className="blog-hero-title-highlight">Web Design and Marketing</span>
+          Aprende sobre<br />
+          <span className="blog-hero-title-highlight">Diseño Web y Marketing</span>
         </h1>
         <p className="blog-hero-description">
-          Tips, guides and best practices to take your online business to the next level.
+          Consejos, guías y buenas prácticas para llevar tu negocio online al siguiente nivel.
         </p>
       </div>
     </section>

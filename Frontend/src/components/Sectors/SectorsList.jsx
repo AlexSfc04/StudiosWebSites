@@ -4,58 +4,58 @@ import './SectorsList.css'
 function SectorsList() {
   const sectors = [
     {
-      title: 'Restaurants & Cafes',
-      description: 'Complete digital solutions for restaurants, bars and cafes to attract more customers.',
+      title: 'Restaurantes y Cafeterías',
+      description: 'Soluciones digitales completas para restaurantes, bares y cafeterías para atraer más clientes.',
       image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=400&fit=crop',
       features: [
-        'Online reservations',
-        'Digital menu',
-        'Order management',
-        'Table booking system',
-        'Customer reviews',
-        'Social media integration'
+        'Reservas online',
+        'Menú digital',
+        'Gestión de pedidos',
+        'Sistema de reserva de mesas',
+        'Reseñas de clientes',
+        'Integración con redes sociales'
       ],
       buttonColor: 'orange'
     },
     {
-      title: 'Small Businesses',
-      description: 'Affordable and effective websites for small and medium businesses looking to grow.',
+      title: 'Pequeños Negocios',
+      description: 'Webs asequibles y efectivas para pequeñas y medianas empresas que quieren crecer.',
       image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=400&fit=crop',
       features: [
-        'Professional design',
-        'Contact forms',
-        'Service showcase',
-        'Customer testimonials',
-        'Location map',
-        'Mobile responsive'
+        'Diseño profesional',
+        'Formularios de contacto',
+        'Presentación de servicios',
+        'Testimonios de clientes',
+        'Mapa de ubicación',
+        'Diseño responsive'
       ],
       buttonColor: 'purple'
     },
     {
-      title: 'Stores & Retail',
-      description: 'Online stores and e-commerce platforms to sell your products globally.',
+      title: 'Tiendas y Comercio',
+      description: 'Tiendas online y plataformas e-commerce para vender tus productos globalmente.',
       image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=400&fit=crop',
       features: [
-        'Shopping cart',
-        'Payment gateway',
-        'Product catalog',
-        'Inventory management',
-        'Shipping integration',
-        'Customer accounts'
+        'Carrito de compra',
+        'Pasarela de pago',
+        'Catálogo de productos',
+        'Gestión de inventario',
+        'Integración de envíos',
+        'Cuentas de clientes'
       ],
       buttonColor: 'pink'
     },
     {
-      title: 'Gyms & Fitness',
-      description: 'Modern websites for gyms, yoga studios and fitness centers to grow membership.',
+      title: 'Gimnasios y Fitness',
+      description: 'Webs modernas para gimnasios, estudios de yoga y centros de fitness para aumentar socios.',
       image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=400&fit=crop',
       features: [
-        'Class schedules',
-        'Membership plans',
-        'Trainer profiles',
-        'Online booking',
-        'Progress tracking',
-        'Nutrition blog'
+        'Horario de clases',
+        'Planes de membresía',
+        'Perfiles de entrenadores',
+        'Reservas online',
+        'Seguimiento de progreso',
+        'Blog de nutrición'
       ],
       buttonColor: 'blue'
     }
@@ -65,14 +65,14 @@ function SectorsList() {
     <section className="sectors-list-section">
       <div className="sectors-list-container">
         {sectors.map((sector, index) => (
-          <div 
-            key={index} 
+          <div
+            key={index}
             className={`sector-item ${index % 2 === 1 ? 'sector-item-reverse' : ''}`}
           >
             <div className="sector-image-container">
-              <img 
-                src={sector.image} 
-                alt={sector.title} 
+              <img
+                src={sector.image}
+                alt={sector.title}
                 className="sector-image"
               />
             </div>
@@ -90,11 +90,11 @@ function SectorsList() {
                   </li>
                 ))}
               </ul>
-              <Link 
-                to="/portfolio" 
+              <Link
+                to="/portfolio"
                 className={`sector-button sector-button-${sector.buttonColor}`}
               >
-                View Completed Projects
+                Ver Proyectos Realizados
               </Link>
             </div>
           </div>
