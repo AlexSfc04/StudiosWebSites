@@ -30,26 +30,7 @@ export function AuthProvider({ children }) {
       return { success: false, message: 'Error al conectar con el servidor' }
     }
   }
-
-  const logout = () => {
-    api.logout()
-    setUser(null)
-  }
-
-  return (
-    <AuthContext.Provider value={{ user, login, logout, loading, isAdmin: user?.role === 'admin' }}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
-
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) throw new Error('useAuth debe usarse dentro de AuthProvider')
-  return context
-}
-
-const register = async (name, email, password) => {
+  const register = async (name, email, password) => {
   try {
     const response = await api.register(name, email, password)
     if (response.token) {
@@ -62,6 +43,25 @@ const register = async (name, email, password) => {
   } catch (error) {
     return { success: false, message: 'Error al conectar con el servidor' }
   }
+  }
+  const logout = () => {
+    api.logout()
+    setUser(null)
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, login, register, logout, loading, isAdmin: user?.role === 'admin' }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
+
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  if (!context) throw new Error('useAuth debe usarse dentro de AuthProvider')
+  return context
+}
+
+
 
 
