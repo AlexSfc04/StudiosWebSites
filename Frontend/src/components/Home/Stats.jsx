@@ -1,4 +1,45 @@
+import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'framer-motion'
 import './Stats.css'
+
+function useCounter(end, duration = 2000, isInView) {
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    if (!isInView) return
+    let startTime = null
+    const endValue = parseInt(end)
+
+    const step = (timestamp) => {
+      if (!startTime) startTime = timestamp
+      const progress = Math.min((timestamp - startTime) / duration, 1)
+      setCount(Math.floor(progress * endValue))
+      if (progress < 1) requestAnimationFrame(step)
+    }
+
+    requestAnimationFrame(step)
+  }, [isInView])
+
+  return count
+}
+
+function StatItem({ number, label }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true })
+  const isPercent = number.includes('%')
+  const is247 = number === '24/7'
+  const numericValue = parseInt(number)
+  const count = useCounter(is247 ? 24 : numericValue, 2000, isInView)
+
+  return (
+    <div ref={ref} className="stat-item">
+      <div className="stat-number">
+        {is247 ? '24/7' : `${count}${isPercent ? '%' : '+'}`}
+      </div>
+      <div className="stat-label">{label}</div>
+    </div>
+  )
+}
 
 function Stats() {
   const stats = [
@@ -12,10 +53,7 @@ function Stats() {
       <div className="stats-container">
         <div className="stats-grid">
           {stats.map((stat, index) => (
-            <div key={index} className="stat-item">
-              <div className="stat-number">{stat.number}</div>
-              <div className="stat-label">{stat.label}</div>
-            </div>
+            <StatItem key={index} number={stat.number} label={stat.label} />
           ))}
         </div>
       </div>
@@ -24,3 +62,4 @@ function Stats() {
 }
 
 export default Stats
+

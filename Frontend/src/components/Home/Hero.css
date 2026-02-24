@@ -77,3 +77,50 @@
     padding: 0;
   }
 }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Orbes animados */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: orbFloat 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.hero-orb-1 {
+  width: 500px;
+  height: 500px;
+  background: #6366f1;
+  top: -100px;
+  right: -100px;
+  animation-delay: 0s;
+}
+
+.hero-orb-2 {
+  width: 350px;
+  height: 350px;
+  background: #8b5cf6;
+  bottom: -50px;
+  left: -80px;
+  animation-delay: 2s;
+}
+
+.hero-orb-3 {
+  width: 250px;
+  height: 250px;
+  background: #06b6d4;
+  top: 50%;
+  left: 40%;
+  animation-delay: 4s;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}

@@ -52,3 +52,9 @@
     font-size: 0.938rem;
   }
 }
+
+.feature-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
