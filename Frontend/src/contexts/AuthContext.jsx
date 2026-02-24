@@ -48,3 +48,20 @@ export const useAuth = () => {
   if (!context) throw new Error('useAuth debe usarse dentro de AuthProvider')
   return context
 }
+
+const register = async (name, email, password) => {
+  try {
+    const response = await api.register(name, email, password)
+    if (response.token) {
+      localStorage.setItem('token', response.token)
+      localStorage.setItem('user', JSON.stringify(response.user))
+      setUser(response.user)
+      return { success: true }
+    }
+    return { success: false, message: response.message || 'Error al registrarse' }
+  } catch (error) {
+    return { success: false, message: 'Error al conectar con el servidor' }
+  }
+}
+
+
