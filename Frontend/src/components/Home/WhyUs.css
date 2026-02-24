@@ -94,3 +94,13 @@
     padding: 40px 30px;
   }
 }
+
+.feature-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.feature-card:hover {
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+}

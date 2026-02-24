@@ -2,13 +2,19 @@ import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'framer-motion'
 import './Stats.css'
 
-function useCounter(end, duration = 2000, isInView) {
+function StatItem({ number, label }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true })
   const [count, setCount] = useState(0)
 
+  const isPercent = number.includes('%')
+  const is247 = number === '24/7'
+  const endValue = parseInt(number)
+
   useEffect(() => {
-    if (!isInView) return
+    if (!isInView || is247) return
     let startTime = null
-    const endValue = parseInt(end)
+    const duration = 2000
 
     const step = (timestamp) => {
       if (!startTime) startTime = timestamp
@@ -19,17 +25,6 @@ function useCounter(end, duration = 2000, isInView) {
 
     requestAnimationFrame(step)
   }, [isInView])
-
-  return count
-}
-
-function StatItem({ number, label }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
-  const isPercent = number.includes('%')
-  const is247 = number === '24/7'
-  const numericValue = parseInt(number)
-  const count = useCounter(is247 ? 24 : numericValue, 2000, isInView)
 
   return (
     <div ref={ref} className="stat-item">
@@ -62,4 +57,3 @@ function Stats() {
 }
 
 export default Stats
-
