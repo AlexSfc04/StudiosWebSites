@@ -16,6 +16,8 @@ import PageTransition from './components/PageTransition/PageTransition'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 import AdminProjects from './pages/AdminProjects'
 import AdminArticles from './pages/AdminArticles'
+import BlogArticlePage from './pages/BlogArticlePage'
+import ProjectPage from './pages/ProjectPage'
 
 function App() {
   const location = useLocation()
@@ -36,6 +38,8 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/projects" element={<AdminProjects />} />
           <Route path="/admin/articles" element={<AdminArticles />} />
+          <Route path="/blog/:id" element={<BlogArticlePage />} />
+          <Route path="/portfolio/:id" element={<ProjectPage />} />
         </Routes>
       </AnimatePresence>
     </AuthProvider>
