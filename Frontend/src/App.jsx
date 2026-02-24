@@ -9,6 +9,7 @@ import BlogPage from './pages/BlogPage'
 import ContactPage from './pages/ContactPage'
 import LoginPage from './pages/LoginPage'
 import AdminPage from './pages/AdminPage'
+import RegisterPage from './pages/RegisterPage'
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path="/blog" element={<Layout><BlogPage /></Layout>} />
         <Route path="/contacto" element={<Layout><ContactPage /></Layout>} />
         <Route path="/login" element={<Layout><LoginPage /></Layout>} />
-
+        <Route path="/registro" element={<RegisterPage />} />
         {/* Rutas admin SIN Layout público */}
         <Route path="/admin" element={<AdminPage />} />
       </Routes>

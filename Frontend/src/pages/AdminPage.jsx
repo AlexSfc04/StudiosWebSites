@@ -28,7 +28,10 @@ function AdminPage() {
 
       {/* Topbar */}
       <div className="admin-topbar">
-        <h2 className="admin-logo">⚡ SWS Admin</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <h2 className="admin-logo">⚡ SWS Admin</h2>
+          <a href="/" className="admin-back-link">← Volver a la web</a>
+        </div>
         <div className="admin-topbar-right">
           <span className="admin-user">👤 {user?.name || user?.nombre || user?.email}</span>
           <button className="admin-logout-btn" onClick={handleLogout}>
@@ -36,6 +39,7 @@ function AdminPage() {
           </button>
         </div>
       </div>
+
 
       {/* Contenido */}
       <div className="admin-content">

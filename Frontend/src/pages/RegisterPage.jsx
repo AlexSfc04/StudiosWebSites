@@ -35,7 +35,7 @@ function RegisterPage() {
     const result = await register(formData.name, formData.email, formData.password)
 
     if (result.success) {
-      navigate('/admin')
+      navigate('/')
     } else {
       setError(result.message)
     }

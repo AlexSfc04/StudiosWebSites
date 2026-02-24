@@ -111,3 +111,14 @@
   color: #64748b;
   font-size: 0.875rem;
 }
+
+.admin-back-link {
+  font-size: 0.875rem;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.admin-back-link:hover {
+  color: #6366f1;
+}
