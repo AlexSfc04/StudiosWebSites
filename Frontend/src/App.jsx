@@ -13,12 +13,14 @@ import RegisterPage from './pages/RegisterPage'
 import { AnimatePresence } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import PageTransition from './components/PageTransition/PageTransition'
+import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 
 function App() {
   const location = useLocation()
 
   return (
     <AuthProvider>
+      <ScrollToTop />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Layout><PageTransition><HomePage /></PageTransition></Layout>} />
