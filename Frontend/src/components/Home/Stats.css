@@ -33,6 +33,20 @@
   font-weight: 500;
 }
 
+.feature-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.stat-number {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
 @media (min-width: 768px) {
   .stats-section {
     padding: 60px 20px;
@@ -53,8 +67,3 @@
   }
 }
 
-.feature-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
