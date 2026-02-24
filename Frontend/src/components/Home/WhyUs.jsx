@@ -1,3 +1,4 @@
+import AnimatedSection from '../AnimatedSection/AnimatedSection'
 import './WhyUs.css'
 
 function WhyUs() {
@@ -27,21 +28,25 @@ function WhyUs() {
   return (
     <section className="why-us-section">
       <div className="why-us-container">
-        <div className="why-us-header">
-          <h2 className="why-us-title">¿Por Qué Elegirnos?</h2>
-          <p className="why-us-subtitle">
-            Combinamos creatividad, tecnología y dedicación para crear
-            experiencias web excepcionales.
-          </p>
-        </div>
+        <AnimatedSection>
+          <div className="why-us-header">
+            <h2 className="why-us-title">¿Por Qué Elegirnos?</h2>
+            <p className="why-us-subtitle">
+              Combinamos creatividad, tecnología y dedicación para crear
+              experiencias web excepcionales.
+            </p>
+          </div>
+        </AnimatedSection>
 
         <div className="features-grid">
           {features.map((feature, index) => (
-            <div key={index} className="feature-card">
-              <div className="feature-icon">{feature.icon}</div>
-              <h3 className="feature-title">{feature.title}</h3>
-              <p className="feature-description">{feature.description}</p>
-            </div>
+            <AnimatedSection key={index} delay={index * 0.1} direction="up">
+              <div className="feature-card">
+                <div className="feature-icon">{feature.icon}</div>
+                <h3 className="feature-title">{feature.title}</h3>
+                <p className="feature-description">{feature.description}</p>
+              </div>
+            </AnimatedSection>
           ))}
         </div>
       </div>
