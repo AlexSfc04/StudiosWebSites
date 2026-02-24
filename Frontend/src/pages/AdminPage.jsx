@@ -7,9 +7,13 @@ function AdminPage() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (!user) navigate('/login')
-  }, [user])
+useEffect(() => {
+  if (!user) {
+    navigate('/login')
+  } else if (user.role !== 'admin') {
+    navigate('/')  // usuarios normales van a la home
+  }
+}, [user])
 
   const handleLogout = () => {
     logout()

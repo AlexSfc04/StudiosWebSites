@@ -10,25 +10,31 @@ import ContactPage from './pages/ContactPage'
 import LoginPage from './pages/LoginPage'
 import AdminPage from './pages/AdminPage'
 import RegisterPage from './pages/RegisterPage'
+import { AnimatePresence } from 'framer-motion'
+import { useLocation } from 'react-router-dom'
+import PageTransition from './components/PageTransition/PageTransition'
 
 function App() {
+  const location = useLocation()
+
   return (
     <AuthProvider>
-      <Routes>
-        {/* Rutas públicas CON Layout */}
-        <Route path="/" element={<Layout><HomePage /></Layout>} />
-        <Route path="/servicios" element={<Layout><ServicesPage /></Layout>} />
-        <Route path="/sectores" element={<Layout><SectorsPage /></Layout>} />
-        <Route path="/portfolio" element={<Layout><PortfolioPage /></Layout>} />
-        <Route path="/blog" element={<Layout><BlogPage /></Layout>} />
-        <Route path="/contacto" element={<Layout><ContactPage /></Layout>} />
-        <Route path="/login" element={<Layout><LoginPage /></Layout>} />
-        <Route path="/registro" element={<RegisterPage />} />
-        {/* Rutas admin SIN Layout público */}
-        <Route path="/admin" element={<AdminPage />} />
-      </Routes>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Layout><PageTransition><HomePage /></PageTransition></Layout>} />
+          <Route path="/servicios" element={<Layout><PageTransition><ServicesPage /></PageTransition></Layout>} />
+          <Route path="/sectores" element={<Layout><PageTransition><SectorsPage /></PageTransition></Layout>} />
+          <Route path="/portfolio" element={<Layout><PageTransition><PortfolioPage /></PageTransition></Layout>} />
+          <Route path="/blog" element={<Layout><PageTransition><BlogPage /></PageTransition></Layout>} />
+          <Route path="/contacto" element={<Layout><PageTransition><ContactPage /></PageTransition></Layout>} />
+          <Route path="/login" element={<Layout><PageTransition><LoginPage /></PageTransition></Layout>} />
+          <Route path="/registro" element={<Layout><PageTransition><RegisterPage /></PageTransition></Layout>} />
+          <Route path="/admin" element={<AdminPage />} />
+        </Routes>
+      </AnimatePresence>
     </AuthProvider>
   )
 }
+
 
 export default App
