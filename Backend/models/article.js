@@ -1,35 +1,36 @@
-const { DataTypes } = require('sequelize')
-const sequelize = require('../config/database')
+const pool = require('../config/database')
 
-const Article = sequelize.define('Article', {
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
+const Article = {
+  getAll: async () => {
+    const [rows] = await pool.query('SELECT * FROM articles')
+    return rows
   },
-  excerpt: {
-    type: DataTypes.TEXT,
-    allowNull: false,
+
+  getById: async (id) => {
+    const [rows] = await pool.query('SELECT * FROM articles WHERE id = ?', [id])
+    return rows[0]
   },
-  content: {
-    type: DataTypes.TEXT('long'),
-    allowNull: false,
+
+  create: async (data) => {
+    const { title, content, image, category, featured } = data
+    const [result] = await pool.query(
+      'INSERT INTO articles (title, content, image, category, featured) VALUES (?, ?, ?, ?, ?)',
+      [title, content, image, category || 'general', featured || false]
+    )
+    return result.insertId
   },
-  image: {
-    type: DataTypes.STRING,
-    allowNull: true,
+
+  update: async (id, data) => {
+    const { title, content, image, category, featured } = data
+    await pool.query(
+      'UPDATE articles SET title=?, content=?, image=?, category=?, featured=? WHERE id=?',
+      [title, content, image, category, featured, id]
+    )
   },
-  category: {
-    type: DataTypes.ENUM('web-design', 'digital-marketing', 'seo', 'business-tips', 'trends'),
-    defaultValue: 'web-design',
-  },
-  author: {
-    type: DataTypes.STRING,
-    defaultValue: 'SWS Team',
-  },
-  published: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
+
+  delete: async (id) => {
+    await pool.query('DELETE FROM articles WHERE id = ?', [id])
   }
-})
+}
 
 module.exports = Article

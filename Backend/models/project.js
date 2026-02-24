@@ -1,31 +1,36 @@
-const { DataTypes } = require('sequelize')
-const sequelize = require('../config/database')
+const pool = require('../config/database')
 
-const Project = sequelize.define('Project', {
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
+const Project = {
+  getAll: async () => {
+    const [rows] = await pool.query('SELECT * FROM projects')
+    return rows
   },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: false,
+
+  getById: async (id) => {
+    const [rows] = await pool.query('SELECT * FROM projects WHERE id = ?', [id])
+    return rows[0]
   },
-  image: {
-    type: DataTypes.STRING,
-    allowNull: true,
+
+  create: async (data) => {
+    const { title, description, image, category, link, featured } = data
+    const [result] = await pool.query(
+      'INSERT INTO projects (title, description, image, category, link, featured) VALUES (?, ?, ?, ?, ?, ?)',
+      [title, description, image, category || 'others', link, featured || false]
+    )
+    return result.insertId
   },
-  category: {
-    type: DataTypes.ENUM('restaurants', 'beauty', 'commerce', 'services', 'others'),
-    defaultValue: 'others',
+
+  update: async (id, data) => {
+    const { title, description, image, category, link, featured } = data
+    await pool.query(
+      'UPDATE projects SET title=?, description=?, image=?, category=?, link=?, featured=? WHERE id=?',
+      [title, description, image, category, link, featured, id]
+    )
   },
-  link: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  featured: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
+
+  delete: async (id) => {
+    await pool.query('DELETE FROM projects WHERE id = ?', [id])
   }
-})
+}
 
 module.exports = Project

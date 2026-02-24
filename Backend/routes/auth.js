@@ -1,59 +1,57 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const { body, validationResult } = require('express-validator');
-const User = require('../models/User');
+const express = require('express')
+const jwt = require('jsonwebtoken')
+const { body, validationResult } = require('express-validator')
+const User = require('../models/User')
 
-const router = express.Router();
+const router = express.Router()
 
 // Middleware para verificar token JWT
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
 
   if (!token) {
-    return res.status(401).json({ error: 'Token no proporcionado' });
+    return res.status(401).json({ error: 'Token no proporcionado' })
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
-      return res.status(403).json({ error: 'Token inválido' });
+      return res.status(403).json({ error: 'Token inválido' })
     }
-    req.user = user;
-    next();
-  });
-};
+    req.user = user
+    next()
+  })
+}
 
-// Registro de usuario
-router.post('/register',
+// REGISTRO
+router.post(
+  '/register',
   [
     body('email').isEmail().withMessage('Email inválido'),
     body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
     body('name').notEmpty().withMessage('El nombre es requerido')
   ],
   async (req, res) => {
-    const errors = validationResult(req);
+    const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() })
     }
 
-    const { email, password, name } = req.body;
+    const { email, password, name } = req.body
 
     try {
-      // Verificar si el usuario ya existe
-      const existingUser = await User.findByEmail(email);
+      const existingUser = await User.findByEmail(email)
       if (existingUser) {
-        return res.status(400).json({ error: 'El email ya está registrado' });
+        return res.status(400).json({ error: 'El email ya está registrado' })
       }
 
-      // Crear nuevo usuario
-      const user = await User.create(email, password, name);
+      const user = await User.create(email, password, name) // asegúrate de que ponga role='user' por defecto
 
-      // Crear token JWT
       const token = jwt.sign(
-        { id: user.id, email: user.email },
+        { id: user.id, email: user.email, role: user.role },
         process.env.JWT_SECRET,
-        { expiresIn: '24h' }
-      );
+        { expiresIn: '7d' }
+      )
 
       res.status(201).json({
         message: 'Usuario registrado correctamente',
@@ -61,49 +59,48 @@ router.post('/register',
         user: {
           id: user.id,
           email: user.email,
-          name: user.name
+          name: user.name,
+          role: user.role
         }
-      });
+      })
     } catch (error) {
-      console.error('Error en registro:', error);
-      res.status(500).json({ error: 'Error al registrar usuario' });
+      console.error('Error en registro:', error)
+      res.status(500).json({ error: 'Error al registrar usuario' })
     }
   }
-);
+)
 
-// Login de usuario
-router.post('/login',
+// LOGIN
+router.post(
+  '/login',
   [
     body('email').isEmail().withMessage('Email inválido'),
     body('password').notEmpty().withMessage('La contraseña es requerida')
   ],
   async (req, res) => {
-    const errors = validationResult(req);
+    const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() })
     }
 
-    const { email, password } = req.body;
+    const { email, password } = req.body
 
     try {
-      // Buscar usuario
-      const user = await User.findByEmail(email);
+      const user = await User.findByEmail(email)
       if (!user) {
-        return res.status(401).json({ error: 'Credenciales incorrectas' });
+        return res.status(401).json({ error: 'Credenciales incorrectas' })
       }
 
-      // Verificar contraseña
-      const isValidPassword = await User.verifyPassword(password, user.password);
+      const isValidPassword = await User.verifyPassword(password, user.password)
       if (!isValidPassword) {
-        return res.status(401).json({ error: 'Credenciales incorrectas' });
+        return res.status(401).json({ error: 'Credenciales incorrectas' })
       }
 
-      // Crear token JWT
       const token = jwt.sign(
-        { id: user.id, email: user.email },
+        { id: user.id, email: user.email, role: user.role },
         process.env.JWT_SECRET,
         { expiresIn: '24h' }
-      );
+      )
 
       res.json({
         message: 'Login exitoso',
@@ -111,72 +108,39 @@ router.post('/login',
         user: {
           id: user.id,
           email: user.email,
-          name: user.name
+          name: user.name,
+          role: user.role
         }
-      });
+      })
     } catch (error) {
-      console.error('Error en login:', error);
-      res.status(500).json({ error: 'Error al iniciar sesión' });
+      console.error('Error en login:', error)
+      res.status(500).json({ error: 'Error al iniciar sesión' })
     }
   }
-);
+)
 
-// Obtener perfil del usuario autenticado
+// PERFIL
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id)
     if (!user) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+      return res.status(404).json({ error: 'Usuario no encontrado' })
     }
-    res.json({ user });
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener perfil' });
-  }
-});
-
-// Verificar token
-router.get('/verify', authenticateToken, (req, res) => {
-  res.json({ valid: true, user: req.user });
-});
-
-// Registro
-router.post('/register', async (req, res) => {
-  try {
-    const { name, email, password } = req.body
-
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Todos los campos son obligatorios' })
-    }
-
-    // Comprobar si el email ya existe
-    const existing = await User.findOne({ where: { email } })
-    if (existing) {
-      return res.status(400).json({ message: 'Este email ya está registrado' })
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      role: 'user'
+    res.json({
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role
+      }
     })
-
-    const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    )
-
-    res.status(201).json({
-      token,
-      user: { id: user.id, name: user.name, email: user.email, role: user.role }
-    })
-
   } catch (error) {
-    res.status(500).json({ message: 'Error al registrar el usuario' })
+    res.status(500).json({ error: 'Error al obtener perfil' })
   }
 })
 
-module.exports = router;
+router.get('/verify', authenticateToken, (req, res) => {
+  res.json({ valid: true, user: req.user })
+})
+
+module.exports = router

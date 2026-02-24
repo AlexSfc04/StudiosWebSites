@@ -1,39 +1,31 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
+const express = require('express')
+const cors = require('cors')
+require('dotenv').config()
 
-const authRoutes = require('./routes/auth');  // ← IMPORTANTE
-const Project = require('./models/project')
-const Article = require('./models/article')
+const authRoutes = require('./routes/auth')
+const projectRoutes = require('./routes/project')    // ← el archivo se llama project.js
+const articleRoutes = require('./routes/articles')
 
-// ya deberías tener esto:
-sequelize.sync({ alter: true })
-
-
-const app = express();
+const app = express()
 
 // Middleware
 app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+}))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // Rutas
-app.use('/auth', authRoutes);
+app.use('/auth', authRoutes)
+app.use('/projects', projectRoutes)
+app.use('/articles', articleRoutes)
 
 app.get('/', (req, res) => {
-  res.json({ message: '🚀 Backend funcionando correctamente' });
-});
+  res.json({ message: '🚀 Backend funcionando correctamente' })
+})
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-});
-
-const projectsRouter = require('./routes/projects')
-const articlesRouter = require('./routes/articles')
-
-app.use('/projects', projectsRouter)
-app.use('/articles', articlesRouter)
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
+})
