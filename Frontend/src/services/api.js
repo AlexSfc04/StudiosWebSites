@@ -25,6 +25,14 @@ const api = {
     })
     return response.json()
   },
+  register: async (name, email, password) => {
+  const response = await fetch(`${API_URL}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, password }),
+  })
+    return response.json()
+  },
 }
 
 export default api
