@@ -3,6 +3,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');  // ← IMPORTANTE
+const Project = require('./models/project')
+const Article = require('./models/article')
+
+// ya deberías tener esto:
+sequelize.sync({ alter: true })
+
 
 const app = express();
 
@@ -25,3 +31,9 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+
+const projectsRouter = require('./routes/projects')
+const articlesRouter = require('./routes/articles')
+
+app.use('/projects', projectsRouter)
+app.use('/articles', articlesRouter)
