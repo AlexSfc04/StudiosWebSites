@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import api from '../../services/api'
 import './ProjectsGrid.css'
 
 function ProjectsGrid() {
   const [activeFilter, setActiveFilter] = useState('all')
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const categories = [
     { id: 'all', name: 'Todos' },
@@ -14,17 +17,21 @@ function ProjectsGrid() {
     { id: 'others', name: 'Otros' },
   ]
 
-  const projects = []
+  useEffect(() => {
+    api.getProjects()
+      .then(data => setProjects(Array.isArray(data) ? data : []))
+      .finally(() => setLoading(false))
+  }, [])
 
   const filteredProjects = activeFilter === 'all'
     ? projects
     : projects.filter(project => project.category === activeFilter)
 
+  if (loading) return <div className="empty-state"><p>Cargando proyectos...</p></div>
+
   return (
     <section className="projects-section">
       <div className="projects-container">
-
-        {/* Filtros */}
         <div className="filters-container">
           {categories.map(category => (
             <button
@@ -37,21 +44,12 @@ function ProjectsGrid() {
           ))}
         </div>
 
-        {/* Grid o estado vacío */}
         {filteredProjects.length > 0 ? (
           <div className="projects-grid">
             {filteredProjects.map(project => (
-              <Link
-                key={project.id}
-                to={project.link}
-                className="project-card"
-              >
+              <a key={project.id} href={project.link} target="_blank" rel="noreferrer" className="project-card">
                 <div className="project-image-container">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="project-image"
-                  />
+                  <img src={project.image} alt={project.title} className="project-image" />
                   <div className="project-overlay">
                     <span className="project-view-btn">Ver Proyecto</span>
                   </div>
@@ -60,7 +58,7 @@ function ProjectsGrid() {
                   <h3 className="project-title">{project.title}</h3>
                   <p className="project-description">{project.description}</p>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
         ) : (
@@ -70,15 +68,10 @@ function ProjectsGrid() {
               <path d="M40 20V60M20 40H60" stroke="#e5e7eb" strokeWidth="4" strokeLinecap="round"/>
             </svg>
             <h3 className="empty-title">Aún no hay proyectos en esta categoría</h3>
-            <p className="empty-description">
-              Estamos trabajando en proyectos increíbles. ¡Vuelve pronto!
-            </p>
-            <Link to="/contacto" className="empty-btn">
-              Inicia tu Proyecto
-            </Link>
+            <p className="empty-description">Estamos trabajando en proyectos increíbles. ¡Vuelve pronto!</p>
+            <Link to="/contacto" className="empty-btn">Inicia tu Proyecto</Link>
           </div>
         )}
-
       </div>
     </section>
   )

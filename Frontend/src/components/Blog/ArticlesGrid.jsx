@@ -1,30 +1,36 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import api from '../../services/api'
 import './ArticlesGrid.css'
 
 function ArticlesGrid() {
   const [activeFilter, setActiveFilter] = useState('all')
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const categories = [
     { id: 'all', name: 'Todos los Artículos' },
-    { id: 'web-design', name: 'Diseño Web' },
-    { id: 'digital-marketing', name: 'Marketing Digital' },
-    { id: 'seo', name: 'SEO' },
-    { id: 'business-tips', name: 'Consejos de Negocio' },
-    { id: 'trends', name: 'Tendencias' },
+    { id: 'general', name: 'General' },
+    { id: 'news', name: 'Noticias' },
+    { id: 'tips', name: 'Consejos' },
+    { id: 'others', name: 'Otros' },
   ]
 
-  const articles = []
+  useEffect(() => {
+    api.getArticles()
+      .then(data => setArticles(Array.isArray(data) ? data : []))
+      .finally(() => setLoading(false))
+  }, [])
 
   const filteredArticles = activeFilter === 'all'
     ? articles
     : articles.filter(article => article.category === activeFilter)
 
+  if (loading) return <div className="empty-state"><p>Cargando artículos...</p></div>
+
   return (
     <section className="articles-section">
       <div className="articles-container">
-
-        {/* Filtros */}
         <div className="filters-container">
           {categories.map(category => (
             <button
@@ -37,39 +43,19 @@ function ArticlesGrid() {
           ))}
         </div>
 
-        {/* Grid o estado vacío */}
         {filteredArticles.length > 0 ? (
           <div className="articles-grid">
             {filteredArticles.map(article => (
-              <Link
-                key={article.id}
-                to={article.link}
-                className="article-card"
-              >
+              <Link key={article.id} to={`/blog/${article.id}`} className="article-card">
                 <div className="article-image-container">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="article-image"
-                  />
+                  <img src={article.image} alt={article.title} className="article-image" />
                   <span className="article-category-badge">
                     {categories.find(c => c.id === article.category)?.name}
                   </span>
                 </div>
                 <div className="article-content">
                   <h3 className="article-title">{article.title}</h3>
-                  <p className="article-excerpt">{article.excerpt}</p>
-                  <div className="article-meta">
-                    <div className="article-author">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M8 8C10.21 8 12 6.21 12 4C12 1.79 10.21 0 8 0C5.79 0 4 1.79 4 4C4 6.21 5.79 8 8 8Z" fill="currentColor"/>
-                        <path d="M8 10C3.58 10 0 11.79 0 14V16H16V14C16 11.79 12.42 10 8 10Z" fill="currentColor"/>
-                      </svg>
-                      <span>{article.author}</span>
-                    </div>
-                    <span className="article-divider">•</span>
-                    <span className="article-read-time">{article.readTime}</span>
-                  </div>
+                  <p className="article-excerpt">{article.content?.substring(0, 120)}...</p>
                 </div>
               </Link>
             ))}
@@ -83,15 +69,10 @@ function ArticlesGrid() {
               <line x1="23" y1="46" x2="45" y2="46" stroke="#e5e7eb" strokeWidth="3" strokeLinecap="round"/>
             </svg>
             <h3 className="empty-title">Aún no hay artículos publicados</h3>
-            <p className="empty-description">
-              Estamos trabajando en contenido increíble. ¡Vuelve pronto!
-            </p>
-            <Link to="/contacto" className="empty-btn">
-              Contáctanos
-            </Link>
+            <p className="empty-description">Estamos trabajando en contenido increíble. ¡Vuelve pronto!</p>
+            <Link to="/contacto" className="empty-btn">Contáctanos</Link>
           </div>
         )}
-
       </div>
     </section>
   )

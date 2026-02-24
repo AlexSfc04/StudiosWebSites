@@ -21,11 +21,11 @@ useEffect(() => {
   }
 
   const cards = [
-    { icon: '📁', title: 'Proyectos', desc: 'Gestionar portfolio', color: '#6366f1' },
-    { icon: '✍️', title: 'Blog', desc: 'Gestionar artículos', color: '#8b5cf6' },
-    { icon: '⚙️', title: 'Servicios', desc: 'Editar servicios', color: '#06b6d4' },
-    { icon: '📩', title: 'Contactos', desc: 'Ver mensajes', color: '#10b981' },
-  ]
+  { icon: '📁', title: 'Proyectos', desc: 'Gestionar portfolio', color: '#6366f1', path: '/admin/projects' },
+  { icon: '✍️', title: 'Blog', desc: 'Gestionar artículos', color: '#8b5cf6', path: '/admin/articles' },
+  { icon: '⚙️', title: 'Servicios', desc: 'Editar servicios', color: '#06b6d4', path: null },
+  { icon: '📩', title: 'Contactos', desc: 'Ver mensajes', color: '#10b981', path: null },
+]
 
   return (
     <div className="admin-page">
@@ -53,11 +53,13 @@ useEffect(() => {
         {/* Cards */}
         <div className="admin-cards">
           {cards.map((card) => (
-            <div className="admin-card" key={card.title}>
-              <div
-                className="admin-card-icon"
-                style={{ background: card.color + '20', color: card.color }}
-              >
+            <div
+              className="admin-card"
+              key={card.title}
+              onClick={() => card.path && navigate(card.path)}
+              style={{ opacity: card.path ? 1 : 0.5, cursor: card.path ? 'pointer' : 'default' }}
+            >
+              <div className="admin-card-icon" style={{ background: card.color + '20', color: card.color }}>
                 {card.icon}
               </div>
               <h3 className="admin-card-title">{card.title}</h3>

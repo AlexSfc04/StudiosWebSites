@@ -14,6 +14,8 @@ import { AnimatePresence } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import PageTransition from './components/PageTransition/PageTransition'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
+import AdminProjects from './pages/AdminProjects'
+import AdminArticles from './pages/AdminArticles'
 
 function App() {
   const location = useLocation()
@@ -32,6 +34,8 @@ function App() {
           <Route path="/login" element={<Layout><PageTransition><LoginPage /></PageTransition></Layout>} />
           <Route path="/registro" element={<Layout><PageTransition><RegisterPage /></PageTransition></Layout>} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/projects" element={<AdminProjects />} />
+          <Route path="/admin/articles" element={<AdminArticles />} />
         </Routes>
       </AnimatePresence>
     </AuthProvider>
