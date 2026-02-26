@@ -69,7 +69,7 @@ function ProjectsGrid() {
             </svg>
             <h3 className="empty-title">Aún no hay proyectos en esta categoría</h3>
             <p className="empty-description">Estamos trabajando en proyectos increíbles. ¡Vuelve pronto!</p>
-            <Link to="/contacto" className="empty-btn">Inicia tu Proyecto</Link>
+            <Link to="/contacto" className="empty-btn">Inicia tu proyecto</Link>
           </div>
         )}
       </div>

@@ -22,7 +22,7 @@ function Hero() {
             <span className="hero-title-purple">
               <Typewriter
                 options={{
-                  strings: ['Tu Negocio', 'Tu Marca', 'Tu Empresa', 'Tu Proyecto'],
+                  strings: ['Tu negocio', 'Tu marca', 'Tu empresa', 'Tu proyecto'],
                   autoStart: true,
                   loop: true,
                   delay: 80,
@@ -30,7 +30,7 @@ function Hero() {
                 }}
               />
             </span>
-            <span className="hero-title-black">Merece una web</span><br />
+            <span className="hero-title-black">merece una web</span><br />
             <span className="hero-title-black">excepcional</span>
           </motion.h1>
 

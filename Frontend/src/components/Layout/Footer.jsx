@@ -12,41 +12,41 @@ function Footer() {
               <span>SWS</span>
             </div>
             <p className="footer-tagline">
-              Your Business Deserves an Exceptional Web
+              Tu Negocio merece una web excepcional
             </p>
             <p className="footer-description">
-              We design and develop professional websites 
-              that help businesses grow in the digital world.
+              Diseñamos y desarrollamos sitios web profesionales
+              que ayudan a los negocios a crecer en el mundo digital.
             </p>
           </div>
 
           <div className="footer-section">
-            <h4 className="footer-title">Quick Links</h4>
+            <h4 className="footer-title">Enlaces rápidos</h4>
             <ul className="footer-links">
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/servicios">Services</Link></li>
-              <li><Link to="/sectores">Sectors</Link></li>
+              <li><Link to="/">Inicio</Link></li>
+              <li><Link to="/servicios">Servicios</Link></li>
+              <li><Link to="/sectores">Sectores</Link></li>
               <li><Link to="/portfolio">Portfolio</Link></li>
             </ul>
           </div>
 
           <div className="footer-section">
-            <h4 className="footer-title">Services</h4>
+            <h4 className="footer-title">Servicios</h4>
             <ul className="footer-links">
-              <li><a href="#design">Web Design</a></li>
-              <li><a href="#development">Development</a></li>
-              <li><a href="#marketing">Digital Marketing</a></li>
+              <li><a href="#design">Diseño Web</a></li>
+              <li><a href="#development">Desarrollo</a></li>
+              <li><a href="#marketing">Marketing Digital</a></li>
               <li><a href="#seo">SEO</a></li>
             </ul>
           </div>
 
           <div className="footer-section">
-            <h4 className="footer-title">Contact</h4>
+            <h4 className="footer-title">Contacto</h4>
             <ul className="footer-contact">
               <li>
                 <span className="contact-icon">📧</span>
-                <a href="mailto:info@studioswebsites.com">
-                  info@studioswebsites.com
+                <a href="mailto:infotudioswebsites2026@gmail.com">
+                  infotudioswebsites2026@gmail.com
                 </a>
               </li>
               <li>
@@ -57,7 +57,7 @@ function Footer() {
               </li>
               <li>
                 <span className="contact-icon">📍</span>
-                <span>Seville, Andalusia, ES</span>
+                <span>Sevilla, Andalucía, ES</span>
               </li>
             </ul>
           </div>
@@ -65,11 +65,11 @@ function Footer() {
 
         <div className="footer-bottom">
           <div className="footer-bottom-content">
-            <p>&copy; 2026 StudiosWebSites. All rights reserved.</p>
+            <p>&copy; 2026 StudiosWebSites. Todos los derechos reservados.</p>
             <div className="footer-legal">
-              <a href="#privacy">Privacy</a>
+              <a href="#privacy">Privacidad</a>
               <span>•</span>
-              <a href="#terms">Terms</a>
+              <a href="#terms">Términos</a>
             </div>
           </div>
         </div>

@@ -3,9 +3,9 @@ import './Services.css'
 
 function Services() {
   const services = [
-    { name: 'Diseño Profesional', icon: '✓' },
+    { name: 'Diseño profesional', icon: '✓' },
     { name: 'Funcionalidad', icon: '✓' },
-    { name: 'Identidad de Marca', icon: '✓' },
+    { name: 'Identidad de marca', icon: '✓' },
     { name: 'Contenido SEO', icon: '✓' },
   ]
 

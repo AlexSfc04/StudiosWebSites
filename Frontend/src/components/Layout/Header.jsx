@@ -39,12 +39,12 @@ function Header() {
         </button>
 
         <nav className={`nav ${isMenuOpen ? 'active' : ''}`}>
-          <Link to="/" className="nav-link" onClick={closeMenu}>Home</Link>
-          <Link to="/servicios" className="nav-link" onClick={closeMenu}>Services</Link>
-          <Link to="/sectores" className="nav-link" onClick={closeMenu}>Sectors</Link>
+          <Link to="/" className="nav-link" onClick={closeMenu}>Página Principal</Link>
+          <Link to="/servicios" className="nav-link" onClick={closeMenu}>Servicios</Link>
+          <Link to="/sectores" className="nav-link" onClick={closeMenu}>Sectores</Link>
           <Link to="/portfolio" className="nav-link" onClick={closeMenu}>Portfolio</Link>
           <Link to="/blog" className="nav-link" onClick={closeMenu}>Blog</Link>
-          <Link to="/contacto" className="nav-link" onClick={closeMenu}>Contact</Link>
+          <Link to="/contacto" className="nav-link" onClick={closeMenu}>Contacto</Link>
         </nav>
 
         <div className="header-actions">

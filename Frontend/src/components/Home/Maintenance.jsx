@@ -5,8 +5,8 @@ import './Maintenance.css'
 function Maintenance() {
   const maintenanceItems = [
     'Integraciones API',
-    'Análisis de Datos',
-    'Copias de Seguridad',
+    'Análisis de datos',
+    'Copias de seguridad',
     'Certificados SSL',
   ]
 

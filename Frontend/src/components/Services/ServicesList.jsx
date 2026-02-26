@@ -3,7 +3,7 @@ import './ServicesList.css'
 function ServicesList() {
   const services = [
     {
-      title: 'Diseño Web Profesional',
+      title: 'Diseño Web profesional',
       description: 'Diseños modernos y atractivos que capturan la esencia de tu marca.',
       features: [
         'Diseño responsive',
@@ -23,7 +23,7 @@ function ServicesList() {
       ]
     },
     {
-      title: 'Desarrollo E-commerce',
+      title: 'Desarrollo e-commerce',
       description: 'Tiendas online completas listas para vender y hacer crecer tu negocio.',
       features: [
         'Integración de pagos',
@@ -33,7 +33,7 @@ function ServicesList() {
       ]
     },
     {
-      title: 'Panel de Administración',
+      title: 'Panel de administración',
       description: 'Sistemas de gestión completos para las operaciones de tu negocio.',
       features: [
         'Analíticas del dashboard',
@@ -43,7 +43,7 @@ function ServicesList() {
       ]
     },
     {
-      title: 'Mantenimiento y Soporte',
+      title: 'Mantenimiento y soporte',
       description: 'Soporte continuo para mantener tu web funcionando sin problemas.',
       features: [
         'Actualizaciones periódicas',
@@ -53,7 +53,7 @@ function ServicesList() {
       ]
     },
     {
-      title: 'Seguridad Web',
+      title: 'Seguridad web',
       description: 'Protege tu web y los datos de tus clientes con medidas de seguridad avanzadas.',
       features: [
         'Certificados SSL',
@@ -63,7 +63,7 @@ function ServicesList() {
       ]
     },
     {
-      title: 'Optimización de Rendimiento',
+      title: 'Optimización de rendimiento',
       description: 'Velocidad de carga rápida y rendimiento óptimo para una mejor experiencia.',
       features: [
         'Optimización de velocidad',

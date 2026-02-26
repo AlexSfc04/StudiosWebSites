@@ -6,7 +6,7 @@ function Hero() {
       <div className="portfolio-hero-container">
         <h1 className="portfolio-hero-title">
           Portfolio de<br />
-          <span className="portfolio-hero-title-highlight">Proyectos Realizados</span>
+          <span className="portfolio-hero-title-highlight">proyectos realizados</span>
         </h1>
         <p className="portfolio-hero-description">
           Descubre cómo hemos ayudado a negocios a crecer en el mundo digital.
