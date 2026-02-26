@@ -52,7 +52,7 @@ function Footer() {
               <li>
                 <span className="contact-icon">📱</span>
                 <a href="tel:+34XXXXXXXXX">
-                  +34 XXX XXX XXX
+                  +34 611 491 647
                 </a>
               </li>
               <li>
