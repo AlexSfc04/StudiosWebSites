@@ -14,7 +14,7 @@ function Services() {
       <div className="services-container">
         <AnimatedSection>
           <div className="services-header">
-            <h2 className="services-title">Nuestros Servicios</h2>
+            <h2 className="services-title">Nuestros servicios</h2>
             <p className="services-subtitle">
               Ofrecemos soluciones completas para tu presencia digital.
             </p>

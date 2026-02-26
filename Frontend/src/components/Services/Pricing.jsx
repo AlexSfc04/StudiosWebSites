@@ -43,7 +43,7 @@ function Pricing() {
     <section className="pricing-section">
       <div className="pricing-container">
         <div className="pricing-header">
-          <h2 className="pricing-title">Planes Adaptados a tu Negocio</h2>
+          <h2 className="pricing-title">Planes adaptados a tu negocio</h2>
           <p className="pricing-subtitle">
             Elige el plan que mejor se adapte a tus necesidades. Todos los planes incluyen
             diseño profesional y soporte continuo.
@@ -56,7 +56,7 @@ function Pricing() {
               key={index}
               className={`pricing-card ${plan.popular ? 'pricing-card-popular' : ''}`}
             >
-              {plan.popular && <div className="pricing-badge">Más Popular</div>}
+              {plan.popular && <div className="pricing-badge">Más popular</div>}
               <h3 className="pricing-card-name">{plan.name}</h3>
               <p className="pricing-card-description">{plan.description}</p>
               <ul className="pricing-features">

@@ -39,7 +39,7 @@ function StatItem({ number, label }) {
 function Stats() {
   const stats = [
     { number: '50+', label: 'Proyectos' },
-    { number: '100%', label: 'Clientes Satisfechos' },
+    { number: '100%', label: 'Clientes satisfechos' },
     { number: '24/7', label: 'Soporte' },
   ]
 

@@ -30,8 +30,8 @@ function Hero() {
                 }}
               />
             </span>
-            <span className="hero-title-black">Merece una Web</span><br />
-            <span className="hero-title-black">Excepcional</span>
+            <span className="hero-title-black">Merece una web</span><br />
+            <span className="hero-title-black">excepcional</span>
           </motion.h1>
 
           <motion.p
@@ -50,7 +50,7 @@ function Hero() {
             transition={{ duration: 0.7, delay: 0.4, ease: 'easeOut' }}
           >
             <Link to="/contacto" className="hero-btn">
-              Empieza Ahora
+              Empieza ahora
             </Link>
           </motion.div>
         </div>

@@ -19,9 +19,9 @@ function Newsletter() {
         <div className="newsletter-content">
           <AnimatedSection>
             <h2 className="newsletter-title">
-              ¿Listo para Llevar<br />
-              tu Negocio al<br />
-              Siguiente Nivel?
+              ¿Listo para llevar<br />
+              tu negocio al<br />
+              siguiente nivel?
             </h2>
           </AnimatedSection>
 

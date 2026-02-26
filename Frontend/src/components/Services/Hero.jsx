@@ -6,8 +6,8 @@ function Hero() {
     <section className="services-hero">
       <div className="services-hero-container">
         <h1 className="services-hero-title">
-          Todo lo que Necesitas para<br />
-          tu Presencia Digital
+          Todo lo que necesitas para<br />
+          tu presencia digital
         </h1>
         <p className="services-hero-description">
           Ofrecemos soluciones completas de diseño y desarrollo web
@@ -15,7 +15,7 @@ function Hero() {
           hasta el lanzamiento, estamos contigo en cada paso.
         </p>
         <Link to="/contacto" className="services-hero-btn">
-          Empieza Ahora
+          Empieza ahora
         </Link>
       </div>
     </section>

@@ -37,7 +37,7 @@ function Maintenance() {
 
         <AnimatedSection delay={0.4}>
           <Link to="/servicios" className="maintenance-btn">
-            Ver Nuestros Servicios →
+            Ver nuestros servicios →
           </Link>
         </AnimatedSection>
       </div>

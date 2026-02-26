@@ -6,7 +6,7 @@ import './Header.css'
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
-  const { user, logout } = useAuth()
+  const { user, logout, isAdmin } = useAuth()  // ← añade isAdmin
   const navigate = useNavigate()
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
@@ -49,7 +49,6 @@ function Header() {
 
         <div className="header-actions">
           {user ? (
-            // ✅ Logueado: muestra nombre + dropdown
             <div className="profile-container">
               <button
                 className="profile-button"
@@ -65,9 +64,14 @@ function Header() {
                 <>
                   <div className="profile-overlay" onClick={closeProfile}></div>
                   <div className="profile-dropdown">
-                    <Link to="/admin" className="dropdown-item" onClick={closeProfile}>
-                      Admin Panel
-                    </Link>
+
+                    {/* ✅ Solo se muestra si es admin */}
+                    {isAdmin && (
+                      <Link to="/admin" className="dropdown-item" onClick={closeProfile}>
+                        Admin Panel
+                      </Link>
+                    )}
+
                     <button className="dropdown-item dropdown-logout" onClick={handleLogout}>
                       Logout
                     </button>
@@ -76,7 +80,6 @@ function Header() {
               )}
             </div>
           ) : (
-            // ✅ No logueado: muestra botones de sesión
             <div className="header-auth">
               <Link to="/login" className="btn-login">
                 Iniciar sesión

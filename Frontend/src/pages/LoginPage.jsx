@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import './LoginPage.css'
 
 function LoginPage() {
@@ -19,7 +19,12 @@ function LoginPage() {
     const result = await login(email, password)
 
     if (result.success) {
-      navigate('/admin')
+      // ✅ Redirige según el rol del usuario
+      if (result.user?.role === 'admin') {
+        navigate('/admin')
+      } else {
+        navigate('/')  // usuarios normales van al inicio
+      }
     } else {
       setError(result.message)
     }
@@ -31,7 +36,7 @@ function LoginPage() {
     <div className="login-page">
       <div className="login-container">
         <h1 className="login-title">Iniciar sesión</h1>
-        <p className="login-subtitle">Accede al panel de administración</p>
+        <p className="login-subtitle">Accede a tu cuenta</p>
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
@@ -64,13 +69,13 @@ function LoginPage() {
             </div>
           )}
 
-          <button
-            type="submit"
-            className="login-btn"
-            disabled={loading}
-          >
+          <button type="submit" className="login-btn" disabled={loading}>
             {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </button>
+
+          <p className="login-register-link">
+            ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
+          </p>
         </form>
       </div>
     </div>

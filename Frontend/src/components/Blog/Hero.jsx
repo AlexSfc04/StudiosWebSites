@@ -6,7 +6,7 @@ function Hero() {
       <div className="blog-hero-container">
         <h1 className="blog-hero-title">
           Aprende sobre<br />
-          <span className="blog-hero-title-highlight">Diseño Web y Marketing</span>
+          <span className="blog-hero-title-highlight">Diseño web y marketing</span>
         </h1>
         <p className="blog-hero-description">
           Consejos, guías y buenas prácticas para llevar tu negocio online al siguiente nivel.

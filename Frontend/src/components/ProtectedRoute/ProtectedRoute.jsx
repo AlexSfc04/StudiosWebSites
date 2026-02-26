@@ -4,9 +4,12 @@ import './ProtectedRoute.css'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
-  
-  if (loading) return <div>Cargando...</div>
-  
+
+  // ✅ Mientras carga, pantalla completa en blanco — el footer no aparece
+  if (loading) {
+    return <div className="protected-loading" />
+  }
+
   if (!user) {
     return (
       <div className="protected-container">
@@ -27,7 +30,7 @@ function ProtectedRoute({ children }) {
       </div>
     )
   }
-  
+
   return children
 }
 
