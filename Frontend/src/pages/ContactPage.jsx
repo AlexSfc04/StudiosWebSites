@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './ContactPage.css'
+import api from '../services/api'
 
 function ContactPage() {
   const [formData, setFormData] = useState({
@@ -16,9 +17,24 @@ function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {  // ← CAMBIA ESTA FUNCIÓN
     e.preventDefault()
-    setEnviado(true)
+    
+    try {
+      const res = await api.sendContact(
+        formData.nombre,
+        formData.email,
+        `Teléfono: ${formData.telefono}\nTipo de negocio: ${formData.tipoNegocio}\nMensaje: ${formData.mensaje}`
+      )
+      
+      if (res.success) {
+        setEnviado(true)
+      } else {
+        alert('Error al enviar: ' + (res.error || 'Inténtalo de nuevo'))
+      }
+    } catch (error) {
+      alert('Error de conexión. Inténtalo de nuevo.')
+    }
   }
 
   const faqs = [

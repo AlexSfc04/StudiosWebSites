@@ -109,6 +109,14 @@ const api = {
       headers: getHeaders()
     })
     return response.json()
+  },
+  sendContact: async (name, email, message) => {
+    const response = await fetch(`${API_URL}/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message })
+    })
+    return response.json()
   }
 }
 

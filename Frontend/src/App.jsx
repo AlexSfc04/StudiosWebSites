@@ -18,6 +18,8 @@ import AdminProjects from './pages/AdminProjects'
 import AdminArticles from './pages/AdminArticles'
 import BlogArticlePage from './pages/BlogArticlePage'
 import ProjectPage from './pages/ProjectPage'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
+
 
 function App() {
   const location = useLocation()
@@ -30,8 +32,10 @@ function App() {
           <Route path="/" element={<Layout><PageTransition><HomePage /></PageTransition></Layout>} />
           <Route path="/servicios" element={<Layout><PageTransition><ServicesPage /></PageTransition></Layout>} />
           <Route path="/sectores" element={<Layout><PageTransition><SectorsPage /></PageTransition></Layout>} />
-          <Route path="/portfolio" element={<Layout><PageTransition><PortfolioPage /></PageTransition></Layout>} />
-          <Route path="/blog" element={<Layout><PageTransition><BlogPage /></PageTransition></Layout>} />
+          <Route path="/portfolio" element={<ProtectedRoute><Layout><PageTransition><PortfolioPage /></PageTransition></Layout></ProtectedRoute>} />
+          <Route path="/blog" element={<ProtectedRoute><Layout><PageTransition><BlogPage /></PageTransition></Layout></ProtectedRoute>} />
+          <Route path="/portfolio/:id" element={<ProtectedRoute><ProjectPage /></ProtectedRoute>} />
+          <Route path="/blog/:id" element={<ProtectedRoute><BlogArticlePage /></ProtectedRoute>} />
           <Route path="/contacto" element={<Layout><PageTransition><ContactPage /></PageTransition></Layout>} />
           <Route path="/login" element={<Layout><PageTransition><LoginPage /></PageTransition></Layout>} />
           <Route path="/registro" element={<Layout><PageTransition><RegisterPage /></PageTransition></Layout>} />
