@@ -39,7 +39,7 @@ function Header() {
         </button>
 
         <nav className={`nav ${isMenuOpen ? 'active' : ''}`}>
-          <Link to="/" className="nav-link" onClick={closeMenu}>Página Principal</Link>
+          <Link to="/" className="nav-link" onClick={closeMenu}>Inicio</Link>
           <Link to="/servicios" className="nav-link" onClick={closeMenu}>Servicios</Link>
           <Link to="/sectores" className="nav-link" onClick={closeMenu}>Sectores</Link>
           <Link to="/portfolio" className="nav-link" onClick={closeMenu}>Portfolio</Link>

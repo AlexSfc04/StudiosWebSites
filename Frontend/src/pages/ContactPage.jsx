@@ -17,7 +17,7 @@ function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = async (e) => {  // ← CAMBIA ESTA FUNCIÓN
+  const handleSubmit = async (e) => {  
     e.preventDefault()
     
     try {
@@ -51,7 +51,7 @@ function ContactPage() {
       <section className="contact-hero">
         <h1 className="contact-hero-title">
           Hablemos de <br />
-          <span className="contact-hero-highlight">Tu Proyecto</span>
+          <span className="contact-hero-highlight">tu proyecto</span>
         </h1>
         <p className="contact-hero-subtitle">
           Estamos aquí para ayudarte. Cuéntanos sobre tu negocio y te responderemos en menos de 24 horas.
@@ -63,7 +63,7 @@ function ContactPage() {
 
         {/* Columna izquierda: info */}
         <div className="contact-info">
-          <h2 className="contact-info-title">Información de Contacto</h2>
+          <h2 className="contact-info-title">Información de contacto</h2>
           <p className="contact-info-subtitle">
             Contáctanos por cualquiera de estos medios y te responderemos lo antes posible.
           </p>
@@ -73,8 +73,8 @@ function ContactPage() {
               <div className="contact-info-icon contact-info-icon--blue">📞</div>
               <div>
                 <strong>Teléfono</strong>
-                <p>+34 XXX XXX XXX</p>
-                <a href="tel:+34000000000" className="contact-info-link">Llamar ahora →</a>
+                <p>+34 611 491 647</p>
+                <a href="tel:+34611491647" className="contact-info-link">Llamar ahora →</a>
               </div>
             </li>
             <li className="contact-info-item">
@@ -90,7 +90,7 @@ function ContactPage() {
               <div>
                 <strong>WhatsApp</strong>
                 <p>Chatea con nosotros</p>
-                <a href="https://wa.me/34000000000" className="contact-info-link" target="_blank" rel="noreferrer">Abrir WhatsApp →</a>
+                <a href="https://wa.me/611491647" className="contact-info-link" target="_blank" rel="noreferrer">Abrir WhatsApp →</a>
               </div>
             </li>
             <li className="contact-info-item">
@@ -173,10 +173,10 @@ function ContactPage() {
                     onChange={handleChange}
                   >
                     <option value="">Selecciona una opción</option>
-                    <option value="ecommerce">E-commerce</option>
-                    <option value="corporativa">Web Corporativa</option>
-                    <option value="portfolio">Portfolio</option>
-                    <option value="startup">Startup</option>
+                    <option value="ecommerce">Restaurantes y cafetería</option>
+                    <option value="corporativa">Pequeño negocio</option>
+                    <option value="portfolio">Gimnasio y fitness</option>
+                    <option value="startup">Tiendas y comercios</option>
                     <option value="otro">Otro</option>
                   </select>
                 </div>
@@ -199,7 +199,7 @@ function ContactPage() {
               </p>
 
               <button type="submit" className="contact-form-btn">
-                ✉️ Enviar Mensaje
+                Enviar Mensaje
               </button>
             </form>
           )}
