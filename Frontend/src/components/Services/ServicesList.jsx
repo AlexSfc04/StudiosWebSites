@@ -1,4 +1,5 @@
 import './ServicesList.css'
+import AnimatedSection from '../AnimatedSection/AnimatedSection'
 
 function ServicesList() {
   const services = [
@@ -79,21 +80,28 @@ function ServicesList() {
       <div className="services-list-container">
         <div className="services-grid">
           {services.map((service, index) => (
-            <div key={index} className="service-card">
-              <h3 className="service-card-title">{service.title}</h3>
-              <p className="service-card-description">{service.description}</p>
-              <ul className="service-card-features">
-                {service.features.map((feature, idx) => (
-                  <li key={idx} className="service-feature-item">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <circle cx="10" cy="10" r="9" stroke="#6366f1" strokeWidth="2"/>
-                      <path d="M6 10L9 13L14 7" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <AnimatedSection
+              key={index}
+              delay={index * 0.1}     
+              direction="up"
+            >
+              <div className="service-card">
+                <h3 className="service-card-title">{service.title}</h3>
+                <p className="service-card-description">{service.description}</p>
+
+                <ul className="service-card-features">
+                  {service.features.map((feature, idx) => (
+                    <li key={idx} className="service-feature-item">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="9" stroke="#6366f1" strokeWidth="2" />
+                        <path d="M6 10L9 13L14 7" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </AnimatedSection>
           ))}
         </div>
       </div>
