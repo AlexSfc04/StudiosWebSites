@@ -1,15 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const db = require('../db') // tu conexión a MySQL
+const db = require('../config/database') // tu conexión a MySQL
 const nodemailer = require('nodemailer')
 const crypto = require('crypto')
 
 // ── Configura tu email ──
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // o 'hotmail', 'yahoo', etc.
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  secure: false, // false para puerto 587
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 })
 
@@ -45,7 +47,7 @@ router.post('/', async (req, res) => {
 
     // Enviar email de confirmación
     await transporter.sendMail({
-      from: `"StudiosWebSites" <${process.env.EMAIL_USER}>`,
+      from: `"StudiosWebSites" <${process.env.SMTP_USER}>`,
       to: email,
       subject: '✅ Confirma tu suscripción a SWS Newsletter',
       html: `

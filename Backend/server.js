@@ -3,7 +3,7 @@ const cors = require('cors')
 require('dotenv').config()
 
 const authRoutes = require('./routes/auth')
-const projectRoutes = require('./routes/project')    // ← el archivo se llama project.js
+const projectRoutes = require('./routes/project')    
 const articleRoutes = require('./routes/articles')
 const contactRoutes = require('./routes/contact')
 const newsletterRoutes = require('./routes/newsletter')
@@ -24,7 +24,7 @@ app.use('/auth', authRoutes)
 app.use('/projects', projectRoutes)
 app.use('/articles', articleRoutes)
 app.use('/contact', contactRoutes)
-app.use('/api/newsletter', newsletterRoutes)
+app.use('/newsletter', newsletterRoutes)
 
 app.get('/', (req, res) => {
   res.json({ message: '🚀 Backend funcionando correctamente' })
