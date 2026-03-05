@@ -19,6 +19,7 @@ import AdminArticles from './pages/AdminArticles'
 import BlogArticlePage from './pages/BlogArticlePage'
 import ProjectPage from './pages/ProjectPage'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
+import ConfirmarNewsletterPage from './pages/ConfirmarNewsletterPage'
 
 function App() {
   const location = useLocation()
@@ -51,7 +52,7 @@ function App() {
               </PageTransition>
             </Layout>
           } />
-
+          <Route path="/confirmar-newsletter" element={<ConfirmarNewsletterPage />} />
           <Route path="/portfolio/:id" element={<ProtectedRoute><ProjectPage /></ProtectedRoute>} />
           <Route path="/blog/:id" element={<ProtectedRoute><BlogArticlePage /></ProtectedRoute>} />
           <Route path="/contacto" element={<Layout><PageTransition><ContactPage /></PageTransition></Layout>} />
