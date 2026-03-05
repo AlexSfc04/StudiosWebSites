@@ -5,13 +5,38 @@ import './Newsletter.css'
 
 function Newsletter() {
   const [email, setEmail] = useState('')
-  const [enviado, setEnviado] = useState(false)
+  const [estado, setEstado] = useState('idle') // idle | loading | success | error | duplicate
+  const [mensaje, setMensaje] = useState('')
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setEnviado(true)
-    setEmail('')
+  const handleSubmit = async (e) => {
+  e.preventDefault()
+  setEstado('loading')
+
+  try {
+    const res = await fetch('http://localhost:5000/newsletter', {  // ← URL completa
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    })
+
+    const data = await res.json()
+
+    if (res.status === 409) {
+      setEstado('duplicate')
+      setMensaje(data.message)
+    } else if (res.ok) {
+      setEstado('success')
+      setEmail('')
+    } else {
+      setEstado('error')
+      setMensaje(data.message || 'Algo salió mal.')
+    }
+  } catch {
+    setEstado('error')
+    setMensaje('Error al conectar con el servidor.')
   }
+}
+
 
   return (
     <section className="newsletter-section">
@@ -33,14 +58,18 @@ function Newsletter() {
           </AnimatedSection>
 
           <AnimatedSection delay={0.3}>
-            {enviado ? (
-              <motion.p
+            {estado === 'success' ? (
+              <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="newsletter-success"
               >
-                ✅ ¡Suscrito correctamente!
-              </motion.p>
+                <span>📩</span>
+                <div>
+                  <strong>¡Revisa tu email!</strong>
+                  <p>Te hemos enviado un enlace de confirmación.</p>
+                </div>
+              </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="newsletter-form">
                 <input
@@ -50,10 +79,25 @@ function Newsletter() {
                   onChange={(e) => setEmail(e.target.value)}
                   className="newsletter-input"
                   required
+                  disabled={estado === 'loading'}
                 />
-                <button type="submit" className="newsletter-button">
-                  Suscribirse
+                <button
+                  type="submit"
+                  className="newsletter-button"
+                  disabled={estado === 'loading'}
+                >
+                  {estado === 'loading' ? 'Enviando...' : 'Suscribirse'}
                 </button>
+
+                {(estado === 'error' || estado === 'duplicate') && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="newsletter-error"
+                  >
+                    ⚠️ {mensaje}
+                  </motion.p>
+                )}
               </form>
             )}
           </AnimatedSection>
