@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
     )
 
     // URL de confirmación
-    const confirmUrl = `${process.env.FRONTEND_URL}/confirmar-newsletter?token=${token}`
+    const confirmUrl = `http://localhost:5000/newsletter/confirmar?token=${token}`
 
     // Enviar email de confirmación
     await transporter.sendMail({
