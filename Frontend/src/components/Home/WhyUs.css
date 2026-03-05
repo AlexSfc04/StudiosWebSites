@@ -69,6 +69,13 @@
   margin: 0;
 }
 
+.feature-icon-img{
+  width: 370px;           /* ✅ tamaño de la imagen */
+  height: 100px;
+  object-fit: contain;
+  display: block;
+}
+
 @media (min-width: 768px) {
   .why-us-section {
     padding: 80px 20px;

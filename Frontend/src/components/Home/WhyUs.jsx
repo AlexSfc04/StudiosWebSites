@@ -1,5 +1,4 @@
 import { useRef } from 'react'
-import { motion } from 'framer-motion'
 import AnimatedSection from '../AnimatedSection/AnimatedSection'
 import './WhyUs.css'
 
@@ -8,6 +7,7 @@ function FeatureCard({ feature }) {
 
   const handleMouseMove = (e) => {
     const card = cardRef.current
+    if (!card) return
     const rect = card.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
@@ -19,6 +19,7 @@ function FeatureCard({ feature }) {
   }
 
   const handleMouseLeave = () => {
+    if (!cardRef.current) return
     cardRef.current.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)'
   }
 
@@ -29,7 +30,15 @@ function FeatureCard({ feature }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="feature-icon">{feature.icon}</div>
+      <div className="feature-icon">
+        <img
+          src={feature.iconUrl}
+          alt={feature.iconAlt || feature.title}
+          className="feature-icon-img"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
       <h3 className="feature-title">{feature.title}</h3>
       <p className="feature-description">{feature.description}</p>
     </div>
@@ -39,22 +48,26 @@ function FeatureCard({ feature }) {
 function WhyUs() {
   const features = [
     {
-      icon: '⚡',
+      iconUrl: 'https://res.cloudinary.com/dzmgxz55b/image/upload/v1772700667/tiempo_vrohym.png',
+      iconAlt: 'Icono de velocidad',
       title: 'Desarrollo rápido',
       description: 'Lanzamos tu proyecto en el menor tiempo posible.',
     },
     {
-      icon: '💬',
+      iconUrl: 'https://res.cloudinary.com/dzmgxz55b/image/upload/v1772700667/soporte_eulvnj.png',
+      iconAlt: 'Icono de soporte',
       title: 'Soporte real',
       description: 'Siempre disponibles para ayudarte cuando lo necesites.',
     },
     {
-      icon: '🌐',
+      iconUrl: 'https://res.cloudinary.com/dzmgxz55b/image/upload/v1772700667/optimizar_sg6rtd.png',
+      iconAlt: 'Icono de optimización web',
       title: 'Optimización web',
       description: 'Diseños únicos adaptados a tu marca y objetivos.',
     },
     {
-      icon: '📱',
+      iconUrl: 'https://res.cloudinary.com/dzmgxz55b/image/upload/v1772700667/dise%C3%B1o_ums47i.png',
+      iconAlt: 'Icono de responsive',
       title: 'Diseño responsive',
       description: 'Tu web se verá perfecta en cualquier dispositivo.',
     },
