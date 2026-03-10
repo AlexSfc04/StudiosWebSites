@@ -2,6 +2,7 @@ import Header from './Header'
 import Footer from './Footer'
 import './Layout.css'
 import CookieBanner from '../CookieBanner/CookieBanner'
+import Chatbot from '../Chatbot/Chatbot'
 
 function Layout({ children }) {
   return (
@@ -12,6 +13,7 @@ function Layout({ children }) {
       </main>
       <Footer />
       <CookieBanner />
+      <Chatbot />
     </div>
   )
 }
