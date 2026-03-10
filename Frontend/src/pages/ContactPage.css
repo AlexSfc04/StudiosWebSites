@@ -94,10 +94,10 @@
   flex-shrink: 0;
 }
 
-.contact-info-icon--blue   { background: #eff6ff; }
-.contact-info-icon--purple { background: #f5f3ff; }
-.contact-info-icon--green  { background: #f0fdf4; }
-.contact-info-icon--orange { background: #fff7ed; }
+.contact-info-icon--blue   { background: #e0eeff; }
+.contact-info-icon--purple { background: #e7e3fe; }
+.contact-info-icon--green  { background: #dffde8; }
+.contact-info-icon--orange { background: #faead7; }
 
 .contact-info-link {
   color: #6366f1;
@@ -330,6 +330,11 @@
   color: #64748b;
   font-size: 0.875rem;
   line-height: 1.6;
+}
+.contact-info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Responsive */

@@ -91,10 +91,10 @@ function SectorsList() {
                 ))}
               </ul>
               <Link
-                to="/portfolio"
+                to="/contacto"
                 className={`sector-button sector-button-${sector.buttonColor}`}
               >
-                Ver Proyectos Realizados
+                Solicitar presupuesto
               </Link>
             </div>
           </div>

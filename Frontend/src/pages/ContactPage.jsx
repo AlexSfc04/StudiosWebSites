@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './ContactPage.css'
 import api from '../services/api'
+import { Phone, Mail, MessageCircle, MapPin } from 'lucide-react'
 
 function ContactPage() {
   const [formData, setFormData] = useState({
@@ -58,51 +59,58 @@ function ContactPage() {
         </p>
       </section>
 
-      {/* Main: Info + Formulario */}
-      <section className="contact-main">
+    {/* Main: Info + Formulario */}
+<section className="contact-main">
 
-        {/* Columna izquierda: info */}
-        <div className="contact-info">
-          <h2 className="contact-info-title">Información de contacto</h2>
-          <p className="contact-info-subtitle">
-            Contáctanos por cualquiera de estos medios y te responderemos lo antes posible.
-          </p>
+  {/* Columna izquierda: info */}
+  <div className="contact-info">
+    <h2 className="contact-info-title">Información de contacto</h2>
+    <p className="contact-info-subtitle">
+      Contáctanos por cualquiera de estos medios y te responderemos lo antes posible.
+    </p>
 
-          <ul className="contact-info-list">
-            <li className="contact-info-item">
-              <div className="contact-info-icon contact-info-icon--blue">📞</div>
-              <div>
-                <strong>Teléfono</strong>
-                <p>+34 611 491 647</p>
-                <a href="tel:+34611491647" className="contact-info-link">Llamar ahora →</a>
-              </div>
-            </li>
-            <li className="contact-info-item">
-              <div className="contact-info-icon contact-info-icon--purple">✉️</div>
-              <div>
-                <strong>Email</strong>
-                <p>info@studioswebsites.com</p>
-                <a href="mailto:info@studioswebsites.com" className="contact-info-link">Enviar email →</a>
-              </div>
-            </li>
-            <li className="contact-info-item">
-              <div className="contact-info-icon contact-info-icon--green">💬</div>
-              <div>
-                <strong>WhatsApp</strong>
-                <p>Chatea con nosotros</p>
-                <a href="https://wa.me/611491647" className="contact-info-link" target="_blank" rel="noreferrer">Abrir WhatsApp →</a>
-              </div>
-            </li>
-            <li className="contact-info-item">
-              <div className="contact-info-icon contact-info-icon--orange">📍</div>
-              <div>
-                <strong>Ubicación</strong>
-                <p>Sevilla, Andalusia, ES</p>
-                <span className="contact-info-note">Trabajamos con clientes en toda España</span>
-              </div>
-            </li>
-          </ul>
-
+    <ul className="contact-info-list">
+      <li className="contact-info-item">
+        <div className="contact-info-icon contact-info-icon--blue">
+          <Phone size={20} />
+        </div>
+        <div>
+          <strong>Teléfono</strong>
+          <p>+34 611 491 647</p>
+          <a href="tel:+34611491647" className="contact-info-link">Llamar ahora →</a>
+        </div>
+      </li>
+      <li className="contact-info-item">
+        <div className="contact-info-icon contact-info-icon--purple">
+          <Mail size={20} />
+        </div>
+        <div>
+          <strong>Email</strong>
+          <p>info@studioswebsites.com</p>
+          <a href="mailto:info@studioswebsites.com" className="contact-info-link">Enviar email →</a>
+        </div>
+      </li>
+      <li className="contact-info-item">
+        <div className="contact-info-icon contact-info-icon--green">
+          <MessageCircle size={20} />
+        </div>
+        <div>
+          <strong>WhatsApp</strong>
+          <p>Chatea con nosotros</p>
+          <a href="https://wa.me/611491647" className="contact-info-link" target="_blank" rel="noreferrer">Abrir WhatsApp →</a>
+        </div>
+      </li>
+      <li className="contact-info-item">
+        <div className="contact-info-icon contact-info-icon--orange">
+          <MapPin size={20} />
+        </div>
+        <div>
+          <strong>Ubicación</strong>
+          <p>Sevilla, Andalusia, ES</p>
+          <span className="contact-info-note">Trabajamos con clientes en toda España</span>
+        </div>
+      </li>
+    </ul>
           {/* Horario */}
           <div className="contact-schedule">
             <h3 className="contact-schedule-title">Horario de Atención</h3>
