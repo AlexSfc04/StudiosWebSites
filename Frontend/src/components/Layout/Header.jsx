@@ -67,9 +67,19 @@ function Header() {
         </div>
       ) : (
         <div className="header-auth">
-          <Link to="/login" className="btn-login">Iniciar sesión</Link>
-          <Link to="/registro" className="btn-register">Registro</Link>
-        </div>
+      {/* Desktop: muestra los dos botones */}
+      <Link to="/login" className="btn-login desktop-only">
+        Iniciar sesión
+      </Link>
+      <Link to="/registro" className="btn-register desktop-only">
+        Registro
+      </Link>
+
+      {/* Móvil: solo un botón "Entrar" */}
+      <Link to="/login" className="btn-entrar mobile-only">
+        Entrar
+      </Link>
+    </div>
       )}
     </div>
 

@@ -250,6 +250,8 @@
 .hamburger.active span:nth-child(3) {
   transform: rotate(45deg) translate(-7px, -7px);
 }
+.desktop-only { display: inline-flex; }
+.mobile-only  { display: none; }
 
 /* Responsive */
 @media (max-width: 992px) {
@@ -374,4 +376,50 @@
   color: white;
 }
 
+  .btn-entrar {
+    padding: 8px 18px;
+    background: #6366f1;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
 
+  .btn-entrar:hover {
+    background: #4f46e5;
+  }
+
+
+.mobile-only {
+  display: none;
+}
+
+/* En móvil: oculta los dos botones y muestra solo "Entrar" */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: inline-flex !important;
+    padding: 8px 18px;
+    background: #6366f1;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+.header-actions {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .header-auth {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
