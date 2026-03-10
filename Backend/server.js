@@ -7,6 +7,8 @@ const projectRoutes = require('./routes/project')
 const articleRoutes = require('./routes/articles')
 const contactRoutes = require('./routes/contact')
 const newsletterRoutes = require('./routes/newsletter')
+const chatbotRoutes = require('./routes/chatbot')
+
 
 
 const app = express()
@@ -25,6 +27,7 @@ app.use('/projects', projectRoutes)
 app.use('/articles', articleRoutes)
 app.use('/contact', contactRoutes)
 app.use('/newsletter', newsletterRoutes)
+app.use('/chatbot', chatbotRoutes)
 
 app.get('/', (req, res) => {
   res.json({ message: '🚀 Backend funcionando correctamente' })
