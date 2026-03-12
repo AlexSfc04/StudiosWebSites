@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import './Auth.css'
 
+
 function Register() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -38,7 +39,7 @@ function Register() {
   <div className="auth-form-box">
 
     <Link to="/" className="auth-logo">
-      <div className="auth-logo-icon">S</div>
+      <img src="/logo-studios.png" alt="SWS Logo" className="footer-logo-img" />
       <span>SWS</span>
     </Link>
 
@@ -94,8 +95,8 @@ function Register() {
         <div className="auth-brand-content">
 
           <div className="auth-brand-logo">
-            <div className="auth-brand-icon">S</div>
-            <span>SWS</span>
+          <img src="/logo-studios.png" alt="SWS Logo" className="footer-logo-img" />
+          <span>SWS</span>
           </div>
 
           <h2>Gestiona tu negocio<br /><span>online.</span></h2>
