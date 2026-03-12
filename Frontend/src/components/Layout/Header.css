@@ -273,7 +273,26 @@
   }
 }
 
+.mobile-only {
+  display: none;
+}
+
+/* En móvil: oculta los dos botones y muestra solo "Entrar" */
 @media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: inline-flex !important;
+    padding: 8px 18px;
+    background: #6366f1;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
   .logo {
     font-size: 20px;
   }

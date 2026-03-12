@@ -1,85 +1,141 @@
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { useNavigate, Link } from 'react-router-dom'
-import './LoginPage.css'
+import './Auth.css'
 
-function LoginPage() {
+function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const { login } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
     setError('')
-
-    const result = await login(email, password)
-
-    if (result.success) {
-      // ✅ Redirige según el rol del usuario
-      if (result.user?.role === 'admin') {
-        navigate('/admin')
-      } else {
-        navigate('/')  // usuarios normales van al inicio
-      }
-    } else {
-      setError(result.message)
+    if (!email || !password) {
+      setError('Please fill in all fields.')
+      return
     }
-
-    setLoading(false)
+    setLoading(true)
+    try {
+      await login(email, password)
+      navigate('/')
+    } catch (err) {
+      setError('Wrong email or password.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <h1 className="login-title">Iniciar sesión</h1>
-        <p className="login-subtitle">Accede a tu cuenta</p>
+    <div className="auth-page">
 
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@email.com"
-              required
-            />
-          </div>
+      {/* LEFT — Form */}
+      <div className="auth-form-side">
+  <div className="auth-form-box">
 
-          <div className="form-group">
-            <label htmlFor="password">Contraseña</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-            />
-          </div>
+    <Link to="/" className="auth-logo">
+      <div className="auth-logo-icon">S</div>
+      <span>SWS</span>
+    </Link>
 
-          {error && (
-            <div className="error-message">
-              ⚠️ {error}
-            </div>
-          )}
+    {error && <div className="auth-error">{error}</div>}
 
-          <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
-          </button>
+    <h2 className="auth-title">Bienvenido de nuevo</h2>
+    <p className="auth-subtitle">Inicia sesión en tu cuenta</p>
 
-          <p className="login-register-link">
-            ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
-          </p>
-        </form>
+    <form onSubmit={handleSubmit} className="auth-form">
+      <div className="auth-field">
+        <label>Correo electrónico</label>
+        <input
+          type="email"
+          placeholder="tu@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
       </div>
+      <div className="auth-field">
+        <label>Contraseña</label>
+        <input
+          type="password"
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <button type="submit" className="auth-btn" disabled={loading}>
+        {loading ? 'Cargando...' : 'Iniciar sesión'}
+      </button>
+    </form>
+
+    <p className="auth-switch">
+      ¿No tienes cuenta? <Link to="/registro">Regístrate</Link>
+    </p>
+
+  </div>
+</div>
+
+
+      {/* RIGHT — Brand panel */}
+      {/* DERECHA — Panel de marca */}
+    <div className="auth-brand-side">
+      <div className="auth-brand-content">
+
+        <div className="auth-brand-logo">
+          <div className="auth-brand-icon">S</div>
+          <span>SWS</span>
+        </div>
+
+        <h2>Gestiona tu negocio<br /><span>online.</span></h2>
+        <p className="auth-brand-tagline">Todo lo que necesitas, en un solo lugar.</p>
+
+        <ul className="auth-brand-features">
+          <li>
+            <div className="auth-feature-icon-wrap">🌐</div>
+            <span>Visualiza y gestiona tu <strong>página web</strong></span>
+          </li>
+          <li>
+            <div className="auth-feature-icon-wrap">📊</div>
+            <span>Consulta tus <strong>estadísticas</strong> en tiempo real</span>
+          </li>
+          <li>
+            <div className="auth-feature-icon-wrap">📩</div>
+            <span>Lee tus <strong>mensajes de contacto</strong></span>
+          </li>
+          <li>
+            <div className="auth-feature-icon-wrap">🛒</div>
+            <span>Administra tus <strong>servicios contratados</strong></span>
+          </li>
+        </ul>
+
+        <div className="auth-brand-stats">
+          <div className="auth-stat">
+            <span className="auth-stat-number">50+</span>
+            <span className="auth-stat-label">Proyectos</span>
+          </div>
+          <div className="auth-stat">
+            <span className="auth-stat-number">100%</span>
+            <span className="auth-stat-label">Satisfacción</span>
+          </div>
+          <div className="auth-stat">
+            <span className="auth-stat-number">24/7</span>
+            <span className="auth-stat-label">Soporte</span>
+          </div>
+        </div>
+
+        <div className="auth-brand-contact">
+          <p>Atención al cliente</p>
+          <p>📞 +34 611 491 647</p>
+          <p>📧 infostudioswebsites2026@gmail.com</p>
+        </div>
+
+      </div>
+    </div>
+
     </div>
   )
 }
 
-export default LoginPage
+export default Login

@@ -56,8 +56,8 @@ function App() {
           <Route path="/portfolio/:id" element={<ProtectedRoute><ProjectPage /></ProtectedRoute>} />
           <Route path="/blog/:id" element={<ProtectedRoute><BlogArticlePage /></ProtectedRoute>} />
           <Route path="/contacto" element={<Layout><PageTransition><ContactPage /></PageTransition></Layout>} />
-          <Route path="/login" element={<Layout><PageTransition><LoginPage /></PageTransition></Layout>} />
-          <Route path="/registro" element={<Layout><PageTransition><RegisterPage /></PageTransition></Layout>} />
+          <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
+          <Route path="/registro" element={<PageTransition><RegisterPage /></PageTransition>} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/projects" element={<AdminProjects />} />
           <Route path="/admin/articles" element={<AdminArticles />} />

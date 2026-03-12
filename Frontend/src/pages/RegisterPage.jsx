@@ -1,123 +1,151 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import './RegisterPage.css'
+import './Auth.css'
 
-function RegisterPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  })
-  const [loading, setLoading] = useState(false)
+function Register() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const { register } = useAuth()
   const navigate = useNavigate()
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-
-    if (formData.password !== formData.confirmPassword) {
-      return setError('Las contraseñas no coinciden')
+    if (!name || !email || !password) {
+      setError('Please fill in all fields.')
+      return
     }
-
-    if (formData.password.length < 6) {
-      return setError('La contraseña debe tener al menos 6 caracteres')
-    }
-
     setLoading(true)
-    const result = await register(formData.name, formData.email, formData.password)
-
-    if (result.success) {
+    try {
+      await register(name, email, password)
       navigate('/')
-    } else {
-      setError(result.message)
+    } catch (err) {
+      setError('Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
   return (
-    <div className="register-page">
-      <div className="register-container">
-        <h1 className="register-title">Crear cuenta</h1>
-        <p className="register-subtitle">Únete a StudiosWebSites</p>
+    <div className="auth-page">
 
-        <form onSubmit={handleSubmit} className="register-form">
-          <div className="form-group">
-            <label htmlFor="name">Nombre completo</label>
-            <input
-              id="name"
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Juan Pérez"
-              required
-            />
-          </div>
+      {/* LEFT — Form */}
+      <div className="auth-form-side">
+  <div className="auth-form-box">
 
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="tu@email.com"
-              required
-            />
-          </div>
+    <Link to="/" className="auth-logo">
+      <div className="auth-logo-icon">S</div>
+      <span>SWS</span>
+    </Link>
 
-          <div className="form-group">
-            <label htmlFor="password">Contraseña</label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Mínimo 6 caracteres"
-              required
-            />
-          </div>
+    {error && <div className="auth-error">{error}</div>}
 
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirmar contraseña</label>
-            <input
-              id="confirmPassword"
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Repite tu contraseña"
-              required
-            />
-          </div>
+    <h2 className="auth-title">Crea tu cuenta</h2>
+    <p className="auth-subtitle">Es gratis y solo tarda un minuto</p>
 
-          {error && (
-            <div className="error-message">⚠️ {error}</div>
-          )}
-
-          <button type="submit" className="register-btn" disabled={loading}>
-            {loading ? 'Creando cuenta...' : 'Crear cuenta'}
-          </button>
-        </form>
-
-        <p className="register-login-link">
-          ¿Ya tienes cuenta?{' '}
-          <Link to="/login">Inicia sesión</Link>
-        </p>
+    <form onSubmit={handleSubmit} className="auth-form">
+      <div className="auth-field">
+        <label>Nombre</label>
+        <input
+          type="text"
+          placeholder="Tu nombre"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
       </div>
+      <div className="auth-field">
+        <label>Correo electrónico</label>
+        <input
+          type="email"
+          placeholder="tu@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div className="auth-field">
+        <label>Contraseña</label>
+        <input
+          type="password"
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <button type="submit" className="auth-btn" disabled={loading}>
+        {loading ? 'Cargando...' : 'Crear cuenta'}
+      </button>
+    </form>
+
+    <p className="auth-switch">
+      ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+    </p>
+
+  </div>
+</div>
+
+
+      {/* RIGHT — Brand panel (mismo que Login) */}
+      {/* DERECHA — Panel de marca */}
+      <div className="auth-brand-side">
+        <div className="auth-brand-content">
+
+          <div className="auth-brand-logo">
+            <div className="auth-brand-icon">S</div>
+            <span>SWS</span>
+          </div>
+
+          <h2>Gestiona tu negocio<br /><span>online.</span></h2>
+          <p className="auth-brand-tagline">Todo lo que necesitas, en un solo lugar.</p>
+
+          <ul className="auth-brand-features">
+            <li>
+              <div className="auth-feature-icon-wrap">🌐</div>
+              <span>Visualiza y gestiona tu <strong>página web</strong></span>
+            </li>
+            <li>
+              <div className="auth-feature-icon-wrap">📊</div>
+              <span>Consulta tus <strong>estadísticas</strong> en tiempo real</span>
+            </li>
+            <li>
+              <div className="auth-feature-icon-wrap">📩</div>
+              <span>Lee tus <strong>mensajes de contacto</strong></span>
+            </li>
+            <li>
+              <div className="auth-feature-icon-wrap">🛒</div>
+              <span>Administra tus <strong>servicios contratados</strong></span>
+            </li>
+          </ul>
+
+          <div className="auth-brand-stats">
+            <div className="auth-stat">
+              <span className="auth-stat-number">50+</span>
+              <span className="auth-stat-label">Proyectos</span>
+            </div>
+            <div className="auth-stat">
+              <span className="auth-stat-number">100%</span>
+              <span className="auth-stat-label">Satisfacción</span>
+            </div>
+            <div className="auth-stat">
+              <span className="auth-stat-number">24/7</span>
+              <span className="auth-stat-label">Soporte</span>
+            </div>
+          </div>
+
+          <div className="auth-brand-contact">
+            <p>Atención al cliente</p>
+            <p>📞 +34 611 491 647</p>
+            <p>📧 infostudioswebsites2026@gmail.com</p>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   )
 }
 
-export default RegisterPage
+export default Register
