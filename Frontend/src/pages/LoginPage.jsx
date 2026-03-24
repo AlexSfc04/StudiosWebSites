@@ -12,22 +12,28 @@ function Login() {
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-    if (!email || !password) {
-      setError('Please fill in all fields.')
-      return
-    }
-    setLoading(true)
-    try {
-      await login(email, password)
-      navigate('/')
-    } catch (err) {
-      setError('Wrong email or password.')
-    } finally {
-      setLoading(false)
-    }
+  e.preventDefault()
+  setError('')
+  if (!email || !password) {
+    setError('Introduce los datos necesarios.')
+    return
   }
+  setLoading(true)
+  try {
+    const result = await login(email, password) // ← recoge el resultado
+
+    if (result.success) {
+      navigate('/')                              // ← solo navega si fue exitoso
+    } else {
+      setError(result.message || 'Email o contraseña incorrectos.') // ← muestra el error
+    }
+  } catch (err) {
+    setError('Error inesperado. Inténtalo de nuevo.')
+  } finally {
+    setLoading(false)
+  }
+}
+
 
   return (
     <div className="auth-page">
