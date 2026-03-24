@@ -34,16 +34,6 @@ function ServicesList() {
       ]
     },
     {
-      title: 'Panel de administración',
-      description: 'Sistemas de gestión completos para las operaciones de tu negocio.',
-      features: [
-        'Analíticas del dashboard',
-        'Gestión de usuarios',
-        'Administración de contenido',
-        'Herramientas de reportes'
-      ]
-    },
-    {
       title: 'Mantenimiento y soporte',
       description: 'Soporte continuo para mantener tu web funcionando sin problemas.',
       features: [
