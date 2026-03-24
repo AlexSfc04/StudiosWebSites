@@ -42,7 +42,9 @@
   align-items: center;
   gap: 10px;
   color: white;
+  justify-content: space-between; /* ← añade esto */
 }
+
 
 .chatbot-avatar {
   width: 36px;
@@ -113,6 +115,26 @@
 
 .chatbot-typing span:nth-child(2) { animation-delay: 0.2s; }
 .chatbot-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+.chatbot-close {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.chatbot-close:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
 
 @keyframes chatDot {
   0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }

@@ -10,11 +10,11 @@
 }
 
 .portfolio-hero-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 24px;
+  font-size: 2.75rem;
+  font-weight: 800;
   color: #1a1a1a;
+  line-height: 1.2;
+  margin-bottom: 16px;
 }
 
 .portfolio-hero-title-highlight {

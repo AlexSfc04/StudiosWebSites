@@ -50,16 +50,18 @@ function Chatbot() {
   return (
     <div className="chatbot-wrapper">
       {/* ── Burbuja flotante ── */}
-      <motion.button
-        className="chatbot-bubble"
-        onClick={() => setOpen(o => !o)}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        aria-label="Abrir chat"
-      >
-        {open ? '✕' : '💬'}
-      </motion.button>
-
+      {/* ✅ Solo aparece cuando el chat está cerrado */}
+      {!open && (
+        <motion.button
+          className="chatbot-bubble"
+          onClick={() => setOpen(true)}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Abrir chat"
+        >
+          💬
+        </motion.button>
+      )}
       {/* ── Ventana del chat ── */}
       <AnimatePresence>
         {open && (
@@ -71,13 +73,15 @@ function Chatbot() {
             transition={{ duration: 0.25 }}
           >
             {/* Header */}
-            <div className="chatbot-header">
-              <div className="chatbot-avatar">SWS</div>
-              <div>
-                <strong>StudiosWebSites</strong>
-                <span className="chatbot-status">● En línea</span>
-              </div>
+          <div className="chatbot-header">
+            <div className="chatbot-avatar">SWS</div>
+            <div style={{ flex: 1 }}>
+              <strong>StudiosWebSites</strong>
+              <span className="chatbot-status">● En línea</span>
             </div>
+            {/* ← Cruz aquí dentro */}
+            <button className="chatbot-close" onClick={() => setOpen(false)}>✕</button>
+          </div>
 
             {/* Mensajes */}
             <div className="chatbot-messages">
