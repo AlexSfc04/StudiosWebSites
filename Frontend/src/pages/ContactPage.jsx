@@ -126,7 +126,7 @@ function ContactPage() {
 
         {/* Columna derecha: formulario */}
         <div className="contact-form-card">
-          <h2 className="contact-form-title">Solicita tu Presupuesto</h2>
+          <h2 className="contact-form-title">Solicita tu presupuesto</h2>
           <p className="contact-form-subtitle">Completa el formulario y nos pondremos en contacto contigo.</p>
 
           {enviado ? (
@@ -139,7 +139,7 @@ function ContactPage() {
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="contact-form-row">
                 <div className="contact-form-group">
-                  <label>Nombre Completo *</label>
+                  <label>Nombre completo *</label>
                   <input
                     type="text"
                     name="nombre"
@@ -174,7 +174,7 @@ function ContactPage() {
                   />
                 </div>
                 <div className="contact-form-group">
-                  <label>Tipo de Negocio</label>
+                  <label>Tipo de negocio</label>
                   <select
                     name="tipoNegocio"
                     value={formData.tipoNegocio}
@@ -216,7 +216,7 @@ function ContactPage() {
 
       {/* FAQ */}
       <section className="contact-faq">
-        <h2 className="contact-faq-title">Preguntas Frecuentes</h2>
+        <h2 className="contact-faq-title">Preguntas frecuentes</h2>
         <p className="contact-faq-subtitle">Respuestas rápidas a las dudas más comunes</p>
 
         <div className="contact-faq-list">

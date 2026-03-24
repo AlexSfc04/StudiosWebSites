@@ -59,7 +59,7 @@ function Header() {
                   </Link>
                 )}
                 <button className="dropdown-item dropdown-logout" onClick={handleLogout}>
-                  Logout
+                  Cerrar sesión
                 </button>
               </div>
             </>
