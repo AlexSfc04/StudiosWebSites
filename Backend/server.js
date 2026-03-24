@@ -33,8 +33,14 @@ app.get('/', (req, res) => {
   res.json({ message: '🚀 Backend funcionando correctamente' })
 })
 
+// ✅ Después — añade la condición y el export
 const PORT = process.env.PORT || 5000
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
-})
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
+  })
+}
+
+module.exports = app  // ← línea nueva al final
 
