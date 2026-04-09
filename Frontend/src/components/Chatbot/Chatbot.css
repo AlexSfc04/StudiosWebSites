@@ -60,14 +60,22 @@
 
 
 .chatbot-avatar {
-  width: 36px;
-  height: 36px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-  display: grid;
-  place-items: center;
-  font-size: 0.7rem;
-  font-weight: 800;
+  overflow: hidden;          /* ← recorta la imagen en círculo */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #cfbff0;       /* color de fondo por si la imagen tarda en cargar */
+}
+
+.chatbot-avatar img {
+  height: 54px;
+  object-fit: cover;         /* ← rellena el círculo sin deformar */
+  display: block;
+  pointer-events: none;
 }
 
 .chatbot-header strong { display: block; font-size: 0.9rem; }

@@ -65,7 +65,6 @@ function Chatbot() {
     />
         </motion.button>
       )}
-      {/* ── Ventana del chat ── */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -75,18 +74,22 @@ function Chatbot() {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25 }}
           >
-            {/* Header */}
+          
           <div className="chatbot-header">
-            <div className="chatbot-avatar">SWS</div>
+            <div className="chatbot-avatar">
+              <img
+                src="https://res.cloudinary.com/dzmgxz55b/image/upload/v1775727259/icon_chatbot_twfh2z.png"
+                alt="SWS"
+              />
+            </div>
             <div style={{ flex: 1 }}>
               <strong>StudiosWebSites</strong>
               <span className="chatbot-status">● En línea</span>
             </div>
-            {/* ← Cruz aquí dentro */}
+            
             <button className="chatbot-close" onClick={() => setOpen(false)}>✕</button>
           </div>
 
-            {/* Mensajes */}
             <div className="chatbot-messages">
               {messages.map((msg, i) => (
                 <motion.div
@@ -106,7 +109,6 @@ function Chatbot() {
               <div ref={bottomRef} />
             </div>
 
-            {/* Input */}
             <div className="chatbot-input-wrap">
               <input
                 className="chatbot-input"
