@@ -1,181 +1,106 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import './CookieBanner.css'
-
-const STORAGE_KEY = 'sws_cookie_consent'
-
-const defaultPrefs = {
-  essential: true,      // siempre activas
-  analytics: false,
-  marketing: false,
-  preferences: false,
-}
 
 function CookieBanner() {
   const [visible, setVisible] = useState(false)
-  const [showModal, setShowModal] = useState(false)
-  const [prefs, setPrefs] = useState(defaultPrefs)
+  const [showConfig, setShowConfig] = useState(false)
+  const [prefs, setPrefs] = useState({ analytics: false, marketing: false })
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY)
-    if (!saved) {
-      setTimeout(() => setVisible(true), 800) // pequeño delay elegante
-    }
+    const consent = localStorage.getItem('cookie_consent')
+    if (!consent) setVisible(true)
   }, [])
 
-  const save = (newPrefs) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...newPrefs, savedAt: Date.now() }))
-    setVisible(false)
-    setShowModal(false)
-  }
-
   const acceptAll = () => {
-    const all = { essential: true, analytics: true, marketing: true, preferences: true }
-    setPrefs(all)
-    save(all)
+    localStorage.setItem('cookie_consent', JSON.stringify({ analytics: true, marketing: true }))
+    setVisible(false)
   }
 
   const rejectAll = () => {
-    save(defaultPrefs)
+    localStorage.setItem('cookie_consent', JSON.stringify({ analytics: false, marketing: false }))
+    setVisible(false)
   }
 
-  const saveCustom = () => {
-    save(prefs)
-  }
-
-  const toggle = (key) => {
-    if (key === 'essential') return
-    setPrefs(prev => ({ ...prev, [key]: !prev[key] }))
+  const savePrefs = () => {
+    localStorage.setItem('cookie_consent', JSON.stringify(prefs))
+    setVisible(false)
   }
 
   if (!visible) return null
 
   return (
-    <>
-      {/* ── Banner ── */}
-      {!showModal && (
-        <div className="ck-overlay-anim">
-          <div className="ck-banner">
-            <div className="ck-banner-left">
-              <div className="ck-logo-row">
-                <span className="ck-shield">🔒</span>
-                <strong className="ck-brand">Tu privacidad importa</strong>
-              </div>
-              <p className="ck-banner-text">
-                Usamos cookies propias y de terceros para mejorar tu experiencia,
-                analizar el tráfico y personalizar el contenido. Puedes aceptarlas
-                todas, rechazarlas o configurar tus preferencias.
-              </p>
-              <a
-                href="/politica-de-cookies"
-                className="ck-policy-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Política de cookies →
-              </a>
-            </div>
-
-            <div className="ck-banner-actions">
-              <button className="ck-btn ck-btn-ghost" onClick={rejectAll}>
-                Rechazar todo
-              </button>
-              <button className="ck-btn ck-btn-outline" onClick={() => setShowModal(true)}>
-                Configurar
-              </button>
-              <button className="ck-btn ck-btn-primary" onClick={acceptAll}>
-                Aceptar todo
-              </button>
-            </div>
-          </div>
+    <div className="cookie-overlay">
+      <div className="cookie-banner">
+        <div className="cookie-header">
+          <span className="cookie-icon">🍪</span>
+          <h3>Usamos cookies</h3>
         </div>
-      )}
 
-      {/* ── Modal de configuración ── */}
-      {showModal && (
-        <div className="ck-modal-backdrop">
-          <div className="ck-modal">
-            <div className="ck-modal-header">
-              <div>
-                <h2 className="ck-modal-title">Preferencias de privacidad</h2>
-                <p className="ck-modal-subtitle">
-                  Elige qué cookies deseas permitir. Puedes cambiar esta configuración en cualquier momento.
-                </p>
-              </div>
-              <button className="ck-modal-close" onClick={() => setShowModal(false)}>✕</button>
+        {!showConfig ? (
+          <>
+            <p className="cookie-text">
+              Utilizamos cookies propias y de terceros para mejorar tu experiencia de navegación
+              y analizar el tráfico del sitio. Puedes aceptarlas, rechazarlas o configurarlas.
+              Consulta nuestra{' '}
+              <Link to="/politica-cookies" className="cookie-link">Política de Cookies</Link>
+              {' '}y{' '}
+              <Link to="/privacidad" className="cookie-link">Política de Privacidad</Link>.
+            </p>
+            <div className="cookie-actions">
+              <button className="cookie-btn cookie-btn--reject" onClick={rejectAll}>Rechazar</button>
+              <button className="cookie-btn cookie-btn--config" onClick={() => setShowConfig(true)}>Configurar</button>
+              <button className="cookie-btn cookie-btn--accept" onClick={acceptAll}>Aceptar todo</button>
             </div>
-
-            <div className="ck-modal-body">
-              {[
-                {
-                  key: 'essential',
-                  label: 'Cookies esenciales',
-                  badge: 'Siempre activas',
-                  description: 'Necesarias para el funcionamiento básico del sitio. No se pueden desactivar.',
-                },
-                {
-                  key: 'analytics',
-                  label: 'Cookies analíticas',
-                  badge: null,
-                  description: 'Nos ayudan a entender cómo interactúas con el sitio para mejorar la experiencia.',
-                },
-                {
-                  key: 'marketing',
-                  label: 'Cookies de marketing',
-                  badge: null,
-                  description: 'Se usan para mostrarte publicidad relevante dentro y fuera de nuestra web.',
-                },
-                {
-                  key: 'preferences',
-                  label: 'Cookies de preferencias',
-                  badge: null,
-                  description: 'Recuerdan tus ajustes personales como idioma o región.',
-                },
-              ].map(({ key, label, badge, description }) => (
-                <div className="ck-row" key={key}>
-                  <div className="ck-row-info">
-                    <div className="ck-row-title-wrap">
-                      <span className="ck-row-label">{label}</span>
-                      {badge && <span className="ck-badge">{badge}</span>}
-                    </div>
-                    <p className="ck-row-desc">{description}</p>
-                  </div>
-                  <label className={`ck-switch ${key === 'essential' ? 'ck-switch-disabled' : ''}`}>
-                    <input
-                      type="checkbox"
-                      checked={prefs[key]}
-                      onChange={() => toggle(key)}
-                      disabled={key === 'essential'}
-                    />
-                    <span className="ck-slider" />
-                  </label>
+          </>
+        ) : (
+          <>
+            <div className="cookie-prefs">
+              <div className="cookie-pref-item">
+                <div>
+                  <strong>Cookies necesarias</strong>
+                  <p>Imprescindibles para el funcionamiento del sitio.</p>
                 </div>
-              ))}
-            </div>
-
-            <div className="ck-modal-footer">
-              <button className="ck-btn ck-btn-ghost" onClick={rejectAll}>
-                Rechazar todo
-              </button>
-              <div className="ck-modal-footer-right">
-                <button className="ck-btn ck-btn-outline" onClick={saveCustom}>
-                  Guardar selección
-                </button>
-                <button className="ck-btn ck-btn-primary" onClick={acceptAll}>
-                  Aceptar todo
-                </button>
+                <span className="cookie-badge">Siempre activas</span>
+              </div>
+              <div className="cookie-pref-item">
+                <div>
+                  <strong>Cookies analíticas</strong>
+                  <p>Nos ayudan a entender cómo usas el sitio.</p>
+                </div>
+                <label className="cookie-toggle">
+                  <input
+                    type="checkbox"
+                    checked={prefs.analytics}
+                    onChange={e => setPrefs(p => ({ ...p, analytics: e.target.checked }))}
+                  />
+                  <span className="cookie-slider" />
+                </label>
+              </div>
+              <div className="cookie-pref-item">
+                <div>
+                  <strong>Cookies de marketing</strong>
+                  <p>Permiten mostrarte publicidad personalizada.</p>
+                </div>
+                <label className="cookie-toggle">
+                  <input
+                    type="checkbox"
+                    checked={prefs.marketing}
+                    onChange={e => setPrefs(p => ({ ...p, marketing: e.target.checked }))}
+                  />
+                  <span className="cookie-slider" />
+                </label>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-    </>
+            <div className="cookie-actions">
+              <button className="cookie-btn cookie-btn--reject" onClick={() => setShowConfig(false)}>Volver</button>
+              <button className="cookie-btn cookie-btn--accept" onClick={savePrefs}>Guardar preferencias</button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
   )
-}
-
-// Hook para leer consentimiento desde cualquier componente
-export function useCookieConsent() {
-  const raw = localStorage.getItem(STORAGE_KEY)
-  return raw ? JSON.parse(raw) : defaultPrefs
 }
 
 export default CookieBanner

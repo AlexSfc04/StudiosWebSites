@@ -20,6 +20,8 @@ import BlogArticlePage from './pages/BlogArticlePage'
 import ProjectPage from './pages/ProjectPage'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import ConfirmarNewsletterPage from './pages/ConfirmarNewsletterPage'
+import PoliticaPrivacidad from './pages/PoliticaPrivacidad'
+import PoliticaCookies from './pages/PoliticaCookies'
 
 function App() {
   const location = useLocation()
@@ -61,6 +63,8 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/projects" element={<AdminProjects />} />
           <Route path="/admin/articles" element={<AdminArticles />} />
+          <Route path="/privacidad" element={<PoliticaPrivacidad />} />
+          <Route path="/politica-cookies" element={<PoliticaCookies />} />
         </Routes>
       </AnimatePresence>
     </AuthProvider>

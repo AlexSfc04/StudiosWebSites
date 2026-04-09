@@ -67,9 +67,9 @@ function Footer() {
           <div className="footer-bottom-content">
             <p>&copy; 2026 StudiosWebSites. Todos los derechos reservados.</p>
             <div className="footer-legal">
-              <a href="#privacy">Privacidad</a>
+              <a href="/privacidad">Privacidad</a>
               <span>•</span>
-              <a href="#terms">Términos</a>
+              <a href="/politica-cookies">Cookies</a>
             </div>
           </div>
         </div>
