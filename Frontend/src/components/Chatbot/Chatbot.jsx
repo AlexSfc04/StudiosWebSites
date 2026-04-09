@@ -59,7 +59,10 @@ function Chatbot() {
           whileTap={{ scale: 0.95 }}
           aria-label="Abrir chat"
         >
-          💬
+        <img
+      src="https://res.cloudinary.com/dzmgxz55b/image/upload/v1775727259/icon_chatbot_twfh2z.png"
+      alt="Chatbot"
+    />
         </motion.button>
       )}
       {/* ── Ventana del chat ── */}

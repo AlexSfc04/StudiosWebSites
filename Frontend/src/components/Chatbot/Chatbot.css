@@ -10,17 +10,31 @@
 }
 
 .chatbot-bubble {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
-  font-size: 1.4rem;
+  background: #6c63ff;       /* o el color que tengas */
   border: none;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(99,102,241,0.4);
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  padding: 0;                 /* ← importante para que la imagen no se deforme */
+  overflow: hidden;           /* ← recorta si la imagen se sale */
+  z-index: 9999;
+}
+
+/* ✅ Hace que la imagen encaje perfectamente en el botón */
+.chatbot-bubble img {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;       /* evita que el drag de la imagen interfiera con el click */
 }
 
 .chatbot-window {
