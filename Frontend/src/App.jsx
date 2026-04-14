@@ -34,29 +34,11 @@ function App() {
           <Route path="/" element={<Layout><PageTransition><HomePage /></PageTransition></Layout>} />
           <Route path="/servicios" element={<Layout><PageTransition><ServicesPage /></PageTransition></Layout>} />
           <Route path="/sectores" element={<Layout><PageTransition><SectorsPage /></PageTransition></Layout>} />
-
-          {/* ✅ ProtectedRoute DENTRO del Layout */}
-          <Route path="/portfolio" element={
-            <Layout>
-              <PageTransition>
-                <ProtectedRoute>
-                  <PortfolioPage />
-                </ProtectedRoute>
-              </PageTransition>
-            </Layout>
-          } />
-          <Route path="/blog" element={
-            <Layout>
-              <PageTransition>
-                <ProtectedRoute>
-                  <BlogPage />
-                </ProtectedRoute>
-              </PageTransition>
-            </Layout>
-          } />
+          <Route path="/portfolio" element={<Layout><PageTransition><ProtectedRoute><PortfolioPage /></ProtectedRoute></PageTransition></Layout>} />
+          <Route path="/blog" element={<Layout><PageTransition><ProtectedRoute><BlogPage /></ProtectedRoute></PageTransition></Layout>} />
           <Route path="/confirmar-newsletter" element={<ConfirmarNewsletterPage />} />
-          <Route path="/portfolio/:id" element={<ProtectedRoute><ProjectPage /></ProtectedRoute>} />
-          <Route path="/blog/:id" element={<ProtectedRoute><BlogArticlePage /></ProtectedRoute>} />
+          <Route path="/portfolio/:id" element={<Layout><PageTransition><ProtectedRoute><ProjectPage /></ProtectedRoute></PageTransition></Layout>} />
+          <Route path="/blog/:id" element={<Layout><PageTransition><ProtectedRoute><BlogArticlePage /></ProtectedRoute></PageTransition></Layout>} />
           <Route path="/contacto" element={<Layout><PageTransition><ContactPage /></PageTransition></Layout>} />
           <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
           <Route path="/registro" element={<PageTransition><RegisterPage /></PageTransition>} />
