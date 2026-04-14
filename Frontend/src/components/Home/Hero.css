@@ -1,12 +1,16 @@
 .hero {
+  position: relative;
+  overflow: hidden;
   background: linear-gradient(180deg, #f8f7ff 0%, #ffffff 100%);
-  padding: 60px 20px 50px;
+  padding: 64px 16px 48px;
   text-align: center;
 }
 
 .hero-container {
-  max-width: 500px;
+  max-width: 700px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-content {
@@ -14,10 +18,10 @@
 }
 
 .hero-title {
-  font-size: 2.75rem;
+  font-size: clamp(2rem, 7vw, 3rem);
   font-weight: 800;
   color: #1a1a1a;
-  line-height: 1.2;
+  line-height: 1.15;
   margin-bottom: 16px;
 }
 
@@ -26,28 +30,51 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  display: inline-block;   
+  min-height: 1.3em;        
+  vertical-align: bottom;
+}
+
+.hero-title-purple .Typewriter {
   display: inline-block;
+}
+
+.hero-title-purple .Typewriter__wrapper {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title-purple .Typewriter__cursor {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 300;
 }
 
 .hero-title-black {
   color: #1a1a1a;
-  display: inline-block;
+  display: inline;
 }
 
 .hero-description {
-  font-size: 0.938rem;
+  font-size: clamp(0.95rem, 3.2vw, 1.125rem);
   color: #64748b;
-  line-height: 1.6;
-  margin-bottom: 32px;
-  padding: 0 20px;
+  line-height: 1.65;
+  margin-bottom: 28px;
+  padding: 0;
+  max-width: 640px;
+  margin-inline: auto;
 }
 
 .hero-btn {
   display: inline-block;
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: white;
-  padding: 14px 36px;
-  border-radius: 8px;
+  padding: 14px 28px;
+  border-radius: 10px;
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
@@ -60,68 +87,71 @@
   box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
 }
 
-@media (min-width: 768px) {
-  .hero {
-    padding: 100px 20px 80px;
-  }
-
-  .hero-container {
-    max-width: 700px;
-  }
-
-  .hero-title {
-    font-size: 3rem;
-  }
-
-  .hero-description {
-    font-size: 1.125rem;
-    padding: 0;
-  }
-}
-
-.hero {
-  position: relative;
-  overflow: hidden;
-}
-
-/* Orbes animados */
+/* Orbes */
 .hero-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.15;
+  filter: blur(70px);
+  opacity: 0.12;
   animation: orbFloat 8s ease-in-out infinite;
   pointer-events: none;
+  z-index: 1;
 }
 
 .hero-orb-1 {
-  width: 500px;
-  height: 500px;
+  width: 240px;
+  height: 240px;
   background: #6366f1;
-  top: -100px;
-  right: -100px;
+  top: -60px;
+  right: -80px;
   animation-delay: 0s;
 }
 
 .hero-orb-2 {
-  width: 350px;
-  height: 350px;
+  width: 180px;
+  height: 180px;
   background: #8b5cf6;
-  bottom: -50px;
-  left: -80px;
+  bottom: -40px;
+  left: -50px;
   animation-delay: 2s;
 }
 
 .hero-orb-3 {
-  width: 250px;
-  height: 250px;
+  width: 140px;
+  height: 140px;
   background: #06b6d4;
-  top: 50%;
-  left: 40%;
+  top: 45%;
+  left: 50%;
+  transform: translateX(-50%);
   animation-delay: 4s;
 }
 
 @keyframes orbFloat {
   0%, 100% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-30px) scale(1.05); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding: 100px 20px 80px;
+  }
+
+  .hero-orb-1 {
+    width: 420px;
+    height: 420px;
+    top: -100px;
+    right: -100px;
+  }
+
+  .hero-orb-2 {
+    width: 300px;
+    height: 300px;
+    left: -80px;
+    bottom: -50px;
+  }
+
+  .hero-orb-3 {
+    width: 220px;
+    height: 220px;
+  }
 }
