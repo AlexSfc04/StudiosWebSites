@@ -1,0 +1,83 @@
+services:
+  - type: pserv
+    name: mysql
+    plan: standard
+    env: docker
+    repo: https://github.com/render-examples/mysql
+    autoDeploy: false
+    disk:
+      name: mysql-data
+      mountPath: /var/lib/mysql
+      sizeGB: 10
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        sync: false          
+      - key: MYSQL_DATABASE
+        value: auth_db
+
+  - type: web
+    name: backend
+    env: node
+    plan: free
+    rootDir: backend        
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      # Base de datos
+      - key: PORT
+        value: 5000
+      - key: DB_HOST
+        fromService:
+          type: pserv
+          name: mysql
+          property: host  
+      - key: DB_USER
+        value: root
+      - key: DB_PASSWORD
+        fromService:
+          type: pserv
+          name: mysql
+          envVarKey: MYSQL_ROOT_PASSWORD
+      - key: DB_NAME
+        fromService:
+          type: pserv
+          name: mysql
+          envVarKey: MYSQL_DATABASE
+
+      - key: JWT_SECRET
+        sync: false           
+
+      - key: CLIENT_URL
+        sync: false           
+      - key: FRONTEND_URL
+        sync: false          
+
+      # SMTP / Email
+      - key: CONTACT_EMAIL
+        value: studioswebsites2026@gmail.com
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USER
+        value: studioswebsites2026@gmail.com
+      - key: SMTP_PASS
+        sync: false          
+
+      # IA
+      - key: GROQ_API_KEY
+        sync: false           
+
+  - type: web
+    name: frontend
+    env: static
+    plan: free
+    rootDir: frontend 
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: backend
+          property: host  
