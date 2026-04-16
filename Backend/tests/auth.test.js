@@ -21,6 +21,6 @@ describe('POST /api/auth/login', () => {
       .post('/auth/login')
       .send({ email: 'alexamorpaypal@gmail.com', password: '' })
     expect(res.statusCode).toBe(200)
-    expect(res.body).toHaveProperty('token')
+    expect(res.body).toHaveProperty('token') 
   })
 })
