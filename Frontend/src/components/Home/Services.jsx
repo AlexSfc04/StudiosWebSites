@@ -1,12 +1,13 @@
 import AnimatedSection from '../AnimatedSection/AnimatedSection'
 import './Services.css'
+import { CheckmarkFilled } from '@carbon/icons-react'
 
 function Services() {
   const services = [
-    { name: 'Diseño profesional', icon: '✓' },
-    { name: 'Funcionalidad', icon: '✓' },
-    { name: 'Identidad de marca', icon: '✓' },
-    { name: 'Contenido SEO', icon: '✓' },
+    { name: 'Diseño profesional'},
+    { name: 'Funcionalidad'},
+    { name: 'Identidad de marca'},
+    { name: 'Contenido SEO'},
   ]
 
   return (
@@ -26,10 +27,7 @@ function Services() {
             <AnimatedSection key={index} delay={index * 0.1} direction="left">
               <div className="service-item">
                 <div className="service-check">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <circle cx="10" cy="10" r="9" stroke="#10b981" strokeWidth="2"/>
-                    <path d="M6 10L9 13L14 7" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <CheckmarkFilled size={20} />
                 </div>
                 <span className="service-name">{service.name}</span>
               </div>

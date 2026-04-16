@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import './PoliticasLegales.css'
+import { ArrowLeft,ArrowRight } from '@carbon/icons-react'
 
 function PoliticaCookies() {
   const limpiarCookies = () => {
@@ -10,7 +11,7 @@ function PoliticaCookies() {
   return (
     <div className="legal-page">
       <div className="legal-container">
-        <Link to="/" className="legal-back">← Volver al inicio</Link>
+        <Link to="/" className="legal-back"><ArrowLeft size={16} /> Volver al inicio</Link>
 
         <h1>Política de Cookies</h1>
         <p className="legal-updated">Última actualización: abril de 2026</p>
@@ -103,7 +104,7 @@ function PoliticaCookies() {
         </section>
 
         <div className="legal-footer">
-          <Link to="/privacidad">Ver Política de Privacidad →</Link>
+          <Link to="/privacidad">Ver Política de Privacidad <ArrowRight size={16} /></Link>
         </div>
       </div>
     </div>

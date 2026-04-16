@@ -61,6 +61,12 @@
   flex-shrink: 0;
 }
 
+.service-feature-item svg {
+  flex-shrink: 0;
+  color: #6366f1;   /* morado, igual que el stroke del SVG original */
+  fill: currentColor;
+}
+
 @media (max-width: 768px) {
   .services-list-section {
     padding: 60px 20px;

@@ -214,6 +214,13 @@ p {
   letter-spacing: 1px;
 }
 
+svg.cds--icon,
+[class*="carbon"] svg {
+  vertical-align: middle;
+  display: inline-block;
+  fill: currentColor;
+}
+
 /* Animaciones */
 @keyframes fadeInUp {
   from {

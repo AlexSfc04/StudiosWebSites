@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './ContactPage.css'
 import api from '../services/api'
-import { Phone, Mail, MessageCircle, MapPin } from 'lucide-react'
+import { Phone, Email, Chat, Location } from '@carbon/icons-react'
 
 function ContactPage() {
   const [formData, setFormData] = useState({
@@ -82,7 +82,7 @@ function ContactPage() {
       </li>
       <li className="contact-info-item">
         <div className="contact-info-icon contact-info-icon--purple">
-          <Mail size={20} />
+          <Email size={20} />
         </div>
         <div>
           <strong>Email</strong>
@@ -92,7 +92,7 @@ function ContactPage() {
       </li>
       <li className="contact-info-item">
         <div className="contact-info-icon contact-info-icon--green">
-          <MessageCircle size={20} />
+          <Chat size={20} />
         </div>
         <div>
           <strong>WhatsApp</strong>
@@ -102,7 +102,7 @@ function ContactPage() {
       </li>
       <li className="contact-info-item">
         <div className="contact-info-icon contact-info-icon--orange">
-          <MapPin size={20} />
+          <Location size={20} />
         </div>
         <div>
           <strong>Ubicación</strong>

@@ -55,7 +55,7 @@
   align-items: center;
   gap: 10px;
   color: white;
-  justify-content: space-between; /* ← añade esto */
+  justify-content: space-between;
 }
 
 
@@ -63,17 +63,17 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  overflow: hidden;          /* ← recorta la imagen en círculo */
+  overflow: hidden;         
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #cfbff0;       /* color de fondo por si la imagen tarda en cargar */
+  background: #cfbff0;       
 }
 
 .chatbot-avatar img {
   height: 54px;
-  object-fit: cover;         /* ← rellena el círculo sin deformar */
+  object-fit: cover;         
   display: block;
   pointer-events: none;
 }

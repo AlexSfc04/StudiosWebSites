@@ -57,10 +57,10 @@
 }
 
 .maintenance-btn {
-  display: block;
-  width: 100%;
-  max-width: 280px;
-  margin: 0 auto;
+  display: inline-flex;      /* ← cambia block por inline-flex */
+  align-items: center;       /* ← centra la flecha con el texto */
+  gap: 8px;                  /* ← espacio entre texto y flecha */
+  /* quita width: 100% y max-width, margin: 0 auto — no hacen falta */
   padding: 14px 24px;
   background: white;
   color: #1a1a1a;
@@ -70,7 +70,6 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-align: center;
   text-decoration: none;
 }
 
@@ -80,6 +79,11 @@
   color: #6366f1;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.maintenance-check svg {
+  color: #10b981;
+  fill: currentColor;
 }
 
 @media (min-width: 768px) {

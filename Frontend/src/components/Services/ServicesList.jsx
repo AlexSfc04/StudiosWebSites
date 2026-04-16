@@ -1,5 +1,6 @@
 import './ServicesList.css'
 import AnimatedSection from '../AnimatedSection/AnimatedSection'
+import { CheckmarkFilled } from '@carbon/icons-react'
 
 function ServicesList() {
   const services = [
@@ -80,16 +81,13 @@ function ServicesList() {
                 <p className="service-card-description">{service.description}</p>
 
                 <ul className="service-card-features">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="service-feature-item">
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <circle cx="10" cy="10" r="9" stroke="#6366f1" strokeWidth="2" />
-                        <path d="M6 10L9 13L14 7" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+  {service.features.map((feature, idx) => (
+    <li key={idx} className="service-feature-item">
+      <CheckmarkFilled size={20} />
+      <span>{feature}</span>
+    </li>
+  ))}
+</ul>
               </div>
             </AnimatedSection>
           ))}

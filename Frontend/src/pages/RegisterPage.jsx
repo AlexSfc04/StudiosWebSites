@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import './Auth.css'
+import { Globe, Analytics, Email, ShoppingCart, Phone } from '@carbon/icons-react'
 
 
 function Register() {
@@ -104,19 +105,19 @@ function Register() {
 
           <ul className="auth-brand-features">
             <li>
-              <div className="auth-feature-icon-wrap">🌐</div>
+              <div className="auth-feature-icon-wrap"><Globe size={22} /></div>
               <span>Visualiza y gestiona tu <strong>página web</strong></span>
             </li>
             <li>
-              <div className="auth-feature-icon-wrap">📊</div>
+              <div className="auth-feature-icon-wrap"><Analytics size={22} /></div>
               <span>Consulta tus <strong>estadísticas</strong> en tiempo real</span>
             </li>
             <li>
-              <div className="auth-feature-icon-wrap">📩</div>
+              <div className="auth-feature-icon-wrap"><Email size={22} /></div>
               <span>Lee tus <strong>mensajes de contacto</strong></span>
             </li>
             <li>
-              <div className="auth-feature-icon-wrap">🛒</div>
+              <div className="auth-feature-icon-wrap"><ShoppingCart size={22} /></div>
               <span>Administra tus <strong>servicios contratados</strong></span>
             </li>
           </ul>
@@ -138,8 +139,8 @@ function Register() {
 
           <div className="auth-brand-contact">
             <p>Atención al cliente</p>
-            <p>📞 +34 611 491 647</p>
-            <p>📧 infostudioswebsites2026@gmail.com</p>
+            <p><Phone size={14} /> +34 611 491 647</p>
+            <p><Email size={14} /> infostudioswebsites2026@gmail.com</p>
           </div>
 
         </div>

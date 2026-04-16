@@ -332,6 +332,16 @@
   margin-bottom: 4px;
 }
 
+.auth-feature-icon-wrap svg {
+  fill: rgb(213, 190, 254);
+}
+
+.auth-brand-contact p svg {
+  color: rgba(255, 255, 255, 0.6);
+  fill: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+}
+
 /* ===== RESPONSIVE ===== */
 
 /* Tablet grande (1024px) */

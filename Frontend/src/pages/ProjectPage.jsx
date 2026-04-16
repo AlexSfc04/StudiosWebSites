@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import './Auth.css'
+import { Globe, Analytics, ShoppingCart, Flash, Idea, Phone, Email } from '@carbon/icons-react'
 
 function Register() {
   const [name, setName] = useState('')
@@ -96,35 +97,35 @@ function Register() {
 
           <ul className="auth-brand-features">
             <li>
-              <span className="auth-feature-icon">🌐</span>
+              <span className="auth-feature-icon"><Globe size={22} /></span>
               <span>View and manage your <strong>website</strong></span>
             </li>
             <li>
-              <span className="auth-feature-icon">📊</span>
+              <span className="auth-feature-icon"><Analytics size={22} /></span>
               <span>See your <strong>statistics</strong></span>
             </li>
             <li>
-              <span className="auth-feature-icon">📩</span>
+              <div className="auth-feature-icon-wrap"><Email size={22} /></div>
               <span>Read your <strong>contact messages</strong></span>
             </li>
             <li>
-              <span className="auth-feature-icon">🛒</span>
+              <div className="auth-feature-icon-wrap"><ShoppingCart size={22} /></div>
               <span>Manage your <strong>services</strong></span>
             </li>
             <li>
-              <span className="auth-feature-icon">⚡</span>
+              <span className="auth-feature-icon"><Flash size={22} /></span>
               <span>Get <strong>fast support</strong> anytime</span>
             </li>
             <li>
-              <span className="auth-feature-icon">💡</span>
+              <span className="auth-feature-icon"><Idea size={22} /></span>
               <span>Access <strong>exclusive tips</strong> and resources</span>
             </li>
           </ul>
 
           <div className="auth-brand-contact">
             <p><strong>Customer support:</strong></p>
-            <p>📞 +34 611 491 647</p>
-            <p>📧 infostudioswebsites2026@gmail.com</p>
+            <p><Phone size={14} /> +34 611 491 647</p>
+            <p><Email size={14} /> infostudioswebsites2026@gmail.com</p>
           </div>
         </div>
       </div>

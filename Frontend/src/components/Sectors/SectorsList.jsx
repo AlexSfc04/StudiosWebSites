@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import './SectorsList.css'
+import { CheckmarkFilled } from '@carbon/icons-react'
 
 function SectorsList() {
   const sectors = [
@@ -14,8 +15,7 @@ function SectorsList() {
         'Sistema de reserva de mesas',
         'Reseñas de clientes',
         'Integración con redes sociales'
-      ],
-      buttonColor: 'orange'
+      ]
     },
     {
       title: 'Pequeños Negocios',
@@ -28,8 +28,7 @@ function SectorsList() {
         'Testimonios de clientes',
         'Mapa de ubicación',
         'Diseño responsive'
-      ],
-      buttonColor: 'purple'
+      ]
     },
     {
       title: 'Tiendas y Comercio',
@@ -42,8 +41,7 @@ function SectorsList() {
         'Gestión de inventario',
         'Integración de envíos',
         'Cuentas de clientes'
-      ],
-      buttonColor: 'pink'
+      ]
     },
     {
       title: 'Gimnasios y Fitness',
@@ -56,8 +54,7 @@ function SectorsList() {
         'Reservas online',
         'Seguimiento de progreso',
         'Blog de nutrición'
-      ],
-      buttonColor: 'blue'
+      ]
     }
   ]
 
@@ -82,20 +79,11 @@ function SectorsList() {
               <ul className="sector-features">
                 {sector.features.map((feature, idx) => (
                   <li key={idx} className="sector-feature-item">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                      <circle cx="9" cy="9" r="8" stroke="#10b981" strokeWidth="2"/>
-                      <path d="M5 9L8 12L13 6" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span>{feature}</span>
-                  </li>
+                  <CheckmarkFilled size={20} />
+                  <span>{feature}</span>
+                </li>
                 ))}
               </ul>
-              <Link
-                to="/contacto"
-                className={`sector-button sector-button-${sector.buttonColor}`}
-              >
-                Solicitar presupuesto
-              </Link>
             </div>
           </div>
         ))}

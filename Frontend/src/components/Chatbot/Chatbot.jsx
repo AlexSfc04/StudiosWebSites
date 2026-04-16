@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './Chatbot.css'
+import { Chat, Close } from '@carbon/icons-react'
 
 function Chatbot() {
   const [open, setOpen] = useState(false)
@@ -87,7 +88,9 @@ function Chatbot() {
               <span className="chatbot-status">● En línea</span>
             </div>
             
-            <button className="chatbot-close" onClick={() => setOpen(false)}>✕</button>
+            <button className="chatbot-close" onClick={() => setOpen(false)} aria-label="Cerrar chat">
+  <Close size={20} />
+</button>
           </div>
 
             <div className="chatbot-messages">

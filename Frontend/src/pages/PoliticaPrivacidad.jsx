@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import './PoliticasLegales.css'
+import { ArrowLeft, ArrowRight } from '@carbon/icons-react'
 
 function PoliticaPrivacidad() {
   return (
     <div className="legal-page">
       <div className="legal-container">
-        <Link to="/" className="legal-back">← Volver al inicio</Link>
+        <Link to="/" className="legal-back"><ArrowLeft size={16} /> Volver al inicio</Link>
 
         <h1>Política de Privacidad</h1>
         <p className="legal-updated">Última actualización: abril de 2026</p>
@@ -79,7 +80,7 @@ function PoliticaPrivacidad() {
         </section>
 
         <div className="legal-footer">
-          <Link to="/politica-cookies">Ver Política de Cookies →</Link>
+          <Link to="/politica-cookies">Ver Política de Cookies <ArrowRight size={16} /></Link>
         </div>
       </div>
     </div>

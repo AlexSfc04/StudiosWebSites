@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Email, Phone, Location } from '@carbon/icons-react'
 import './Footer.css'
 
 function Footer() {
@@ -44,19 +45,19 @@ function Footer() {
             <h4 className="footer-title">Contacto</h4>
             <ul className="footer-contact">
               <li>
-                <span className="contact-icon">📧</span>
+                <span className="contact-icon"><Email size={18} /></span>
                 <a href="mailto:infotudioswebsites2026@gmail.com">
                   infotudioswebsites2026@gmail.com
                 </a>
               </li>
               <li>
-                <span className="contact-icon">📱</span>
-                <a href="tel:+34XXXXXXXXX">
+                <span className="contact-icon"><Phone size={18} /></span>
+                <a href="tel:+34 611 49 16 47">
                   +34 611 491 647
                 </a>
               </li>
               <li>
-                <span className="contact-icon">📍</span>
+                <span className="contact-icon"><Location size={18} /></span>
                 <span>Sevilla, Andalucía, ES</span>
               </li>
             </ul>

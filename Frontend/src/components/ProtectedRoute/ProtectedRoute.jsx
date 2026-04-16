@@ -1,11 +1,11 @@
 import { useAuth } from '../../contexts/AuthContext'
 import { Link } from 'react-router-dom'
 import './ProtectedRoute.css'
+import { Locked } from '@carbon/icons-react'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
 
-  // ✅ Mientras carga, pantalla completa en blanco — el footer no aparece
   if (loading) {
     return <div className="protected-loading" />
   }
