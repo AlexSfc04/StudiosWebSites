@@ -2,6 +2,16 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './Chatbot.css'
 import { Chat, Close } from '@carbon/icons-react'
+const API_URL = import.meta.env.VITE_API_URL
+
+const res = await fetch(`${API_URL}/chatbot`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    message: text,
+    history: newMessages.slice(1),
+  }),
+})
 
 function Chatbot() {
   const [open, setOpen] = useState(false)
