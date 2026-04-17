@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const Groq = require('groq-sdk')
-
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
 const SYSTEM_PROMPT = `Eres el asistente virtual de StudiosWebSites, una agencia de diseño y desarrollo web en Sevilla, España.
