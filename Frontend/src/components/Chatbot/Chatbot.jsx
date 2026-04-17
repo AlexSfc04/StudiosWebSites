@@ -26,7 +26,7 @@ function Chatbot() {
   setLoading(true)
 
   try {
-    const res = await fetch(`$/chatbot`, {
+    const res = await fetch(`/chatbot`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
