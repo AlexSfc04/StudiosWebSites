@@ -4,15 +4,6 @@ import './Chatbot.css'
 import { Chat, Close } from '@carbon/icons-react'
 const API_URL = import.meta.env.VITE_API_URL
 
-const res = await fetch(`${API_URL}/chatbot`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    message: text,
-    history: newMessages.slice(1),
-  }),
-})
-
 function Chatbot() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState([
@@ -36,7 +27,7 @@ function Chatbot() {
   setLoading(true)
 
   try {
-    const res = await fetch('http://localhost:5000/chatbot', {
+    const res = await fetch(`${API_URL}/chatbot`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
