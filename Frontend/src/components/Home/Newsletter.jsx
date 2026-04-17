@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import AnimatedSection from '../AnimatedSection/AnimatedSection'
 import './Newsletter.css'
+const API_URL = import.meta.env.VITE_API_URL
 
 function Newsletter() {
   const [email, setEmail] = useState('')
@@ -13,7 +14,7 @@ function Newsletter() {
   setEstado('loading')
 
   try {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/newsletter`, {  // ← URL completa
+    const res = await fetch(`${API_URL}/newsletter`, {  // ← URL completa
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),

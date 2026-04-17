@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './Chatbot.css'
 import { Close } from '@carbon/icons-react'
-
 const API_URL = import.meta.env.VITE_API_URL
 
 function Chatbot() {
