@@ -11,7 +11,7 @@ function Newsletter() {
 
   const handleSubmit = async (e) => {
   e.preventDefault()
-  setEstado('loading')
+  setEstado('loading') 
 
   try {
     const res = await fetch(`${API_URL}/newsletter`, {  // ← URL completa
