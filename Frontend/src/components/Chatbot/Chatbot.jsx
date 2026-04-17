@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './Chatbot.css'
-import { Chat, Close } from '@carbon/icons-react'
+import { Close } from '@carbon/icons-react'
+
+const API_URL = import.meta.env.VITE_API_URL
 
 function Chatbot() {
   const [open, setOpen] = useState(false)
@@ -14,44 +16,56 @@ function Chatbot() {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+  }, [messages, loading])
 
   const send = async () => {
-  const text = input.trim()
-  if (!text || loading) return
+    const text = input.trim()
+    if (!text || loading) return
 
-  const newMessages = [...messages, { from: 'user', text }]
-  setMessages(newMessages)
-  setInput('')
-  setLoading(true)
+    const newMessages = [...messages, { from: 'user', text }]
+    setMessages(newMessages)
+    setInput('')
+    setLoading(true)
 
-  try {
-    const res = await fetch(`/chatbot`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: text,
-        history: newMessages.slice(1), // Excluye el saludo inicial del bot
-      }),
-    })
-    const data = await res.json()
-    setMessages(prev => [...prev, { from: 'bot', text: data.answer }])
-  } catch {
-    setMessages(prev => [...prev, { from: 'bot', text: '❌ Error al conectar.' }])
-  } finally {
-    setLoading(false)
+    try {
+      const res = await fetch(`${API_URL}/chatbot`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text,
+          history: newMessages.slice(1),
+        }),
+      })
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`)
+      }
+
+      const data = await res.json()
+
+      setMessages(prev => [
+        ...prev,
+        { from: 'bot', text: data.answer || 'No he podido responder ahora mismo.' }
+      ])
+    } catch (error) {
+      setMessages(prev => [
+        ...prev,
+        { from: 'bot', text: '❌ Error al conectar con el servidor.' }
+      ])
+    } finally {
+      setLoading(false)
+    }
   }
-}
-
 
   const handleKey = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      send()
+    }
   }
 
   return (
     <div className="chatbot-wrapper">
-      {/* ── Burbuja flotante ── */}
-      {/* ✅ Solo aparece cuando el chat está cerrado */}
       {!open && (
         <motion.button
           className="chatbot-bubble"
@@ -60,12 +74,13 @@ function Chatbot() {
           whileTap={{ scale: 0.95 }}
           aria-label="Abrir chat"
         >
-        <img
-      src="https://res.cloudinary.com/dzmgxz55b/image/upload/v1775727259/icon_chatbot_twfh2z.png"
-      alt="Chatbot"
-    />
+          <img
+            src="https://res.cloudinary.com/dzmgxz55b/image/upload/v1775727259/icon_chatbot_twfh2z.png"
+            alt="Chatbot"
+          />
         </motion.button>
       )}
+
       <AnimatePresence>
         {open && (
           <motion.div
@@ -75,23 +90,27 @@ function Chatbot() {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25 }}
           >
-          
-          <div className="chatbot-header">
-            <div className="chatbot-avatar">
-              <img
-                src="https://res.cloudinary.com/dzmgxz55b/image/upload/v1775727259/icon_chatbot_twfh2z.png"
-                alt="SWS"
-              />
+            <div className="chatbot-header">
+              <div className="chatbot-avatar">
+                <img
+                  src="https://res.cloudinary.com/dzmgxz55b/image/upload/v1775727259/icon_chatbot_twfh2z.png"
+                  alt="SWS"
+                />
+              </div>
+
+              <div style={{ flex: 1 }}>
+                <strong>StudiosWebSites</strong>
+                <span className="chatbot-status">● En línea</span>
+              </div>
+
+              <button
+                className="chatbot-close"
+                onClick={() => setOpen(false)}
+                aria-label="Cerrar chat"
+              >
+                <Close size={20} />
+              </button>
             </div>
-            <div style={{ flex: 1 }}>
-              <strong>StudiosWebSites</strong>
-              <span className="chatbot-status">● En línea</span>
-            </div>
-            
-            <button className="chatbot-close" onClick={() => setOpen(false)} aria-label="Cerrar chat">
-  <Close size={20} />
-</button>
-          </div>
 
             <div className="chatbot-messages">
               {messages.map((msg, i) => (
@@ -104,11 +123,13 @@ function Chatbot() {
                   {msg.text}
                 </motion.div>
               ))}
+
               {loading && (
                 <div className="chatbot-msg bot chatbot-typing">
                   <span /><span /><span />
                 </div>
               )}
+
               <div ref={bottomRef} />
             </div>
 
@@ -117,11 +138,15 @@ function Chatbot() {
                 className="chatbot-input"
                 placeholder="Escribe tu mensaje..."
                 value={input}
-                onChange={e => setInput(e.target.value)}
+                onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKey}
                 disabled={loading}
               />
-              <button className="chatbot-send" onClick={send} disabled={loading || !input.trim()}>
+              <button
+                className="chatbot-send"
+                onClick={send}
+                disabled={loading || !input.trim()}
+              >
                 ➤
               </button>
             </div>
