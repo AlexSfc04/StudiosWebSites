@@ -2,42 +2,43 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import AnimatedSection from '../AnimatedSection/AnimatedSection'
 import './Newsletter.css'
+
 const API_URL = import.meta.env.VITE_API_URL
 
 function Newsletter() {
   const [email, setEmail] = useState('')
-  const [estado, setEstado] = useState('idle') // idle | loading | success | error | duplicate
+  const [estado, setEstado] = useState('idle')
   const [mensaje, setMensaje] = useState('')
 
   const handleSubmit = async (e) => {
-  e.preventDefault()
-  setEstado('loading') 
+    e.preventDefault()
+    setEstado('loading')
+    setMensaje('')
 
-  try {
-    const res = await fetch(`${API_URL}/newsletter`, {  // ← URL completa
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    })
+    try {
+      const res = await fetch(`${API_URL}/newsletter`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
 
-    const data = await res.json()
+      const data = await res.json()
 
-    if (res.status === 409) {
-      setEstado('duplicate')
-      setMensaje(data.message)
-    } else if (res.ok) {
-      setEstado('success')
-      setEmail('')
-    } else {
+      if (res.status === 409) {
+        setEstado('duplicate')
+        setMensaje(data.message)
+      } else if (res.ok) {
+        setEstado('success')
+        setEmail('')
+      } else {
+        setEstado('error')
+        setMensaje(data.message || 'Algo salió mal.')
+      }
+    } catch {
       setEstado('error')
-      setMensaje(data.message || 'Algo salió mal.')
+      setMensaje('Error al conectar con el servidor.')
     }
-  } catch {
-    setEstado('error')
-    setMensaje('Error al conectar con el servidor.')
   }
-}
-
 
   return (
     <section className="newsletter-section">
