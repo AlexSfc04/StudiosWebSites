@@ -14,7 +14,7 @@
 }
 
 .maintenance-title {
-  font-size: 1.875rem;
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
   font-weight: 700;
   color: #1a1a1a;
   margin: 0;
@@ -35,7 +35,7 @@
   background: white;
   border-radius: 10px;
   border: 1px solid #e5e7eb;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
 .maintenance-item:hover {
@@ -50,6 +50,11 @@
   height: 20px;
 }
 
+.maintenance-check svg {
+  color: #10b981;
+  fill: currentColor;
+}
+
 .maintenance-name {
   font-size: 0.938rem;
   font-weight: 500;
@@ -57,10 +62,9 @@
 }
 
 .maintenance-btn {
-  display: inline-flex;      /* ← cambia block por inline-flex */
-  align-items: center;       /* ← centra la flecha con el texto */
-  gap: 8px;                  /* ← espacio entre texto y flecha */
-  /* quita width: 100% y max-width, margin: 0 auto — no hacen falta */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 14px 24px;
   background: white;
   color: #1a1a1a;
@@ -81,34 +85,9 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.maintenance-check svg {
-  color: #10b981;
-  fill: currentColor;
-}
-
 @media (min-width: 768px) {
-  .maintenance-section {
-    padding: 80px 20px;
-  }
-
-  .maintenance-title {
-    font-size: 2.25rem;
-  }
-
-  .maintenance-list {
-    gap: 16px;
-    margin-bottom: 40px;
-  }
-
-  .maintenance-item {
-    padding: 18px 24px;
-  }
-
-  .maintenance-name {
-    font-size: 1rem;
-  }
-
-  .maintenance-btn {
-    font-size: 1rem;
-  }
+  .maintenance-section { padding: 80px 20px; }
+  .maintenance-item { padding: 18px 24px; }
+  .maintenance-name { font-size: 1rem; }
+  .maintenance-btn { font-size: 1rem; }
 }

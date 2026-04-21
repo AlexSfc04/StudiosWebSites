@@ -34,15 +34,14 @@
   gap: 20px;
 }
 
+/* ✅ Sin will-change ni preserve-3d que causan delays en móvil */
 .feature-card {
   background: white;
   padding: 28px 20px;
   border-radius: 12px;
   text-align: center;
   border: 1px solid #e5e7eb;
-  transition: all 0.3s ease;
-  transform-style: preserve-3d;
-  will-change: transform;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .feature-card:hover {
@@ -81,9 +80,7 @@
 }
 
 @media (min-width: 768px) {
-  .why-us-section {
-    padding: 80px 20px;
-  }
+  .why-us-section { padding: 80px 20px; }
 
   .features-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -92,11 +89,6 @@
     margin: 0 auto;
   }
 
-  .feature-card {
-    padding: 40px 30px;
-  }
-
-  .feature-icon-img {
-    max-width: 260px;
-  }
+  .feature-card { padding: 40px 30px; }
+  .feature-icon-img { max-width: 260px; }
 }

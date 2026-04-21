@@ -13,9 +13,7 @@
   z-index: 2;
 }
 
-.hero-content {
-  width: 100%;
-}
+.hero-content { width: 100%; }
 
 .hero-title {
   font-size: clamp(2rem, 7vw, 3rem);
@@ -30,14 +28,12 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  display: inline-block;   
-  min-height: 1.3em;        
+  display: inline-block;
+  min-height: 1.3em;
   vertical-align: bottom;
 }
 
-.hero-title-purple .Typewriter {
-  display: inline-block;
-}
+.hero-title-purple .Typewriter { display: inline-block; }
 
 .hero-title-purple .Typewriter__wrapper {
   background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
@@ -78,7 +74,7 @@
   text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
 }
 
@@ -87,13 +83,12 @@
   box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
 }
 
-/* Orbes */
+/* Orbes — ✅ sin translateX en el orb que anima */
 .hero-orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(70px);
   opacity: 0.12;
-  animation: orbFloat 8s ease-in-out infinite;
   pointer-events: none;
   z-index: 1;
 }
@@ -104,7 +99,7 @@
   background: #6366f1;
   top: -60px;
   right: -80px;
-  animation-delay: 0s;
+  animation: orbFloat 8s ease-in-out infinite 0s;
 }
 
 .hero-orb-2 {
@@ -113,7 +108,7 @@
   background: #8b5cf6;
   bottom: -40px;
   left: -50px;
-  animation-delay: 2s;
+  animation: orbFloat 8s ease-in-out infinite 2s;
 }
 
 .hero-orb-3 {
@@ -121,37 +116,21 @@
   height: 140px;
   background: #06b6d4;
   top: 45%;
-  left: 50%;
-  transform: translateX(-50%);
-  animation-delay: 4s;
+  /* ✅ Centrado con margin-left en vez de transform para no interferir con la animación */
+  left: calc(50% - 70px);
+  animation: orbFloat 8s ease-in-out infinite 4s;
 }
 
+/* ✅ Sin translateX — solo Y y scale */
 @keyframes orbFloat {
   0%, 100% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-20px) scale(1.05); }
+  50%       { transform: translateY(-20px) scale(1.05); }
 }
 
 @media (min-width: 768px) {
-  .hero {
-    padding: 100px 20px 80px;
-  }
+  .hero { padding: 100px 20px 80px; }
 
-  .hero-orb-1 {
-    width: 420px;
-    height: 420px;
-    top: -100px;
-    right: -100px;
-  }
-
-  .hero-orb-2 {
-    width: 300px;
-    height: 300px;
-    left: -80px;
-    bottom: -50px;
-  }
-
-  .hero-orb-3 {
-    width: 220px;
-    height: 220px;
-  }
+  .hero-orb-1 { width: 420px; height: 420px; top: -100px; right: -100px; }
+  .hero-orb-2 { width: 300px; height: 300px; left: -80px; bottom: -50px; }
+  .hero-orb-3 { width: 220px; height: 220px; left: calc(50% - 110px); }
 }
