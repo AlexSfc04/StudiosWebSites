@@ -18,7 +18,7 @@ function Register() {
     e.preventDefault()
     setError('')
     if (!name || !email || !password) {
-      setError('Please fill in all fields.')
+      setError('Por favor, rellene todos los campos.')
       return
     }
     setLoading(true)
@@ -26,7 +26,7 @@ function Register() {
       await register(name, email, password)
       navigate('/')
     } catch (err) {
-      setError('Something went wrong. Please try again.')
+      setError('Algo salió mal. Por favor, inténtalo de nuevo.')
     } finally {
       setLoading(false)
     }
