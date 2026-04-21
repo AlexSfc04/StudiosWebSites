@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
     )
 
     // URL de confirmación
-    const confirmUrl = `https://studios-web-sites-u6qh.vercel.app/newsletter/confirmar?token=${token}`
+    const confirmUrl = `https://studioswebsites.com/newsletter/confirmar?token=${token}`
 
     // Enviar email de confirmación
     await transporter.sendMail({
