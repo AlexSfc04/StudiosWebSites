@@ -360,6 +360,7 @@
 }
 
 /* Tablet (768px) — oculta el panel derecho */
+/* ===== RESPONSIVE — Tablet y móvil ===== */
 @media (max-width: 768px) {
   .auth-page {
     flex-direction: column;
@@ -373,44 +374,49 @@
 
   .auth-form-side {
     min-height: 100vh;
-    padding: 40px 24px;
+    padding: 40px 20px;           /* ← padding simétrico, sin negativos */
     background: transparent;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    display: flex;                  /* ← añade esto */
-    flex-direction: column;         /* ← añade esto */
-    align-items: center;            /* ← centra horizontal */
-    justify-content: center;   
+    overflow: hidden;             /* ← CLAVE: evita que los orbes desborden */
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;       /* ← asegura que padding no añada ancho extra */
   }
 
   /* Círculo decorativo superior derecha */
   .auth-form-side::before {
     content: '';
     position: absolute;
-    top: -60px;
-    right: -60px;
-    width: 220px;
-    height: 220px;
+    top: -40px;                   /* ← reducidos para no desbordar */
+    right: -40px;
+    width: 200px;
+    height: 200px;
     background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
+    z-index: 0;
   }
 
   /* Círculo decorativo inferior izquierda */
   .auth-form-side::after {
     content: '';
     position: absolute;
-    bottom: -40px;
-    left: -40px;
-    width: 180px;
-    height: 180px;
+    bottom: -30px;                /* ← reducidos */
+    left: -30px;
+    width: 160px;
+    height: 160px;
     background: radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
+    z-index: 0;
   }
 
   .auth-form-box {
-    max-width: 100%;
+    width: 100%;
+    max-width: 420px;             /* ← una sola declaración */
     background: white;
     border-radius: 20px;
     padding: 36px 28px;
@@ -418,14 +424,13 @@
     border: 1px solid rgba(99,102,241,0.1);
     position: relative;
     z-index: 1;
-    max-width: 420px;
+    box-sizing: border-box;       /* ← el padding no rompe el ancho */
   }
 
   .auth-title {
     font-size: 1.5rem;
   }
 
-  /* Línea decorativa bajo el título */
   .auth-title::after {
     content: '';
     display: block;
@@ -448,7 +453,7 @@
   }
 }
 
-/* Móvil (480px) */
+/* ===== Móvil pequeño ===== */
 @media (max-width: 480px) {
   .auth-form-side {
     padding: 24px 16px;
@@ -457,7 +462,6 @@
   .auth-form-box {
     padding: 28px 20px;
     border-radius: 16px;
-    width: 100%;
   }
 
   .auth-logo {
