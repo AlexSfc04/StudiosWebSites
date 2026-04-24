@@ -1,7 +1,6 @@
 import { useAuth } from '../../contexts/AuthContext'
 import { Link } from 'react-router-dom'
 import './ProtectedRoute.css'
-import { Locked } from '@carbon/icons-react'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()

@@ -67,7 +67,6 @@ function Header() {
         </div>
       ) : (
           <div className="header-auth">
-    {/* Desktop: muestra los dos botones */}
     <Link to="/login" className="btn-login desktop-only">
       Iniciar sesión
     </Link>
@@ -75,7 +74,6 @@ function Header() {
       Registro
     </Link>
 
-    {/* Móvil: solo un botón "Entrar" */}
     <Link to="/login" className="btn-entrar mobile-only">
       Entrar
     </Link>
@@ -83,7 +81,6 @@ function Header() {
       )}
     </div>
 
-    {/* 4. Hamburger al final ✅ */}
     <button
       className={`hamburger ${isMenuOpen ? 'active' : ''}`}
       onClick={toggleMenu}
