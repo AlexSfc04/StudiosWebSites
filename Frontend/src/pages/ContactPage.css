@@ -255,9 +255,15 @@
 }
 
 .contact-success-icon {
-  font-size: 3rem;
-  display: block;
-  margin-bottom: 16px;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
 }
 
 .contact-success h3 {
@@ -269,6 +275,7 @@
 
 .contact-success p {
   color: #64748b;
+  margin: 0;
 }
 
 /* FAQ */

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './ContactPage.css'
 import api from '../services/api'
-import { Phone, Email, Chat, Location } from '@carbon/icons-react'
+import { Phone, Email, Chat, Location, CheckmarkFilled } from '@carbon/icons-react'
 
 function ContactPage() {
   const [formData, setFormData] = useState({
@@ -129,13 +129,15 @@ function ContactPage() {
           <h2 className="contact-form-title">Solicita tu presupuesto</h2>
           <p className="contact-form-subtitle">Completa el formulario y nos pondremos en contacto contigo.</p>
 
-          {enviado ? (
-            <div className="contact-success">
-              <span className="contact-success-icon">✅</span>
-              <h3>¡Mensaje enviado!</h3>
-              <p>Te responderemos en menos de 24 horas.</p>
+        {enviado ? (
+          <div className="contact-success">
+            <div className="contact-success-icon">
+              <CheckmarkFilled size={40} />
             </div>
-          ) : (
+            <h3>¡Mensaje enviado!</h3>
+            <p>Te responderemos en menos de 24 horas.</p>
+          </div>
+        ) : (
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="contact-form-row">
                 <div className="contact-form-group">
