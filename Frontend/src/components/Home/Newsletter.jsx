@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Email, WarningAlt, SendAlt } from '@carbon/icons-react'
 import AnimatedSection from '../AnimatedSection/AnimatedSection'
 import './Newsletter.css'
 
@@ -7,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL
 
 function Newsletter() {
   const [email, setEmail] = useState('')
-  const [estado, setEstado] = useState('idle')
+  const [estado, setEstado] = useState('idle') // idle | loading | success | duplicate | error
   const [mensaje, setMensaje] = useState('')
 
   const handleSubmit = async (e) => {
@@ -43,67 +44,100 @@ function Newsletter() {
   return (
     <section className="newsletter-section">
       <div className="newsletter-container">
-        <div className="newsletter-content">
-          <AnimatedSection>
-            <h2 className="newsletter-title">
-              ¿Listo para llevar<br />
-              tu negocio al<br />
-              siguiente nivel?
-            </h2>
-          </AnimatedSection>
 
-          <AnimatedSection delay={0.2}>
-            <p className="newsletter-description">
-              Suscríbete a nuestro newsletter y recibe consejos exclusivos
-              sobre diseño y desarrollo web.
-            </p>
-          </AnimatedSection>
+        <AnimatedSection>
+          <h2 className="newsletter-title">
+            ¿Listo para llevar tu negocio<br />
+            al siguiente nivel?
+          </h2>
+        </AnimatedSection>
 
-          <AnimatedSection delay={0.3}>
+        <AnimatedSection delay={0.15}>
+          <p className="newsletter-description">
+            Suscríbete y recibe consejos exclusivos sobre diseño
+            y desarrollo web directamente en tu bandeja de entrada.
+          </p>
+        </AnimatedSection>
+
+        <AnimatedSection delay={0.25}>
+          <AnimatePresence mode="wait">
+
             {estado === 'success' ? (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
+                key="success"
+                initial={{ opacity: 0, y: 16, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
                 className="newsletter-success"
               >
-                <span>📩</span>
-                <div>
-                  <strong>¡Revisa tu email!</strong>
-                  <p>Te hemos enviado un enlace de confirmación.</p>
+                <div className="newsletter-success__icon-wrap">
+                  <Email size={28} />
+                </div>
+                <div className="newsletter-success__body">
+                  <strong className="newsletter-success__title">
+                    ¡Revisa tu email!
+                  </strong>
+                  <p className="newsletter-success__text">
+                    Te hemos enviado un enlace de confirmación.
+                  </p>
                 </div>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="newsletter-form">
-                <input
-                  type="email"
-                  placeholder="Tu email aquí"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="newsletter-input"
-                  required
-                  disabled={estado === 'loading'}
-                />
-                <button
-                  type="submit"
-                  className="newsletter-button"
-                  disabled={estado === 'loading'}
-                >
-                  {estado === 'loading' ? 'Enviando...' : 'Suscribirse'}
-                </button>
-
-                {(estado === 'error' || estado === 'duplicate') && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="newsletter-error"
+              <motion.form
+                key="form"
+                onSubmit={handleSubmit}
+                className="newsletter-form"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="newsletter-form__row">
+                  <input
+                    type="email"
+                    placeholder="Tu email aquí"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="newsletter-input"
+                    required
+                    disabled={estado === 'loading'}
+                    aria-label="Dirección de email"
+                  />
+                  <button
+                    type="submit"
+                    className={`newsletter-button${estado === 'loading' ? ' newsletter-button--loading' : ''}`}
+                    disabled={estado === 'loading'}
                   >
-                    ⚠️ {mensaje}
-                  </motion.p>
-                )}
-              </form>
+                    {estado === 'loading' ? (
+                      <span className="newsletter-button__spinner" aria-hidden="true" />
+                    ) : (
+                      <SendAlt size={16} aria-hidden="true" />
+                    )}
+                    {estado === 'loading' ? 'Enviando…' : 'Suscribirse'}
+                  </button>
+                </div>
+
+                <AnimatePresence>
+                  {(estado === 'error' || estado === 'duplicate') && (
+                    <motion.p
+                      key="error"
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="newsletter-error"
+                      role="alert"
+                    >
+                      <WarningAlt size={14} aria-hidden="true" />
+                      {mensaje}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+              </motion.form>
             )}
-          </AnimatedSection>
-        </div>
+
+          </AnimatePresence>
+        </AnimatedSection>
+
       </div>
     </section>
   )
