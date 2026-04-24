@@ -8,7 +8,6 @@ function ServicesPage() {
     <div className="services-page">
       <Hero />
       <ServicesList />
-      <Pricing />
     </div>
   )
 }
