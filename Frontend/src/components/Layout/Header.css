@@ -253,6 +253,73 @@
 .desktop-only { display: inline-flex; }
 .mobile-only  { display: none; }
 
+/* Alineación de Carbon Icons con texto en todos los items */
+.dropdown-item,
+.nav-link,
+.btn-login,
+.btn-register,
+.btn-entrar,
+.profile-button,
+.nav-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Móvil — bloque usuario */
+.nav-mobile-user {
+  display: none;
+}
+
+.nav-mobile-username {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .nav-mobile-user {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 12px;
+    padding-top: 12px;
+    width: 100%;
+  }
+
+  .nav-logout-btn {
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: #ef4444;
+    font-weight: 600;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+
+  .header-actions .profile-container {
+    display: none;
+  }
+
+  /* Oculta los 3 spans del hamburguesa si usas Carbon Icons */
+  .hamburger span {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .nav-mobile-user {
+    display: none !important;
+  }
+}
+
 /* Responsive */
 @media (max-width: 992px) {
   .header-container {
