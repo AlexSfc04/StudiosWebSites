@@ -49,48 +49,27 @@ function Header() {
           <Link to="/contacto" className="nav-link" onClick={closeMenu}>Contacto</Link>
 
           {/* ✅ Perfil en menú móvil */}
-                  {user && (
-          <div className="nav-mobile-user">
-            <div className="nav-mobile-user-card">
-              <div className="nav-mobile-user-top">
-                <div className="nav-mobile-avatar">
-                  <UserAvatar size={18} aria-hidden="true" />
-                </div>
-
-                <div className="nav-mobile-user-info">
-                  <span className="nav-mobile-user-label">Sesión iniciada</span>
-                  <span className="nav-mobile-username">
-                    {user?.name || user?.nombre || user?.email}
-                  </span>
-                </div>
-              </div>
-
-              <div className="nav-mobile-user-actions">
-                {isAdmin && (
-                  <Link
-                    to="/admin"
-                    className="nav-mobile-action"
-                    onClick={closeMenu}
-                  >
-                    <Settings size={18} aria-hidden="true" />
-                    <span>Admin Panel</span>
-                  </Link>
-                )}
-
-                <button
-                  className="nav-mobile-action nav-mobile-logout"
-                  onClick={() => {
-                    handleLogout()
-                    closeMenu()
-                  }}
-                >
-                  <Logout size={18} aria-hidden="true" />
-                  <span>Cerrar sesión</span>
-                </button>
-              </div>
+          {user && (
+            <div className="nav-mobile-user">
+              <span className="nav-mobile-username">
+                <UserAvatar size={16} aria-hidden="true" />
+                {user?.name || user?.nombre || user?.email}
+              </span>
+              {isAdmin && (
+                <Link to="/admin" className="nav-link nav-mobile-item" onClick={closeMenu}>
+                  <Settings size={16} aria-hidden="true" />
+                  Admin Panel
+                </Link>
+              )}
+              <button
+                className="nav-link nav-logout-btn"
+                onClick={() => { handleLogout(); closeMenu() }}
+              >
+                <Logout size={16} aria-hidden="true" />
+                Cerrar sesión
+              </button>
             </div>
-          </div>
-        )}
+          )}
         </nav>
 
         {/* 3. Actions */}

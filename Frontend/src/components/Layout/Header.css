@@ -251,136 +251,64 @@
   transform: rotate(45deg) translate(-7px, -7px);
 }
 .desktop-only { display: inline-flex; }
-/* ===== Usuario menú móvil ===== */
+.mobile-only  { display: none; }
+
+/* Alineación de Carbon Icons con texto en todos los items */
+.dropdown-item,
+.nav-link,
+.btn-login,
+.btn-register,
+.btn-entrar,
+.profile-button,
+.nav-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Móvil — bloque usuario */
 .nav-mobile-user {
   display: none;
 }
 
+.nav-mobile-username {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  padding: 8px 0;
+}
+
 @media (max-width: 768px) {
   .nav-mobile-user {
-    display: block;
-    width: 100%;
-    margin-top: 8px;
-    padding: 16px 20px;
-    border-top: 1px solid var(--border);
-  }
-
-  .nav-mobile-user-card {
-    background: var(--bg-light);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-  }
-
-  /* Fila superior — avatar + nombre */
-  .nav-mobile-user-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-
-  .nav-mobile-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--bg-white);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary);
-    flex-shrink: 0;
-  }
-
-  .nav-mobile-user-info {
     display: flex;
     flex-direction: column;
-    min-width: 0;
-  }
-
-  .nav-mobile-user-label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--text-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 2px;
-  }
-
-  .nav-mobile-username {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text-dark);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* Acciones — admin y logout */
-  .nav-mobile-user-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .nav-mobile-action {
+    gap: 4px;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 12px;
+    padding-top: 12px;
     width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 11px 14px;
-    border-radius: 8px;
-    background: var(--bg-white);
-    border: 1px solid var(--border);
-    color: var(--text-dark);
-    text-decoration: none;
-    font-size: 0.938rem;
-    font-weight: 500;
-    font-family: inherit;
+  }
+
+  .nav-logout-btn {
+    background: none;
+    border: none;
+    text-align: left;
     cursor: pointer;
-    transition: all 0.2s ease;
+    color: #ef4444;
+    font-weight: 600;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    font-family: inherit;
   }
 
-  .nav-mobile-action:hover {
-    background: var(--bg-light);
-    color: var(--primary);
-    border-color: var(--primary);
-  }
-
-  .nav-mobile-action svg {
-    color: var(--text-medium);
-    flex-shrink: 0;
-  }
-
-  .nav-mobile-action:hover svg {
-    color: var(--primary);
-  }
-
-  /* Logout — rojo igual que tu .dropdown-logout */
-  .nav-mobile-logout {
-    color: #dc2626;
-    border-color: var(--border);
-    margin-top: 2px;
-    border-top: 1px solid var(--border);
-  }
-
-  .nav-mobile-logout:hover {
-    background: #fef2f2;
-    color: #dc2626;
-    border-color: #fecaca;
-  }
-
-  .nav-mobile-logout svg {
-    color: #dc2626;
-  }
-
-  /* Oculta el dropdown de desktop en móvil */
   .header-actions .profile-container {
     display: none;
   }
 
-  /* Oculta spans del hamburguesa (Carbon Icons lo gestiona) */
+  /* Oculta los 3 spans del hamburguesa si usas Carbon Icons */
   .hamburger span {
     display: none;
   }
@@ -389,5 +317,195 @@
 @media (min-width: 769px) {
   .nav-mobile-user {
     display: none !important;
+  }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .header-container {
+    padding: 15px 20px;
+  }
+
+  .nav {
+    gap: 24px;
+  }
+
+  .profile-name {
+    display: none;
+  }
+
+  .btn-start-project {
+    padding: 8px 20px;
+    font-size: 0.875rem;
+  }
+}
+
+.mobile-only {
+  display: none;
+}
+
+/* En móvil: oculta los dos botones y muestra solo "Entrar" */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: inline-flex !important;
+    padding: 8px 18px;
+    background: #6366f1;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+  .logo {
+    font-size: 20px;
+  }
+
+  .logo-icon {
+    width: 36px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background-color: var(--bg-white);
+    box-shadow: var(--shadow-lg);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0;
+  }
+
+  .nav.active {
+    max-height: 500px;
+    padding: 20px 0;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-link:hover {
+    background-color: var(--bg-light);
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .nav-link-cta {
+    padding: 16px 20px;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .btn-start-project {
+    padding: 8px 16px;
+    font-size: 0.813rem;
+  }
+}
+
+.header-auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Texto simple, sin borde */
+.btn-login {
+  padding: 8px 14px;
+  color: #64748b;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+}
+
+.btn-login:hover {
+  color: #6366f1;
+}
+
+/* Solo el de Registro como botón */
+.btn-register {
+  padding: 8px 18px;
+  background: white;
+  color: #6366f1;
+  border: 2px solid #6366f1;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-register:hover {
+  background: #6366f1;
+  color: white;
+}
+
+  .btn-entrar {
+    padding: 8px 18px;
+    background: #6366f1;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .btn-entrar:hover {
+    background: #4f46e5;
+  }
+
+
+.mobile-only {
+  display: none;
+}
+
+/* En móvil: oculta los dos botones y muestra solo "Entrar" */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: inline-flex !important;
+    padding: 8px 18px;
+    background: #6366f1;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+  }
+.header-actions {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .header-auth {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 }
