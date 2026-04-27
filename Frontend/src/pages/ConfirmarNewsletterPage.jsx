@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { CheckmarkFilled, WarningAlt, Email } from '@carbon/icons-react'
-import './NewsletterConfirmPage.css'
+import './ConfirmarNewsletterPage.css'
 
 const API_URL = import.meta.env.VITE_API_URL
 
-function NewsletterConfirmPage() {
+function ConfirmarNewsletterPage() {
   const [searchParams] = useSearchParams()
   const [estado, setEstado] = useState('loading') // loading | success | error
   const [mensaje, setMensaje] = useState('')
@@ -91,4 +91,4 @@ function NewsletterConfirmPage() {
   )
 }
 
-export default NewsletterConfirmPage
+export default ConfirmarNewsletterPage
