@@ -22,6 +22,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import ConfirmarNewsletterPage from './pages/ConfirmarNewsletterPage'
 import PoliticaPrivacidad from './pages/PoliticaPrivacidad'
 import PoliticaCookies from './pages/PoliticaCookies'
+import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
   const location = useLocation()
@@ -47,6 +48,7 @@ function App() {
           <Route path="/admin/articles" element={<AdminArticles />} />
           <Route path="/privacidad" element={<PoliticaPrivacidad />} />
           <Route path="/politica-cookies" element={<PoliticaCookies />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AnimatePresence>
     </AuthProvider>

@@ -2,8 +2,14 @@ import { useState } from 'react'
 import './ContactPage.css'
 import api from '../services/api'
 import { Phone, Email, Chat, Location, CheckmarkFilled } from '@carbon/icons-react'
+import SEO from '../components/SEO/SEO'
 
 function ContactPage() {
+    <SEO
+    title="Contacto y presupuesto gratuito"
+    description="Solicita presupuesto sin compromiso para tu página web. Te respondemos en menos de 24 horas."
+    canonical="https://studioswebsites.com/contacto"
+  />
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
