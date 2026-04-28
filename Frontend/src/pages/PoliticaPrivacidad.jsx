@@ -87,8 +87,6 @@ function PoliticaPrivacidad() {
 
         <div className="legal-footer">
           <Link to="/politica-cookies">Ver Política de Cookies <ArrowRight size={16} /></Link>
-          <Link to="/contacto">Contacto</Link>
-          <Link to="/servicios">Servicios</Link>
         </div>
       </div>
     </div>

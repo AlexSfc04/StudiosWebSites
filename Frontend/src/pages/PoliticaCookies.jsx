@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import './PoliticasLegales.css'
-import { ArrowLeft,ArrowRight } from '@carbon/icons-react'
+import { ArrowLeft,ArrowRight,Reset } from '@carbon/icons-react'
 import SEO from '../components/SEO/SEO'
 
 function PoliticaCookies() {
@@ -105,14 +105,13 @@ function PoliticaCookies() {
             <li><a href="https://support.microsoft.com/es-es/microsoft-edge/eliminar-las-cookies-en-microsoft-edge" target="_blank" rel="noopener noreferrer">Microsoft Edge</a></li>
           </ul>
           <button className="legal-btn" onClick={limpiarCookies}>
-            🔄 Restablecer mis preferencias de cookies
+            <Reset size={16} aria-hidden="true" />
+            Restablecer mis preferencias de cookies
           </button>
         </section>
 
         <div className="legal-footer">
           <Link to="/privacidad">Ver Política de Privacidad <ArrowRight size={16} /></Link>
-          <Link to="/contacto">Contacto</Link>
-          <Link to="/servicios">Servicios</Link>
         </div>
       </div>
     </div>
