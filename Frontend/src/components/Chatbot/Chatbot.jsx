@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './Chatbot.css'
-import { Close } from '@carbon/icons-react'
+import { Close, SendAlt  } from '@carbon/icons-react'
 const API_URL = import.meta.env.VITE_API_URL
 
 function Chatbot() {
@@ -145,8 +145,9 @@ function Chatbot() {
                 className="chatbot-send"
                 onClick={send}
                 disabled={loading || !input.trim()}
+                aria-label="Enviar mensaje"
               >
-                ➤
+                <SendAlt size={18} aria-hidden="true" />
               </button>
             </div>
           </motion.div>
