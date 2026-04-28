@@ -2,6 +2,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import './AdminPage.css'
+import SEO from '../components/SEO/SEO'
 
 function AdminPage() {
   const { user, logout } = useAuth()
@@ -29,6 +30,12 @@ useEffect(() => {
 
   return (
     <div className="admin-page">
+      <SEO
+        title="Panel de administración"
+        description="Administra proyectos, artículos y contenido de StudiosWebSites desde el panel privado."
+        canonical="https://studioswebsites.com/admin"
+        robots="noindex,nofollow"
+      />
 
       {/* Topbar */}
       <div className="admin-topbar">

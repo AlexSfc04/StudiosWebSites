@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import './Auth.css'
+import SEO from '../components/SEO/SEO'
 import { Globe, Analytics, Email, ShoppingCart, Phone } from '@carbon/icons-react'
 
 function Login() {
@@ -38,6 +39,11 @@ function Login() {
 
   return (
     <div className="auth-page">
+      <SEO
+        title="Iniciar sesión"
+        description="Accede a tu área privada de StudiosWebSites para gestionar tu portfolio y blog."
+        canonical="https://studioswebsites.com/login"
+      />
 
       {/* LEFT — Form */}
       <div className="auth-form-side">
@@ -50,7 +56,7 @@ function Login() {
 
     {error && <div className="auth-error">{error}</div>}
 
-    <h2 className="auth-title">Bienvenido de nuevo</h2>
+    <h1 className="auth-title">Bienvenido de nuevo</h1>
     <p className="auth-subtitle">Inicia sesión en tu cuenta</p>
 
     <form onSubmit={handleSubmit} className="auth-form">

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { CheckmarkFilled, WarningAlt, Email } from '@carbon/icons-react'
 import './ConfirmarNewsletterPage.css'
+import SEO from '../components/SEO/SEO'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -41,6 +42,12 @@ function ConfirmarNewsletterPage() {
 
   return (
     <div className="ncp">
+      <SEO
+        title="Confirmación de newsletter"
+        description="Confirma tu suscripción a la newsletter de StudiosWebSites y recibe novedades sobre diseño y desarrollo web."
+        canonical="https://studioswebsites.com/confirmar-newsletter"
+      />
+      <h1 className="ncp__page-title">Confirmación de suscripción</h1>
       <div className="ncp__card">
 
         {/* Loading */}

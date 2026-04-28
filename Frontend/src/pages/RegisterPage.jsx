@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import './Auth.css'
+import SEO from '../components/SEO/SEO'
 import { Globe, Analytics, Email, ShoppingCart, Phone } from '@carbon/icons-react'
 
 
@@ -34,6 +35,11 @@ function Register() {
 
   return (
     <div className="auth-page">
+      <SEO
+        title="Registro"
+        description="Crea tu cuenta en StudiosWebSites para acceder a proyectos y contenidos exclusivos."
+        canonical="https://studioswebsites.com/registro"
+      />
 
       {/* LEFT — Form */}
       <div className="auth-form-side">
@@ -46,7 +52,7 @@ function Register() {
 
     {error && <div className="auth-error">{error}</div>}
 
-    <h2 className="auth-title">Crea tu cuenta</h2>
+    <h1 className="auth-title">Crea tu cuenta</h1>
     <p className="auth-subtitle">Es gratis y solo tarda un minuto</p>
 
     <form onSubmit={handleSubmit} className="auth-form">

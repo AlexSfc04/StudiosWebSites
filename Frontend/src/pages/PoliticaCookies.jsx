@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import './PoliticasLegales.css'
 import { ArrowLeft,ArrowRight } from '@carbon/icons-react'
+import SEO from '../components/SEO/SEO'
 
 function PoliticaCookies() {
   const limpiarCookies = () => {
@@ -10,6 +11,11 @@ function PoliticaCookies() {
 
   return (
     <div className="legal-page">
+      <SEO
+        title="Política de Cookies"
+        description="Descubre cómo usamos cookies en StudiosWebSites y cómo puedes gestionar tus preferencias."
+        canonical="https://studioswebsites.com/politica-cookies"
+      />
       <div className="legal-container">
         <Link to="/" className="legal-back"><ArrowLeft size={16} /> Volver al inicio</Link>
 
@@ -105,6 +111,8 @@ function PoliticaCookies() {
 
         <div className="legal-footer">
           <Link to="/privacidad">Ver Política de Privacidad <ArrowRight size={16} /></Link>
+          <Link to="/contacto">Contacto</Link>
+          <Link to="/servicios">Servicios</Link>
         </div>
       </div>
     </div>

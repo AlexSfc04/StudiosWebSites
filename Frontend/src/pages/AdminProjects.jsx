@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../services/api'
 import './AdminPage.css'
+import SEO from '../components/SEO/SEO'
 
 const empty = { title: '', description: '', image: '', category: 'others', link: '', featured: false }
 
@@ -51,6 +52,12 @@ function AdminProjects() {
 
   return (
     <div className="admin-page">
+      <SEO
+        title="Admin - Proyectos"
+        description="Crea y edita proyectos en el panel administrativo de StudiosWebSites."
+        canonical="https://studioswebsites.com/admin/projects"
+        robots="noindex,nofollow"
+      />
       <div className="admin-topbar">
         <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
           <h2 className="admin-logo">⚡ SWS Admin</h2>

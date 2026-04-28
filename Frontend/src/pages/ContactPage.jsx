@@ -5,11 +5,6 @@ import { Phone, Email, Chat, Location, CheckmarkFilled } from '@carbon/icons-rea
 import SEO from '../components/SEO/SEO'
 
 function ContactPage() {
-    <SEO
-    title="Contacto y presupuesto gratuito"
-    description="Solicita presupuesto sin compromiso para tu página web. Te respondemos en menos de 24 horas."
-    canonical="https://studioswebsites.com/contacto"
-  />
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
@@ -53,6 +48,11 @@ function ContactPage() {
 
   return (
     <div className="contact-page">
+      <SEO
+        title="Contacto y presupuesto gratuito"
+        description="Solicita presupuesto sin compromiso para tu página web. Te respondemos en menos de 24 horas."
+        canonical="https://studioswebsites.com/contacto"
+      />
 
       {/* Hero */}
       <section className="contact-hero">

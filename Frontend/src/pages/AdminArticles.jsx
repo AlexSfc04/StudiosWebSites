@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import api from '../services/api'
 import './AdminPage.css'
+import SEO from '../components/SEO/SEO'
 
 const empty = { title: '', content: '', image: '', category: 'general', featured: false }
 
@@ -51,6 +52,12 @@ function AdminArticles() {
 
   return (
     <div className="admin-page">
+      <SEO
+        title="Admin - Artículos"
+        description="Gestiona el blog y publica artículos desde el panel administrativo de StudiosWebSites."
+        canonical="https://studioswebsites.com/admin/articles"
+        robots="noindex,nofollow"
+      />
       <div className="admin-topbar">
         <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
           <h2 className="admin-logo">⚡ SWS Admin</h2>

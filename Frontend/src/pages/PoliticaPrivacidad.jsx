@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom'
 import './PoliticasLegales.css'
 import { ArrowLeft, ArrowRight } from '@carbon/icons-react'
+import SEO from '../components/SEO/SEO'
 
 function PoliticaPrivacidad() {
   return (
     <div className="legal-page">
+      <SEO
+        title="Política de Privacidad"
+        description="Consulta nuestra política de privacidad y cómo protegemos tus datos en StudiosWebSites."
+        canonical="https://studioswebsites.com/privacidad"
+      />
       <div className="legal-container">
         <Link to="/" className="legal-back"><ArrowLeft size={16} /> Volver al inicio</Link>
 
@@ -81,6 +87,8 @@ function PoliticaPrivacidad() {
 
         <div className="legal-footer">
           <Link to="/politica-cookies">Ver Política de Cookies <ArrowRight size={16} /></Link>
+          <Link to="/contacto">Contacto</Link>
+          <Link to="/servicios">Servicios</Link>
         </div>
       </div>
     </div>
