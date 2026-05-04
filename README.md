@@ -215,50 +215,6 @@ npm install
 
 ---
 
-## ⚙️ Configuración
-
-### Variables de Entorno - Backend
-
-Crea un archivo `.env` en la carpeta `Backend/`:
-
-```env
-# Servidor
-PORT=5000
-NODE_ENV=development
-
-# Base de datos (MySQL/TiDB)
-DB_HOST=your_database_host
-DB_PORT=4000
-DB_USER=your_database_user
-DB_PASSWORD=your_database_password
-DB_NAME=studioswebsites
-
-# JWT
-JWT_SECRET=your_super_secret_jwt_key_change_this
-
-# Cliente (CORS)
-CLIENT_URL=http://localhost:5173
-
-# Email (Nodemailer)
-SMTP_HOST=your_smtp_host
-SMTP_PORT=587
-SMTP_USER=your_email@gmail.com
-SMTP_PASSWORD=your_app_password
-
-# Groq AI (Chatbot)
-GROQ_API_KEY=your_groq_api_key
-```
-
-### Variables de Entorno - Frontend
-
-Crea un archivo `.env` en la carpeta `Frontend/`:
-
-```env
-VITE_API_URL=http://localhost:5000
-VITE_APP_NAME=StudiosWebSites
-```
-
----
 
 ## 📝 Scripts Disponibles
 
@@ -422,43 +378,6 @@ Los tests utilizan **Vitest** y **React Testing Library**.
 
 ---
 
-## 📊 Estructura de Datos
-
-### Tabla: Users
-```sql
-- id (INT, PRIMARY KEY)
-- email (VARCHAR, UNIQUE)
-- password (VARCHAR, hashed)
-- name (VARCHAR)
-- role (ENUM: 'admin', 'user')
-- created_at (TIMESTAMP)
-```
-
-### Tabla: Projects
-```sql
-- id (INT, PRIMARY KEY)
-- title (VARCHAR)
-- description (TEXT)
-- image (VARCHAR)
-- technologies (JSON)
-- link (VARCHAR)
-- created_at (TIMESTAMP)
-```
-
-### Tabla: Articles
-```sql
-- id (INT, PRIMARY KEY)
-- title (VARCHAR)
-- content (TEXT)
-- author (VARCHAR)
-- image (VARCHAR)
-- category (VARCHAR)
-- published_at (TIMESTAMP)
-- created_at (TIMESTAMP)
-```
-
----
-
 ## 🔍 Características Especiales
 
 ### Chatbot con Groq
@@ -481,27 +400,6 @@ Los tests utilizan **Vitest** y **React Testing Library**.
 - Meta tags dinámicos con React Helmet
 - URLs amigables
 - Sitemap support
-
----
-
-## 🐛 Troubleshooting
-
-### Error de conexión a la base de datos
-- Verifica las variables de entorno
-- Confirma que la base de datos está corriendo
-- Revisa las credenciales de acceso
-
-### CORS Error
-- Verifica que `CLIENT_URL` en `.env` del backend es correcto
-- Asegúrate que el puerto del frontend coincide
-
-### JWT Token inválido
-- Genera un nuevo `JWT_SECRET` en `.env`
-- Limpia los tokens antiguos del localStorage
-
-### npm modules error
-- Elimina `node_modules` y `package-lock.json`
-- Ejecuta `npm install` nuevamente
 
 ---
 
@@ -528,17 +426,6 @@ ISC License
 
 ---
 
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Para cambios importantes:
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
----
 
 ## 📞 Soporte
 
