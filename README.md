@@ -518,7 +518,7 @@ Los tests utilizan **Vitest** y **React Testing Library**.
 
 ## 👤 Autor
 
-**StudiosWebSites**
+**Alejandro Amor Rico**
 
 ---
 
