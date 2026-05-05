@@ -37,6 +37,15 @@ const api = {
     return response.json()
   },
 
+  googleLogin: async (idToken) => {
+    const response = await fetch(`${API_URL}/auth/google-login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken }),
+    })
+    return response.json()
+  },
+
   // PROJECTS
   getProjects: async () => {
     const response = await fetch(`${API_URL}/projects`)

@@ -23,13 +23,28 @@ export function AuthProvider({ children }) {
       localStorage.setItem('token', response.token)
       localStorage.setItem('user', JSON.stringify(response.user))
       setUser(response.user)
-      return { success: true, user: response.user }  // ✅ devuelve el usuario
+      return { success: true, user: response.user }
     }
     return { success: false, message: response.message || 'Credenciales incorrectas' }
   } catch (error) {
     return { success: false, message: 'Error al conectar con el servidor' }
   }
 }
+
+  const loginWithGoogle = async (idToken) => {
+    try {
+      const response = await api.googleLogin(idToken)
+      if (response.token) {
+        localStorage.setItem('token', response.token)
+        localStorage.setItem('user', JSON.stringify(response.user))
+        setUser(response.user)
+        return { success: true, user: response.user }
+      }
+      return { success: false, message: response.message || 'Error al iniciar sesión con Google' }
+    } catch (error) {
+      return { success: false, message: 'Error al conectar con el servidor' }
+    }
+  }
 
   const register = async (name, email, password) => {
   try {
@@ -51,7 +66,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading, isAdmin: user?.role === 'admin' }}>
+    <AuthContext.Provider value={{ user, login, loginWithGoogle, register, logout, loading, isAdmin: user?.role === 'admin' }}>
       {children}
     </AuthContext.Provider>
   )

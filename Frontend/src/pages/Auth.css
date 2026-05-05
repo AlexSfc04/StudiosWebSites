@@ -114,6 +114,67 @@
   font-family: inherit;
 }
 
+.auth-google-box {
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+#google-signin-button {
+  width: 100%;
+  min-height: 46px;
+}
+
+.auth-divider-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+  width: 100%;
+}
+
+.auth-divider {
+  flex: 1;
+  height: 1px;
+  background-color: #e2e8f0;
+}
+
+.auth-divider-circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
+  flex-shrink: 0;
+}
+
+.auth-google-btn {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 10px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #111827;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+}
+
+.auth-google-btn:hover:not(:disabled) {
+  background: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.auth-google-missing {
+  padding: 12px 14px;
+  border: 1px solid #fee2e2;
+  border-radius: 10px;
+  background: #fff1f2;
+  color: #991b1b;
+  font-size: 0.95rem;
+}
+
 .auth-btn:hover:not(:disabled) {
   background: #1e293b;
   transform: translateY(-1px);
@@ -340,6 +401,40 @@
   color: rgba(255, 255, 255, 0.6);
   fill: rgba(255, 255, 255, 0.6);
   flex-shrink: 0;
+}
+
+/* ── Google box ── */
+.auth-google-box {
+  margin-bottom: 0;   /* ← el divisor gestiona el espacio */
+  width: 100%;
+}
+
+/* ── Divisor con Carbon icon ── */
+.auth-divider-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.auth-divider {
+  flex: 1;
+  height: 1px;
+  background-color: #e2e8f0;
+}
+
+.auth-divider-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #94a3b8;
 }
 
 /* ===== RESPONSIVE ===== */
