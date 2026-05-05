@@ -447,6 +447,17 @@
   width: 100% !important;
 }
 
+#google-signin-button-login,
+#google-signin-button-register {
+  width: 100%;
+  min-height: 46px;
+}
+
+#google-signin-button-login iframe,
+#google-signin-button-register iframe {
+  width: 100% !important;
+}
+
 /* ===== RESPONSIVE ===== */
 
 /* Tablet grande (1024px) */

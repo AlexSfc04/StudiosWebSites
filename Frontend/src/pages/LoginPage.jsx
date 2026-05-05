@@ -76,7 +76,7 @@ function Login() {
           ux_mode: 'popup',
           auto_select: false,
         })
-        const container = document.getElementById('google-signin-button')
+        const container = document.getElementById('google-signin-button-login')
         if (container) {
           container.innerHTML = ''
           window.google.accounts.id.renderButton(container, {
@@ -118,7 +118,7 @@ function Login() {
           {/* Google button — encima del formulario */}
           {GOOGLE_CLIENT_ID ? (
             <div className="auth-google-box">
-              <div id="google-signin-button" />
+              <div id="google-signin-button-login" />
               {!googleReady && (
                 <button type="button" className="auth-google-btn" onClick={handleGoogleLogin} disabled={loading}>
                   Iniciar sesión con Google

@@ -73,6 +73,7 @@ function Register() {
           ux_mode: 'popup',
           auto_select: false,
         })
+        const container = document.getElementById('google-signin-button-register')
         if (container) {
           container.innerHTML = ''
           window.google.accounts.id.renderButton(container, {
@@ -114,7 +115,7 @@ function Register() {
           {/* Google button — encima del formulario */}
           {GOOGLE_CLIENT_ID ? (
             <div className="auth-google-box">
-              <div id="google-signin-button" />
+              <div id="google-signin-button-register" />
               {!googleReady && (
                 <button type="button" className="auth-google-btn" onClick={handleGoogleLogin} disabled={loading}>
                   Registrarse con Google
