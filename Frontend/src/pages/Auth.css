@@ -437,6 +437,16 @@
   color: #94a3b8;
 }
 
+#google-signin-button {
+  width: 100%;
+  min-height: 46px;
+}
+
+/* Fuerza que el iframe que inyecta Google ocupe todo el ancho */
+#google-signin-button iframe {
+  width: 100% !important;
+}
+
 /* ===== RESPONSIVE ===== */
 
 /* Tablet grande (1024px) */

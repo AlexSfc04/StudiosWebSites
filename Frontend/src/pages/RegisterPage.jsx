@@ -73,13 +73,12 @@ function Register() {
           ux_mode: 'popup',
           auto_select: false,
         })
-        const container = document.getElementById('google-signin-button')
         if (container) {
           container.innerHTML = ''
           window.google.accounts.id.renderButton(container, {
             theme: 'outline',
             size: 'large',
-            width: '100%',
+            width: container.offsetWidth || 400,  // ← píxeles reales
           })
         }
         setGoogleReady(true)

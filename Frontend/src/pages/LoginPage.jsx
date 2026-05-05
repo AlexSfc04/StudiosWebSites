@@ -82,7 +82,7 @@ function Login() {
           window.google.accounts.id.renderButton(container, {
             theme: 'outline',
             size: 'large',
-            width: '100%',
+            width: container.offsetWidth || 400,  // ← píxeles reales
           })
         }
         setGoogleReady(true)
