@@ -1,7 +1,11 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const { body, validationResult } = require('express-validator')
+const { OAuth2Client } = require('google-auth-library')
+const crypto = require('crypto')
 const User = require('../models/user')
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 const router = express.Router()
 
@@ -48,7 +52,7 @@ router.post(
       const user = await User.create(email, password, name) // asegúrate de que ponga role='user' por defecto
 
       const token = jwt.sign(
-        { id: user.id, email: user.email, role: user.role },
+        { id: user.id, email: user.email, role: user.role || 'user' },
         process.env.JWT_SECRET,
         { expiresIn: '7d' }
       )
@@ -60,7 +64,7 @@ router.post(
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role
+          role: user.role || 'user'
         }
       })
     } catch (error) {
@@ -118,6 +122,62 @@ router.post(
     }
   }
 )
+
+// GOOGLE LOGIN / REGISTER
+router.post('/google-login', async (req, res) => {
+  const { idToken } = req.body
+
+  if (!idToken) {
+    return res.status(400).json({ error: 'Token de Google no proporcionado' })
+  }
+
+  if (!process.env.GOOGLE_CLIENT_ID) {
+    return res.status(500).json({ error: 'Falta GOOGLE_CLIENT_ID en la configuración del servidor' })
+  }
+
+  try {
+    const ticket = await googleClient.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    })
+
+    const payload = ticket.getPayload()
+    const email = payload.email
+    const name = payload.name || 'Usuario de Google'
+    const emailVerified = payload.email_verified
+
+    if (!emailVerified) {
+      return res.status(403).json({ error: 'El correo de Google no está verificado' })
+    }
+
+    let user = await User.findByEmail(email)
+
+    if (!user) {
+      const randomPassword = crypto.randomBytes(20).toString('hex')
+      user = await User.create(email, randomPassword, name)
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role || 'user' },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    )
+
+    res.json({
+      message: 'Inicio de sesión con Google exitoso',
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role || 'user'
+      }
+    })
+  } catch (error) {
+    console.error('Error en Google login:', error)
+    res.status(500).json({ error: 'Error al autenticar con Google' })
+  }
+})
 
 // PERFIL
 router.get('/profile', authenticateToken, async (req, res) => {
