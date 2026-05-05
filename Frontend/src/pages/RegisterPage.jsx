@@ -51,7 +51,7 @@ function Register() {
   }
 
   const handleGoogleLogin = () => {
-    if (!GOOGLE_CLIENT_ID) {
+    if (!VITE_GOOGLE_CLIENT_ID) {
       setError('No se ha configurado el login con Google.')
       return
     }
@@ -63,12 +63,12 @@ function Register() {
   }
 
   useEffect(() => {
-    if (!GOOGLE_CLIENT_ID) return
+    if (!VITE_GOOGLE_CLIENT_ID) return
     let intervalId = null
     const renderButton = () => {
       if (window.google?.accounts?.id) {
         window.google.accounts.id.initialize({
-          client_id: GOOGLE_CLIENT_ID,
+          client_id: VITE_GOOGLE_CLIENT_ID,
           callback: handleGoogleCredentialResponse,
           ux_mode: 'popup',
           auto_select: false,
@@ -88,7 +88,7 @@ function Register() {
     }
     intervalId = window.setInterval(renderButton, 150)
     return () => { if (intervalId) window.clearInterval(intervalId) }
-  }, [GOOGLE_CLIENT_ID])
+  }, [VITE_GOOGLE_CLIENT_ID])
 
   return (
     <div className="auth-page">
@@ -113,7 +113,7 @@ function Register() {
           <p className="auth-subtitle">Es gratis y solo tarda un minuto</p>
 
           {/* Google button — encima del formulario */}
-          {GOOGLE_CLIENT_ID ? (
+          {VITE_GOOGLE_CLIENT_ID ? (
             <div className="auth-google-box">
               <div id="google-signin-button-register" />
               {!googleReady && (
@@ -124,7 +124,7 @@ function Register() {
             </div>
           ) : (
             <div className="auth-google-missing">
-              No está configurado Google Sign-In. Añade <code>GOOGLE_CLIENT_ID</code> en tu frontend.
+              No está configurado Google Sign-In. Añade <code>VITE_GOOGLE_CLIENT_ID</code> en tu frontend.
             </div>
           )}
 
