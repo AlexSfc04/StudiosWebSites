@@ -1,5 +1,5 @@
 .stats-section {
-  background: white;
+  background: var(--bg-white);
   padding: 40px 16px;
 }
 
@@ -29,7 +29,7 @@
 
 .stat-label {
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--text-medium);
   text-transform: capitalize;
   font-weight: 500;
 }

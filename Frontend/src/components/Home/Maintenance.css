@@ -1,5 +1,5 @@
 .maintenance-section {
-  background: #f8f9fa;
+  background: var(--bg-light);
   padding: 60px 20px;
 }
 
@@ -16,7 +16,7 @@
 .maintenance-title {
   font-size: clamp(1.75rem, 5vw, 2.25rem);
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-dark);
   margin: 0;
 }
 
@@ -32,15 +32,15 @@
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background: white;
+  background: var(--bg-white);
   border-radius: 10px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
 .maintenance-item:hover {
-  background: #f0fdf4;
-  border-color: #10b981;
+  background: var(--bg-light);
+  border-color: var(--primary);
   transform: translateX(4px);
 }
 
@@ -58,7 +58,7 @@
 .maintenance-name {
   font-size: 0.938rem;
   font-weight: 500;
-  color: #1a1a1a;
+  color: var(--text-dark);
 }
 
 .maintenance-btn {
@@ -66,9 +66,9 @@
   align-items: center;
   gap: 8px;
   padding: 14px 24px;
-  background: white;
-  color: #1a1a1a;
-  border: 2px solid #e5e7eb;
+  background: var(--bg-white);
+  color: var(--text-dark);
+  border: 2px solid var(--border);
   border-radius: 8px;
   font-size: 0.938rem;
   font-weight: 600;
@@ -78,9 +78,9 @@
 }
 
 .maintenance-btn:hover {
-  background: #f8f9fa;
-  border-color: #6366f1;
-  color: #6366f1;
+  background: var(--bg-light);
+  border-color: var(--primary);
+  color: var(--primary);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }

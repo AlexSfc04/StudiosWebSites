@@ -1,5 +1,5 @@
 .why-us-section {
-  background: #f8f9fa;
+  background: var(--bg-light);
   padding: 56px 16px;
 }
 
@@ -16,13 +16,13 @@
 .why-us-title {
   font-size: clamp(1.75rem, 5vw, 2.25rem);
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-dark);
   margin-bottom: 12px;
 }
 
 .why-us-subtitle {
   font-size: clamp(0.95rem, 3vw, 1.063rem);
-  color: #64748b;
+  color: var(--text-medium);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
@@ -36,11 +36,11 @@
 
 /* ✅ Sin will-change ni preserve-3d que causan delays en móvil */
 .feature-card {
-  background: white;
+  background: var(--bg-white);
   padding: 28px 20px;
   border-radius: 12px;
   text-align: center;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
@@ -59,13 +59,13 @@
 .feature-title {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--text-dark);
   margin-bottom: 8px;
 }
 
 .feature-description {
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--text-medium);
   line-height: 1.6;
   margin: 0;
 }

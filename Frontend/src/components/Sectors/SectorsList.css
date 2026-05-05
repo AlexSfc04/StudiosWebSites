@@ -1,5 +1,5 @@
 .sectors-list-section {
-  background: white;
+  background: var(--bg-light);
   padding: 80px 20px;
 }
 
@@ -54,13 +54,13 @@
 .sector-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-dark);
   margin-bottom: 8px;
 }
 
 .sector-description {
   font-size: 1.063rem;
-  color: #64748b;
+  color: var(--text-medium);
   line-height: 1.6;
   margin-bottom: 12px;
 }
@@ -78,7 +78,7 @@
   align-items: center;
   gap: 10px;
   font-size: 0.938rem;
-  color: #1a1a1a;
+  color: var(--text-dark);
 }
 
 .sector-feature-item svg {

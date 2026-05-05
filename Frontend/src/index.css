@@ -3,24 +3,61 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Transición suave al cambiar tema — solo propiedades visuales */
+  transition:
+    background-color var(--transition-theme),
+    color            var(--transition-theme),
+    border-color     var(--transition-theme),
+    box-shadow       var(--transition-theme);
 }
 
 :root {
-  --primary: #6366f1;
-  --primary-dark: #4f46e5;
-  --secondary: #8b5cf6;
-  --accent: #ec4899;
-  --bg-light: #f8f7ff;
-  --bg-white: #ffffff;
-  --text-dark: #1a1a1a;
-  --text-medium: #4a5568;
-  --text-light: #718096;
-  --border: #e5e7eb;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  /* ── Colores principales (sin cambios) ── */
+  --primary:        #6366f1;
+  --primary-dark:   #4f46e5;
+  --secondary:      #8b5cf6;
+  --accent:         #ec4899;
+
+  /* ── Backgrounds (ahora semánticos) ── */
+  --bg-light:       #f8f7ff;
+  --bg-white:       #ffffff;
+
+  /* ── Textos ── */
+  --text-dark:      #1a1a1a;
+  --text-medium:    #4a5568;
+  --text-light:     #718096;
+
+  /* ── Bordes y sombras ── */
+  --border:         #e5e7eb;
+  --shadow-sm:      0 1px 3px rgba(0, 0, 0, 0.10);
+  --shadow-md:      0 4px 6px  rgba(0, 0, 0, 0.10);
+  --shadow-lg:      0 10px 15px rgba(0, 0, 0, 0.10);
+
+  /* ── Gradientes (igual) ── */
   --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  --gradient-accent: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  --gradient-accent:  linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+
+  /* ── Transición global del tema ── */
+  --transition-theme: 0.3s ease;
+}
+
+/* ===== DARK MODE ===== */
+[data-theme="dark"] {
+  --bg-light:    #0f0e17;
+  --bg-white:    #1a1928;
+
+  --text-dark:   #f0eeff;
+  --text-medium: #a9a6c9;
+  --text-light:  #6b6891;
+
+  --border:      rgba(255, 255, 255, 0.08);
+  --shadow-sm:   0 1px 3px  rgba(0, 0, 0, 0.40);
+  --shadow-md:   0 4px 6px  rgba(0, 0, 0, 0.40);
+  --shadow-lg:   0 10px 15px rgba(0, 0, 0, 0.50);
+
+  /* En dark mode los gradientes se aclaran un poco para no quemar */
+  --gradient-primary: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+  --gradient-accent:  linear-gradient(135deg, #f472b6 0%, #a78bfa 100%);
 }
 
 body {
@@ -124,7 +161,7 @@ p {
 }
 
 .btn-secondary {
-  background: white;
+  background: var(--bg-white);   /* ← cambia con el tema */
   color: var(--primary);
   border: 2px solid var(--primary);
 }
@@ -188,6 +225,7 @@ p {
   font-size: 0.875rem;
   font-weight: 600;
   margin-bottom: 1rem;
+  border: 1px solid var(--border); /* ← añade esto para que se vea en dark */
 }
 
 /* Stats */

@@ -47,15 +47,15 @@
   border: 2px solid transparent;
   border-radius: 10px;
   font-size: 0.9375rem;
-  color: #111827;
-  background: white;
+  color: var(--text-dark);
+  background: var(--bg-white);
   outline: none;
   width: 100%;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .newsletter-input::placeholder {
-  color: #9ca3af;
+  color: var(--text-light);
 }
 
 .newsletter-input:focus {

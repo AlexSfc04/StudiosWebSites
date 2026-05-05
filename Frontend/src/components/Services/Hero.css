@@ -1,5 +1,5 @@
 .services-hero {
-  background: linear-gradient(180deg, #f8f7ff 0%, #ffffff 100%);
+  background: linear-gradient(180deg, var(--bg-light), var(--bg-white));
   padding: 80px 20px 60px;
   text-align: center;
 }
@@ -12,14 +12,14 @@
 .services-hero-title {
   font-size: 2.75rem;
   font-weight: 800;
-  color: #1a1a1a;
+  color: var(--text-dark);
   line-height: 1.2;
   margin-bottom: 16px;
 }
 
 .services-hero-description {
   font-size: 1.063rem;
-  color: #64748b;
+  color: var(--text-medium);
   line-height: 1.7;
   margin-bottom: 40px;
   max-width: 700px;

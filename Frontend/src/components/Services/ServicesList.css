@@ -1,5 +1,5 @@
 .services-list-section {
-  background: white;
+  background: var(--bg-light);
   padding: 80px 20px;
 }
 
@@ -15,8 +15,8 @@
 }
 
 .service-card {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 32px 28px;
   transition: all 0.3s ease;
@@ -31,13 +31,13 @@
 .service-card-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-dark);
   margin-bottom: 12px;
 }
 
 .service-card-description {
   font-size: 0.938rem;
-  color: #64748b;
+  color: var(--text-medium);
   line-height: 1.6;
   margin-bottom: 24px;
 }
@@ -54,7 +54,7 @@
   align-items: center;
   gap: 10px;
   font-size: 0.938rem;
-  color: #1a1a1a;
+  color: var(--text-dark);
 }
 
 .service-feature-item svg {

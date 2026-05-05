@@ -7,7 +7,7 @@ import Chatbot from '../Chatbot/Chatbot'
 function Layout({ children }) {
   return (
     <div>
-      <Header />  {/* ← cambiado de Navbar a Header */}
+      <Header />
       <main>
         {children}
       </main>

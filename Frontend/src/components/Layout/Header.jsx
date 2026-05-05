@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
+import { useDarkMode } from '../../hooks/useDarkMode'
 import {
   Menu,
   Close,
-  UserAvatar,
   Settings,
   Logout,
   Login,
   UserFollow,
+  Sun,
+  Moon,
 } from '@carbon/icons-react'
 import './Header.css'
 
@@ -21,41 +23,38 @@ const NAV_LINKS = [
   { to: '/contacto', label: 'Contacto' },
 ]
 
+// ── Header ──────────────────────────────────────────────────
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { user, logout, isAdmin } = useAuth()
+  const { theme, toggleTheme } = useDarkMode()          // ← NUEVO
   const navigate = useNavigate()
   const location = useLocation()
   const dropdownRef = useRef(null)
 
-  // Cerrar menú al cambiar de ruta
   useEffect(() => {
     setIsMenuOpen(false)
     setIsProfileOpen(false)
   }, [location.pathname])
 
-  // Shadow al hacer scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Cerrar dropdown al clickar fuera
   useEffect(() => {
     if (!isProfileOpen) return
     const handler = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target))
         setIsProfileOpen(false)
-      }
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [isProfileOpen])
 
-  // Bloquear scroll cuando el menú móvil está abierto
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -97,6 +96,17 @@ function Header() {
 
           {/* Acciones */}
           <div className="header-actions">
+
+            {/* ── Botón Dark Mode ── */}
+            <button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'}
+              title={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+            >
+              {theme === 'dark' ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+            </button>
+
             {user ? (
               <div className="profile" ref={dropdownRef}>
                 <button
@@ -112,7 +122,8 @@ function Header() {
                     className={`profile__chevron${isProfileOpen ? ' profile__chevron--open' : ''}`}
                     width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"
                   >
-                    <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
 
@@ -126,12 +137,8 @@ function Header() {
                     </div>
                     <div className="profile__dropdown-divider" />
                     {isAdmin && (
-                      <Link
-                        to="/admin"
-                        className="profile__dropdown-item"
-                        role="menuitem"
-                        onClick={() => setIsProfileOpen(false)}
-                      >
+                      <Link to="/admin" className="profile__dropdown-item" role="menuitem"
+                        onClick={() => setIsProfileOpen(false)}>
                         <Settings size={16} aria-hidden="true" />
                         <span>Admin Panel</span>
                       </Link>
@@ -149,12 +156,8 @@ function Header() {
               </div>
             ) : (
               <div className="header-auth">
-                <Link to="/login" className="header-auth__login">
-                  Iniciar sesión
-                </Link>
-                <Link to="/registro" className="header-auth__register">
-                  Registro
-                </Link>
+                <Link to="/login" className="header-auth__login">Iniciar sesión</Link>
+                <Link to="/registro" className="header-auth__register">Registro</Link>
               </div>
             )}
 
@@ -175,7 +178,7 @@ function Header() {
         </div>
       </header>
 
-      {/* Menú móvil — fuera del header para el overlay correcto */}
+      {/* Menú móvil */}
       <div
         id="mobile-menu"
         className={`mobile-menu${isMenuOpen ? ' mobile-menu--open' : ''}`}
@@ -207,35 +210,31 @@ function Header() {
                 </div>
               </div>
               {isAdmin && (
-                <Link
-                  to="/admin"
-                  className="mobile-menu__action"
-                  onClick={() => setIsMenuOpen(false)}
-                >
+                <Link to="/admin" className="mobile-menu__action"
+                  onClick={() => setIsMenuOpen(false)}>
                   <Settings size={16} aria-hidden="true" />
                   Admin Panel
                 </Link>
               )}
-              <button className="mobile-menu__action mobile-menu__action--danger" onClick={handleLogout}>
+              <button
+                className="mobile-menu__action mobile-menu__action--danger"
+                onClick={handleLogout}
+              >
                 <Logout size={16} aria-hidden="true" />
                 Cerrar sesión
               </button>
             </>
           ) : (
             <div className="mobile-menu__auth">
-              <Link
-                to="/login"
+              <Link to="/login"
                 className="mobile-menu__btn mobile-menu__btn--ghost"
-                onClick={() => setIsMenuOpen(false)}
-              >
+                onClick={() => setIsMenuOpen(false)}>
                 <Login size={16} aria-hidden="true" />
                 Iniciar sesión
               </Link>
-              <Link
-                to="/registro"
+              <Link to="/registro"
                 className="mobile-menu__btn mobile-menu__btn--primary"
-                onClick={() => setIsMenuOpen(false)}
-              >
+                onClick={() => setIsMenuOpen(false)}>
                 <UserFollow size={16} aria-hidden="true" />
                 Registro
               </Link>
@@ -244,10 +243,8 @@ function Header() {
         </div>
       </div>
 
-      {/* Overlay backdrop */}
       {isMenuOpen && (
-        <div
-          className="mobile-menu__overlay"
+        <div className="mobile-menu__overlay"
           onClick={() => setIsMenuOpen(false)}
           aria-hidden="true"
         />
