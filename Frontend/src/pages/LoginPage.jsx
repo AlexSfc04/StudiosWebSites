@@ -54,7 +54,7 @@ function Login() {
   }
 
   const handleGoogleLogin = () => {
-    if (!VITE_GOOGLE_CLIENT_ID) {
+    if (!GOOGLE_CLIENT_ID) {
       setError('No se ha configurado el login con Google.')
       return
     }
@@ -66,7 +66,7 @@ function Login() {
   }
 
   useEffect(() => {
-    if (!VITE_GOOGLE_CLIENT_ID) return
+    if (!GOOGLE_CLIENT_ID) return
     let intervalId = null
     const renderButton = () => {
       if (window.google?.accounts?.id) {
@@ -91,7 +91,7 @@ function Login() {
     }
     intervalId = window.setInterval(renderButton, 150)
     return () => { if (intervalId) window.clearInterval(intervalId) }
-  }, [VITE_GOOGLE_CLIENT_ID])
+  }, [GOOGLE_CLIENT_ID])
 
   return (
     <div className="auth-page">
@@ -116,7 +116,7 @@ function Login() {
           <p className="auth-subtitle">Inicia sesión en tu cuenta</p>
 
           {/* Google button — encima del formulario */}
-          {VITE_GOOGLE_CLIENT_ID ? (
+          {GOOGLE_CLIENT_ID ? (
             <div className="auth-google-box">
               <div id="google-signin-button-login" />
               {!googleReady && (
