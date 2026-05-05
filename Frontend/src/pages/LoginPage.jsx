@@ -127,7 +127,7 @@ function Login() {
             </div>
           ) : (
             <div className="auth-google-missing">
-              No está configurado Google Sign-In. Añade <code>VITE_GOOGLE_CLIENT_ID</code> en tu frontend.
+              No está configurado Google Sign-In. Añade <code>GOOGLE_CLIENT_ID</code> en tu frontend.
             </div>
           )}
 
