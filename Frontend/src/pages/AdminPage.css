@@ -530,3 +530,70 @@
 
   .adm-info-divider { display: none; }
 }
+
+/* ══════════════════════════════════
+   OVERRIDES — neutraliza index.css global
+   para que los estilos del admin no se vean
+   afectados por h1/h2/h3/p/body globales
+══════════════════════════════════ */
+.adm-root h1,
+.adm-root h2,
+.adm-root h3,
+.adm-root h4,
+.adm-root h5,
+.adm-root h6 {
+  margin-bottom: 0;
+  line-height: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.adm-root p {
+  margin-bottom: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* Título greeting */
+.adm-root .adm-greeting-title {
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  margin: 0 0 4px !important;
+  letter-spacing: -0.02em;
+}
+
+/* Título topbar */
+.adm-root .adm-topbar-title {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+}
+
+/* Título de card */
+.adm-root .adm-card-title {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  margin: 0 0 4px !important;
+  line-height: 1.3 !important;
+}
+
+/* Section label */
+.adm-root .adm-section-title {
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  color: #94a3b8 !important;
+  margin: 0 0 16px !important;
+  line-height: 1 !important;
+}
+
+/* Sidebar section label */
+.adm-root .adm-sidebar-section-label {
+  font-size: 0.65rem !important;
+  color: rgba(255,255,255,0.25) !important;
+  margin: 0 0 6px !important;
+  font-weight: 700 !important;
+}
