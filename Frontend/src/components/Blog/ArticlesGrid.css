@@ -1,5 +1,5 @@
 .articles-section {
-  background: white;
+  background: var(--bg-light);
   padding: 60px 20px 100px;
   min-height: 60vh;
 }
@@ -20,24 +20,24 @@
 
 .filter-btn {
   padding: 12px 28px;
-  background: white;
-  border: 2px solid #e5e7eb;
+  background: var(--bg-white);
+  border: 2px solid var(--border);
   border-radius: 8px;
   font-size: 0.938rem;
   font-weight: 600;
-  color: #64748b;
+  color: var(--text-medium);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .filter-btn:hover {
-  border-color: #6366f1;
-  color: #6366f1;
-  background: #f8f7ff;
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--bg-light);
 }
 
 .filter-btn.active {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: var(--gradient-primary);
   color: white;
   border-color: transparent;
 }
@@ -50,8 +50,8 @@
 }
 
 .article-card {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
   text-decoration: none;
@@ -63,7 +63,7 @@
 .article-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-  border-color: #6366f1;
+  border-color: var(--primary);
 }
 
 .article-image-container {
@@ -71,7 +71,7 @@
   width: 100%;
   height: 220px;
   overflow: hidden;
-  background: #f3f4f6;
+  background: var(--bg-light);
 }
 
 .article-image {
@@ -107,14 +107,14 @@
 .article-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-dark);
   margin-bottom: 12px;
   line-height: 1.4;
 }
 
 .article-excerpt {
   font-size: 0.938rem;
-  color: #64748b;
+  color: var(--text-medium);
   line-height: 1.6;
   margin-bottom: 20px;
   flex: 1;
@@ -125,7 +125,7 @@
   align-items: center;
   gap: 8px;
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--text-light);
 }
 
 .article-author {
@@ -141,11 +141,11 @@
 }
 
 .article-divider {
-  color: #cbd5e1;
+  color: var(--border);
 }
 
 .article-read-time {
-  color: #94a3b8;
+  color: var(--text-light);
 }
 
 /* Estado vacío */
@@ -166,13 +166,13 @@
 .empty-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-dark);
   margin-bottom: 12px;
 }
 
 .empty-description {
   font-size: 1rem;
-  color: #64748b;
+  color: var(--text-medium);
   max-width: 500px;
   margin-bottom: 32px;
   line-height: 1.6;
@@ -181,7 +181,7 @@
 .empty-btn {
   display: inline-block;
   padding: 14px 32px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: var(--gradient-primary);
   color: white;
   border-radius: 8px;
   font-size: 1rem;
