@@ -75,7 +75,7 @@ function AdminProjects() {
   const isActive = (path) => location.pathname === path
 
   return (
-    <div className="adm-root">
+    <div className="adm-root"> 
       <SEO
         title="Admin - Proyectos"
         description="Crea y edita proyectos en el panel administrativo de StudiosWebSites."
