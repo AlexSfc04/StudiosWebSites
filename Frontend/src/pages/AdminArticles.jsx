@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import api from '../services/api'
 import './AdminPage.css'
 import SEO from '../components/SEO/SEO'
 import {
@@ -12,30 +13,28 @@ import {
   Logout,
   ArrowLeft,
   User,
-  ChevronRight,
   Notification,
   DataTable,
   Globe,
-  Add,
   Time,
-  CheckmarkFilled,
-  WarningFilled,
 } from '@carbon/icons-react'
 
-function AdminPage() {
+const empty = { title: '', content: '', image: '', category: 'general', featured: false }
+
+function AdminArticles() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const [articles, setArticles] = useState([])
+  const [form, setForm] = useState(empty)
+  const [editingId, setEditingId] = useState(null)
+  const [loadingArticles, setLoadingArticles] = useState(true)
   const [currentTime, setCurrentTime] = useState(new Date())
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login')
-    } else if (user.role !== 'admin') {
-      navigate('/')
-    }
-  }, [user])
-
-  useEffect(() => {
+    api.getArticles()
+      .then(data => setArticles(Array.isArray(data) ? data : []))
+      .finally(() => setLoadingArticles(false))
     const timer = setInterval(() => setCurrentTime(new Date()), 60000)
     return () => clearInterval(timer)
   }, [])
@@ -45,91 +44,42 @@ function AdminPage() {
     navigate('/')
   }
 
-  const greeting = () => {
-    const h = currentTime.getHours()
-    if (h < 12) return 'Buenos días'
-    if (h < 20) return 'Buenas tardes'
-    return 'Buenas noches'
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (editingId) {
+      await api.updateArticle(editingId, form)
+      setArticles(articles.map(a => a.id === editingId ? { ...a, ...form } : a))
+    } else {
+      const res = await api.createArticle(form)
+      setArticles([...articles, { ...form, id: res.id }])
+    }
+    setForm(empty)
+    setEditingId(null)
   }
 
-  const cards = [
-    {
-      icon: <Portfolio size={24} />,
-      title: 'Proyectos',
-      desc: 'Gestiona tu portfolio',
-      stat: null,
-      color: 'indigo',
-      path: '/admin/projects',
-      tag: 'Activo',
-      tagOk: true,
-    },
-    {
-      icon: <Edit size={24} />,
-      title: 'Blog',
-      desc: 'Gestiona artículos',
-      stat: null,
-      color: 'violet',
-      path: '/admin/articles',
-      tag: 'Activo',
-      tagOk: true,
-    },
-    {
-      icon: <Settings size={24} />,
-      title: 'Servicios',
-      desc: 'Editar servicios',
-      stat: null,
-      color: 'cyan',
-      path: null,
-      tag: 'Próximamente',
-      tagOk: false,
-    },
-    {
-      icon: <Email size={24} />,
-      title: 'Contactos',
-      desc: 'Ver mensajes',
-      stat: null,
-      color: 'emerald',
-      path: null,
-      tag: 'Próximamente',
-      tagOk: false,
-    },
-    {
-      icon: <DataTable size={24} />,
-      title: 'Analíticas',
-      desc: 'Estadísticas del sitio',
-      stat: null,
-      color: 'amber',
-      path: null,
-      tag: 'Próximamente',
-      tagOk: false,
-    },
-    {
-      icon: <Globe size={24} />,
-      title: 'Web pública',
-      desc: 'Ver studioswebsites.com',
-      stat: null,
-      color: 'slate',
-      path: '/',
-      tag: 'Enlace',
-      tagOk: true,
-    },
-  ]
+  const handleEdit = (article) => {
+    setForm(article)
+    setEditingId(article.id)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
-  const quickActions = [
-    { label: 'Nuevo proyecto', icon: <Add size={16} />, path: '/admin/projects' },
-    { label: 'Nuevo artículo', icon: <Add size={16} />, path: '/admin/articles' },
-    { label: 'Ver la web', icon: <Globe size={16} />, path: '/' },
-  ]
+  const handleDelete = async (id) => {
+    if (!confirm('¿Seguro que quieres eliminar este artículo?')) return
+    await api.deleteArticle(id)
+    setArticles(articles.filter(a => a.id !== id))
+  }
 
   const formatDate = (d) =>
     d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 
+  const isActive = (path) => location.pathname === path
+
   return (
     <div className="adm-root">
       <SEO
-        title="Panel de administración"
-        description="Administra proyectos, artículos y contenido de StudiosWebSites desde el panel privado."
-        canonical="https://studioswebsites.com/admin"
+        title="Admin - Artículos"
+        description="Gestiona el blog y publica artículos desde el panel administrativo de StudiosWebSites."
+        canonical="https://studioswebsites.com/admin/articles"
         robots="noindex,nofollow"
       />
 
@@ -143,32 +93,26 @@ function AdminPage() {
 
         <nav className="adm-sidebar-nav">
           <p className="adm-sidebar-section-label">Panel</p>
-          <a href="/admin" className="adm-sidebar-link adm-sidebar-link--active">
+          <Link to="/admin" className={`adm-sidebar-link ${isActive('/admin') ? 'adm-sidebar-link--active' : ''}`}>
             <Dashboard size={18} /> Dashboard
-          </a>
-          <a href="/admin/projects" className="adm-sidebar-link">
+          </Link>
+          <Link to="/admin/projects" className={`adm-sidebar-link ${isActive('/admin/projects') ? 'adm-sidebar-link--active' : ''}`}>
             <Portfolio size={18} /> Proyectos
-          </a>
-          <a href="/admin/articles" className="adm-sidebar-link">
+          </Link>
+          <Link to="/admin/articles" className={`adm-sidebar-link ${isActive('/admin/articles') ? 'adm-sidebar-link--active' : ''}`}>
             <Edit size={18} /> Blog
-          </a>
+          </Link>
 
           <p className="adm-sidebar-section-label" style={{ marginTop: '24px' }}>Próximamente</p>
-          <span className="adm-sidebar-link adm-sidebar-link--disabled">
-            <Settings size={18} /> Servicios
-          </span>
-          <span className="adm-sidebar-link adm-sidebar-link--disabled">
-            <Email size={18} /> Contactos
-          </span>
-          <span className="adm-sidebar-link adm-sidebar-link--disabled">
-            <DataTable size={18} /> Analíticas
-          </span>
+          <span className="adm-sidebar-link adm-sidebar-link--disabled"><Settings size={18} /> Servicios</span>
+          <span className="adm-sidebar-link adm-sidebar-link--disabled"><Email size={18} /> Contactos</span>
+          <span className="adm-sidebar-link adm-sidebar-link--disabled"><DataTable size={18} /> Analíticas</span>
         </nav>
 
         <div className="adm-sidebar-footer">
-          <a href="/" className="adm-sidebar-link">
+          <Link to="/" className="adm-sidebar-link">
             <ArrowLeft size={18} /> Volver a la web
-          </a>
+          </Link>
           <button className="adm-sidebar-logout" onClick={handleLogout}>
             <Logout size={18} /> Cerrar sesión
           </button>
@@ -181,7 +125,7 @@ function AdminPage() {
         {/* Topbar */}
         <header className="adm-topbar">
           <div className="adm-topbar-left">
-            <h1 className="adm-topbar-title">Dashboard</h1>
+            <h1 className="adm-topbar-title">Blog — Artículos</h1>
             <span className="adm-topbar-date">
               <Time size={14} />
               {formatDate(currentTime)}
@@ -192,9 +136,7 @@ function AdminPage() {
               <Notification size={18} />
             </button>
             <div className="adm-topbar-user">
-              <div className="adm-topbar-avatar">
-                <User size={16} />
-              </div>
+              <div className="adm-topbar-avatar"><User size={16} /></div>
               <div className="adm-topbar-user-info">
                 <span className="adm-topbar-user-name">{user?.name || user?.email}</span>
                 <span className="adm-topbar-user-role">Administrador</span>
@@ -206,74 +148,95 @@ function AdminPage() {
         {/* Content */}
         <div className="adm-content">
 
-          {/* Greeting */}
-          <div className="adm-greeting">
-            <div>
-              <h2 className="adm-greeting-title">{greeting()}, {user?.name?.split(' ')[0]} 👋</h2>
-              <p className="adm-greeting-sub">Aquí tienes el resumen de StudiosWebSites.</p>
-            </div>
-            <div className="adm-quick-actions">
-              {quickActions.map((a) => (
-                <button key={a.label} className="adm-quick-btn" onClick={() => navigate(a.path)}>
-                  {a.icon} {a.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Cards grid */}
+          {/* Formulario */}
           <section className="adm-section">
-            <h3 className="adm-section-title">Módulos</h3>
-            <div className="adm-cards">
-              {cards.map((card) => (
-                <div
-                  key={card.title}
-                  className={`adm-card adm-card--${card.color} ${!card.path ? 'adm-card--disabled' : ''}`}
-                  onClick={() => card.path && navigate(card.path)}
-                  role={card.path ? 'button' : undefined}
-                  tabIndex={card.path ? 0 : undefined}
-                  onKeyDown={(e) => e.key === 'Enter' && card.path && navigate(card.path)}
-                >
-                  <div className="adm-card-header">
-                    <div className="adm-card-icon">{card.icon}</div>
-                    <span className={`adm-card-tag ${card.tagOk ? 'adm-card-tag--ok' : 'adm-card-tag--soon'}`}>
-                      {card.tagOk
-                        ? <CheckmarkFilled size={10} />
-                        : <WarningFilled size={10} />}
-                      {card.tag}
-                    </span>
-                  </div>
-                  <h4 className="adm-card-title">{card.title}</h4>
-                  <p className="adm-card-desc">{card.desc}</p>
-                  {card.path && (
-                    <div className="adm-card-arrow">
-                      <ChevronRight size={16} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <h3 className="adm-section-title">
+              {editingId ? 'Editar artículo' : 'Nuevo artículo'}
+            </h3>
+            <form onSubmit={handleSubmit} className="admin-form">
+              <input
+                className="admin-input"
+                placeholder="Título"
+                value={form.title}
+                onChange={e => setForm({ ...form, title: e.target.value })}
+                required
+              />
+              <textarea
+                className="admin-input"
+                placeholder="Contenido"
+                rows={5}
+                value={form.content}
+                onChange={e => setForm({ ...form, content: e.target.value })}
+                required
+              />
+              <input
+                className="admin-input"
+                placeholder="URL de imagen"
+                value={form.image}
+                onChange={e => setForm({ ...form, image: e.target.value })}
+              />
+              <select
+                className="admin-input"
+                value={form.category}
+                onChange={e => setForm({ ...form, category: e.target.value })}
+              >
+                <option value="general">General</option>
+                <option value="news">Noticias</option>
+                <option value="tips">Consejos</option>
+                <option value="others">Otros</option>
+              </select>
+              <label className="admin-check">
+                <input
+                  type="checkbox"
+                  checked={form.featured}
+                  onChange={e => setForm({ ...form, featured: e.target.checked })}
+                />
+                Destacado
+              </label>
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <button type="submit" className="admin-btn-primary">
+                  {editingId ? 'Actualizar artículo' : 'Crear artículo'}
+                </button>
+                {editingId && (
+                  <button
+                    type="button"
+                    className="admin-btn-secondary"
+                    onClick={() => { setForm(empty); setEditingId(null) }}
+                  >
+                    Cancelar
+                  </button>
+                )}
+              </div>
+            </form>
           </section>
 
-          {/* Info strip */}
-          <div className="adm-info-strip">
-            <div className="adm-info-item">
-              <span className="adm-info-label">Web</span>
-              <a href="https://www.studioswebsites.com" target="_blank" rel="noopener noreferrer" className="adm-info-value adm-info-link">
-                studioswebsites.com <ChevronRight size={12} />
-              </a>
-            </div>
-            <div className="adm-info-divider" />
-            <div className="adm-info-item">
-              <span className="adm-info-label">Sesión</span>
-              <span className="adm-info-value">{user?.email}</span>
-            </div>
-            <div className="adm-info-divider" />
-            <div className="adm-info-item">
-              <span className="adm-info-label">Rol</span>
-              <span className="adm-info-value adm-info-value--admin">Administrador</span>
-            </div>
-          </div>
+          {/* Lista */}
+          <section className="adm-section">
+            <h3 className="adm-section-title">
+              Artículos publicados ({articles.length})
+            </h3>
+            {loadingArticles ? (
+              <p style={{ color: '#64748b', fontSize: '0.875rem' }}>Cargando...</p>
+            ) : (
+              <div className="admin-list">
+                {articles.length === 0 && (
+                  <p style={{ color: '#94a3b8', fontSize: '0.875rem' }}>No hay artículos todavía.</p>
+                )}
+                {articles.map(article => (
+                  <div className="admin-list-item" key={article.id}>
+                    <div>
+                      <strong>{article.title}</strong>
+                      <span className="admin-badge">{article.category}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button className="admin-btn-edit" onClick={() => handleEdit(article)}>Editar</button>
+                      <button className="admin-btn-delete" onClick={() => handleDelete(article.id)}>Eliminar</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
 
         </div>
       </main>
@@ -281,4 +244,4 @@ function AdminPage() {
   )
 }
 
-export default AdminPage
+export default AdminArticles
