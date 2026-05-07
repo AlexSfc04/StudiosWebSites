@@ -9,6 +9,7 @@ import {
   ViewOff,
   Settings,
 } from '@carbon/icons-react'
+import api from '../../services/api' // ← ajusta la ruta según tu estructura
 import './ProfileSettings.css'
 
 function ProfileSettings() {
@@ -41,13 +42,7 @@ function ProfileSettings() {
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const res = await fetch('http://localhost:5000/users/me', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
-        const data = await res.json()
-
+        const data = await api.getProfile() // ← antes: fetch('http://localhost:5000/users/me')
         setProfile({
           name: data.name || '',
           email: data.email || '',
@@ -60,7 +55,6 @@ function ProfileSettings() {
         setError('No se pudo cargar la información de la cuenta.')
       }
     }
-
     loadProfile()
   }, [])
 
@@ -74,10 +68,7 @@ function ProfileSettings() {
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target
-    setPasswords((prev) => ({
-      ...prev,
-      [name]: value,
-    }))
+    setPasswords((prev) => ({ ...prev, [name]: value }))
   }
 
   const saveProfile = async (e) => {
@@ -85,20 +76,8 @@ function ProfileSettings() {
     setSavingProfile(true)
     setMessage('')
     setError('')
-
     try {
-      const res = await fetch('http://localhost:5000/users/me', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(profile),
-      })
-
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.message || 'No se pudo actualizar el perfil.')
-
+      await api.updateProfile(profile) // ← antes: fetch('http://localhost:5000/users/me', PUT)
       setMessage('La información de la cuenta se ha actualizado correctamente.')
     } catch (err) {
       setError(err.message)
@@ -118,7 +97,6 @@ function ProfileSettings() {
       setSavingPassword(false)
       return
     }
-
     if (passwords.newPassword !== passwords.confirmPassword) {
       setError('La confirmación de la contraseña no coincide.')
       setSavingPassword(false)
@@ -126,23 +104,8 @@ function ProfileSettings() {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/users/me/password', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(passwords),
-      })
-
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.message || 'No se pudo cambiar la contraseña.')
-
-      setPasswords({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: '',
-      })
+      await api.changePassword(passwords.currentPassword, passwords.newPassword) // ← antes: fetch('http://localhost:5000/users/me/password', PUT)
+      setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' })
       setMessage('La contraseña se ha actualizado correctamente.')
     } catch (err) {
       setError(err.message)
@@ -175,45 +138,18 @@ function ProfileSettings() {
             </div>
 
             <label className="settings-field">
-              <span className="settings-label">
-                <User size={16} aria-hidden="true" />
-                Nombre
-              </span>
-              <input
-                type="text"
-                name="name"
-                value={profile.name}
-                onChange={handleProfileChange}
-                placeholder="Tu nombre"
-              />
+              <span className="settings-label"><User size={16} aria-hidden="true" />Nombre</span>
+              <input type="text" name="name" value={profile.name} onChange={handleProfileChange} placeholder="Tu nombre" />
             </label>
 
             <label className="settings-field">
-              <span className="settings-label">
-                <Email size={16} aria-hidden="true" />
-                Correo electrónico
-              </span>
-              <input
-                type="email"
-                name="email"
-                value={profile.email}
-                onChange={handleProfileChange}
-                placeholder="correo@dominio.com"
-              />
+              <span className="settings-label"><Email size={16} aria-hidden="true" />Correo electrónico</span>
+              <input type="email" name="email" value={profile.email} onChange={handleProfileChange} placeholder="correo@dominio.com" />
             </label>
 
             <label className="settings-field">
-              <span className="settings-label">
-                <Location size={16} aria-hidden="true" />
-                País
-              </span>
-              <input
-                type="text"
-                name="country"
-                value={profile.country}
-                onChange={handleProfileChange}
-                placeholder="España"
-              />
+              <span className="settings-label"><Location size={16} aria-hidden="true" />País</span>
+              <input type="text" name="country" value={profile.country} onChange={handleProfileChange} placeholder="España" />
             </label>
 
             <label className="settings-field">
@@ -234,12 +170,7 @@ function ProfileSettings() {
             </label>
 
             <label className="settings-checkbox">
-              <input
-                type="checkbox"
-                name="emailNotifications"
-                checked={profile.emailNotifications}
-                onChange={handleProfileChange}
-              />
+              <input type="checkbox" name="emailNotifications" checked={profile.emailNotifications} onChange={handleProfileChange} />
               <span>Recibir comunicaciones y avisos por correo electrónico</span>
             </label>
 
@@ -256,76 +187,37 @@ function ProfileSettings() {
             </div>
 
             <label className="settings-field">
-              <span className="settings-label">
-                <Password size={16} aria-hidden="true" />
-                Contraseña actual
-              </span>
+              <span className="settings-label"><Password size={16} aria-hidden="true" />Contraseña actual</span>
               <div className="settings-password-wrap">
-                <input
-                  type={show.current ? 'text' : 'password'}
-                  name="currentPassword"
-                  value={passwords.currentPassword}
-                  onChange={handlePasswordChange}
-                  placeholder="Introduce tu contraseña actual"
-                />
-                <button
-                  type="button"
-                  className="password-toggle-btn"
-                  onClick={() => setShow((prev) => ({ ...prev, current: !prev.current }))}
-                >
+                <input type={show.current ? 'text' : 'password'} name="currentPassword" value={passwords.currentPassword} onChange={handlePasswordChange} placeholder="Introduce tu contraseña actual" />
+                <button type="button" className="password-toggle-btn" onClick={() => setShow((prev) => ({ ...prev, current: !prev.current }))}>
                   {show.current ? <ViewOff size={18} /> : <View size={18} />}
                 </button>
               </div>
             </label>
 
             <label className="settings-field">
-              <span className="settings-label">
-                <Password size={16} aria-hidden="true" />
-                Nueva contraseña
-              </span>
+              <span className="settings-label"><Password size={16} aria-hidden="true" />Nueva contraseña</span>
               <div className="settings-password-wrap">
-                <input
-                  type={show.next ? 'text' : 'password'}
-                  name="newPassword"
-                  value={passwords.newPassword}
-                  onChange={handlePasswordChange}
-                  placeholder="Mínimo 8 caracteres"
-                />
-                <button
-                  type="button"
-                  className="password-toggle-btn"
-                  onClick={() => setShow((prev) => ({ ...prev, next: !prev.next }))}
-                >
+                <input type={show.next ? 'text' : 'password'} name="newPassword" value={passwords.newPassword} onChange={handlePasswordChange} placeholder="Mínimo 8 caracteres" />
+                <button type="button" className="password-toggle-btn" onClick={() => setShow((prev) => ({ ...prev, next: !prev.next }))}>
                   {show.next ? <ViewOff size={18} /> : <View size={18} />}
                 </button>
               </div>
             </label>
 
             <label className="settings-field">
-              <span className="settings-label">
-                <Password size={16} aria-hidden="true" />
-                Confirmar nueva contraseña
-              </span>
+              <span className="settings-label"><Password size={16} aria-hidden="true" />Confirmar nueva contraseña</span>
               <div className="settings-password-wrap">
-                <input
-                  type={show.confirm ? 'text' : 'password'}
-                  name="confirmPassword"
-                  value={passwords.confirmPassword}
-                  onChange={handlePasswordChange}
-                  placeholder="Repite la nueva contraseña"
-                />
-                <button
-                  type="button"
-                  className="password-toggle-btn"
-                  onClick={() => setShow((prev) => ({ ...prev, confirm: !prev.confirm }))}
-                >
+                <input type={show.confirm ? 'text' : 'password'} name="confirmPassword" value={passwords.confirmPassword} onChange={handlePasswordChange} placeholder="Repite la nueva contraseña" />
+                <button type="button" className="password-toggle-btn" onClick={() => setShow((prev) => ({ ...prev, confirm: !prev.confirm }))}>
                   {show.confirm ? <ViewOff size={18} /> : <View size={18} />}
                 </button>
               </div>
             </label>
 
             <div className="settings-helper">
-              La contraseña debe tener al menos 8 caracteres. Puedes endurecer esta regla en el backend.
+              La contraseña debe tener al menos 8 caracteres.
             </div>
 
             <button className="settings-primary-btn" type="submit" disabled={savingPassword}>
