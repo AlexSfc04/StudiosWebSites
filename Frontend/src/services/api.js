@@ -6,7 +6,8 @@ const getHeaders = () => ({
 })
 
 const api = {
-  // ─── AUTH ──────────────────────────────────────────────────────────────────
+
+  // ── AUTH ─────────────────────────────────────────────────
   login: async (email, password) => {
     const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
@@ -19,13 +20,6 @@ const api = {
   logout: () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
-  },
-
-  getProfile: async () => {
-    const response = await fetch(`${API_URL}/auth/profile`, {
-      headers: getHeaders()
-    })
-    return response.json()
   },
 
   register: async (name, email, password) => {
@@ -46,38 +40,45 @@ const api = {
     return response.json()
   },
 
-  // ─── PERFIL ────────────────────────────────────────────────────────────────
-  updateProfile: async ({ name, email, phone, country, bio }) => {
-    const response = await fetch(`${API_URL}/profile`, {
+  // ── PERFIL ───────────────────────────────────────────────
+  getProfile: async () => {
+    const response = await fetch(`${API_URL}/auth/profile`, {
+      headers: getHeaders()
+    })
+    if (!response.ok) {
+      const err = await response.json()
+      throw new Error(err.message || 'Error al obtener el perfil.')
+    }
+    return response.json()
+  },
+
+  updateProfile: async (data) => {
+    const response = await fetch(`${API_URL}/auth/profile`, {
       method: 'PUT',
       headers: getHeaders(),
-      body: JSON.stringify({ name, email, phone, country, bio })
+      body: JSON.stringify(data),
     })
-    if (!response.ok) throw await response.json()
+    if (!response.ok) {
+      const err = await response.json()
+      throw new Error(err.message || 'No se pudo actualizar el perfil.')
+    }
     return response.json()
   },
 
-  updatePassword: async ({ currentPassword, newPassword }) => {
-    const response = await fetch(`${API_URL}/profile/password`, {
+  changePassword: async (currentPassword, newPassword) => {
+    const response = await fetch(`${API_URL}/auth/password`, {
       method: 'PUT',
       headers: getHeaders(),
-      body: JSON.stringify({ currentPassword, newPassword })
+      body: JSON.stringify({ currentPassword, newPassword }),
     })
-    if (!response.ok) throw await response.json()
+    if (!response.ok) {
+      const err = await response.json()
+      throw new Error(err.message || 'No se pudo cambiar la contraseña.')
+    }
     return response.json()
   },
 
-  deleteAccount: async ({ password }) => {
-    const response = await fetch(`${API_URL}/profile`, {
-      method: 'DELETE',
-      headers: getHeaders(),
-      body: JSON.stringify({ password })
-    })
-    if (!response.ok) throw await response.json()
-    return response.json()
-  },
-
-  // ─── PROJECTS ──────────────────────────────────────────────────────────────
+  // ── PROJECTS ─────────────────────────────────────────────
   getProjects: async () => {
     const response = await fetch(`${API_URL}/projects`)
     return response.json()
@@ -114,7 +115,7 @@ const api = {
     return response.json()
   },
 
-  // ─── ARTICLES ──────────────────────────────────────────────────────────────
+  // ── ARTICLES ─────────────────────────────────────────────
   getArticles: async () => {
     const response = await fetch(`${API_URL}/articles`)
     return response.json()
@@ -151,7 +152,7 @@ const api = {
     return response.json()
   },
 
-  // ─── CONTACT ───────────────────────────────────────────────────────────────
+  // ── CONTACT ──────────────────────────────────────────────
   sendContact: async (name, email, message) => {
     const response = await fetch(`${API_URL}/contact`, {
       method: 'POST',
@@ -159,7 +160,8 @@ const api = {
       body: JSON.stringify({ name, email, message })
     })
     return response.json()
-  }
+  },
+
 }
 
 export default api

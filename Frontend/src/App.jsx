@@ -24,7 +24,7 @@ import PoliticaPrivacidad from './pages/PoliticaPrivacidad'
 import PoliticaCookies from './pages/PoliticaCookies'
 import NotFoundPage from './pages/NotFoundPage'
 import { useDarkMode } from './hooks/useDarkMode';
-import ProfilePage from './pages/ProfilePage';
+import ProfilePage from './pages/ProfileSettings';
 
 function App() {
   const location = useLocation()

@@ -11,6 +11,7 @@ import {
   UserFollow,
   Sun,
   Moon,
+  UserProfile,
 } from '@carbon/icons-react'
 import './Header.css'
 
@@ -127,32 +128,43 @@ function Header() {
                   </svg>
                 </button>
 
-                {isProfileOpen && (
-                  <div className="profile__dropdown" role="menu">
-                    <div className="profile__dropdown-header">
-                      <span className="profile__dropdown-name">{displayName}</span>
-                      {user?.email && (
-                        <span className="profile__dropdown-email">{user.email}</span>
-                      )}
-                    </div>
-                    <div className="profile__dropdown-divider" />
-                    {isAdmin && (
-                      <Link to="/admin" className="profile__dropdown-item" role="menuitem"
-                        onClick={() => setIsProfileOpen(false)}>
-                        <Settings size={16} aria-hidden="true" />
-                        <span>Admin Panel</span>
-                      </Link>
+               {isProfileOpen && (
+                <div className="profile__dropdown" role="menu">
+                  <div className="profile__dropdown-header">
+                    <span className="profile__dropdown-name">{displayName}</span>
+                    {user?.email && (
+                      <span className="profile__dropdown-email">{user.email}</span>
                     )}
-                    <button
-                      className="profile__dropdown-item profile__dropdown-item--danger"
-                      role="menuitem"
-                      onClick={handleLogout}
-                    >
-                      <Logout size={16} aria-hidden="true" />
-                      <span>Cerrar sesión</span>
-                    </button>
                   </div>
-                )}
+                  <div className="profile__dropdown-divider" />
+
+                  {isAdmin && (
+                    <Link to="/admin" className="profile__dropdown-item" role="menuitem"
+                      onClick={() => setIsProfileOpen(false)}>
+                      <Settings size={16} aria-hidden="true" />
+                      <span>Admin Panel</span>
+                    </Link>
+                  )}
+
+                  {/* ✅ NUEVO */}
+                  <Link to="/perfil" className="profile__dropdown-item" role="menuitem"
+                    onClick={() => setIsProfileOpen(false)}>
+                    <UserProfile size={16} aria-hidden="true" />
+                    <span>Configuración de cuenta</span>
+                  </Link>
+
+                  <div className="profile__dropdown-divider" />
+
+                  <button
+                    className="profile__dropdown-item profile__dropdown-item--danger"
+                    role="menuitem"
+                    onClick={handleLogout}
+                  >
+                    <Logout size={16} aria-hidden="true" />
+                    <span>Cerrar sesión</span>
+                  </button>
+                </div>
+              )}
               </div>
             ) : (
               <div className="header-auth">
