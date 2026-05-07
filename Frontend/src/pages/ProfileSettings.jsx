@@ -9,7 +9,7 @@ import {
   ViewOff,
   Settings,
 } from '@carbon/icons-react'
-import api from '../../services/api' // ← ajusta la ruta según tu estructura
+import api from '../services/api'
 import './ProfileSettings.css'
 
 function ProfileSettings() {
