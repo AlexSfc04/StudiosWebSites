@@ -24,6 +24,7 @@ import PoliticaPrivacidad from './pages/PoliticaPrivacidad'
 import PoliticaCookies from './pages/PoliticaCookies'
 import NotFoundPage from './pages/NotFoundPage'
 import { useDarkMode } from './hooks/useDarkMode';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   const location = useLocation()
@@ -51,6 +52,7 @@ function App() {
           <Route path="/privacidad" element={<PoliticaPrivacidad />} />
           <Route path="/politica-cookies" element={<PoliticaCookies />} />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/perfil" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
         </Routes>
       </AnimatePresence>
     </AuthProvider>
