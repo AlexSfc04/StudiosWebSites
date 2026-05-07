@@ -52,7 +52,7 @@ function App() {
           <Route path="/privacidad" element={<PoliticaPrivacidad />} />
           <Route path="/politica-cookies" element={<PoliticaCookies />} />
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="/perfil" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+          <Route path="/perfil" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         </Routes>
       </AnimatePresence>
     </AuthProvider>

@@ -6,7 +6,7 @@ const getHeaders = () => ({
 })
 
 const api = {
-  // AUTH
+  // ─── AUTH ──────────────────────────────────────────────────────────────────
   login: async (email, password) => {
     const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
@@ -46,7 +46,38 @@ const api = {
     return response.json()
   },
 
-  // PROJECTS
+  // ─── PERFIL ────────────────────────────────────────────────────────────────
+  updateProfile: async ({ name, email, phone, country, bio }) => {
+    const response = await fetch(`${API_URL}/api/profile`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify({ name, email, phone, country, bio })
+    })
+    if (!response.ok) throw await response.json()
+    return response.json()
+  },
+
+  updatePassword: async ({ currentPassword, newPassword }) => {
+    const response = await fetch(`${API_URL}/api/profile/password`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify({ currentPassword, newPassword })
+    })
+    if (!response.ok) throw await response.json()
+    return response.json()
+  },
+
+  deleteAccount: async ({ password }) => {
+    const response = await fetch(`${API_URL}/api/profile`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+      body: JSON.stringify({ password })
+    })
+    if (!response.ok) throw await response.json()
+    return response.json()
+  },
+
+  // ─── PROJECTS ──────────────────────────────────────────────────────────────
   getProjects: async () => {
     const response = await fetch(`${API_URL}/projects`)
     return response.json()
@@ -83,7 +114,7 @@ const api = {
     return response.json()
   },
 
-  // ARTICLES
+  // ─── ARTICLES ──────────────────────────────────────────────────────────────
   getArticles: async () => {
     const response = await fetch(`${API_URL}/articles`)
     return response.json()
@@ -119,6 +150,8 @@ const api = {
     })
     return response.json()
   },
+
+  // ─── CONTACT ───────────────────────────────────────────────────────────────
   sendContact: async (name, email, message) => {
     const response = await fetch(`${API_URL}/contact`, {
       method: 'POST',
@@ -127,7 +160,6 @@ const api = {
     })
     return response.json()
   }
-  
 }
 
 export default api
