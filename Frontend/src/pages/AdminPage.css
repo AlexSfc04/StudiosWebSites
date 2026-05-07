@@ -435,31 +435,6 @@
   transform: translateX(2px);
 }
 
-/* INFO STRIP */
-.adm-info-strip {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.adm-info-divider {
-  width: 1px;
-  height: 28px;
-  background: #e2e8f0;
-  flex-shrink: 0;
-}
-
-.adm-info-item {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
 .adm-info-label {
   font-size: 0.65rem;
   font-weight: 700;
@@ -698,6 +673,4 @@ select.admin-input { cursor: pointer; }
 
 @media (max-width: 480px) {
   .adm-cards { grid-template-columns: 1fr 1fr; }
-  .adm-info-strip { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .adm-info-divider { display: none; }
 }

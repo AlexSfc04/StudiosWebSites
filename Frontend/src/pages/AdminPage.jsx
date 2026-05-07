@@ -276,34 +276,6 @@ function AdminPage() {
               ))}
             </div>
           </section>
-
-          <div className="adm-info-strip">
-            <div className="adm-info-item">
-              <span className="adm-info-label">Web</span>
-              <a
-                href="https://www.studioswebsites.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="adm-info-value adm-info-link"
-              >
-                studioswebsites.com <ChevronRight size={12} />
-              </a>
-            </div>
-
-            <div className="adm-info-divider" />
-
-            <div className="adm-info-item">
-              <span className="adm-info-label">Sesión</span>
-              <span className="adm-info-value">{user?.email}</span>
-            </div>
-
-            <div className="adm-info-divider" />
-
-            <div className="adm-info-item">
-              <span className="adm-info-label">Rol</span>
-              <span className="adm-info-value adm-info-value--admin">Administrador</span>
-            </div>
-          </div>
         </div>
       </main>
     </div>
