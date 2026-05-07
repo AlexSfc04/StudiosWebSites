@@ -48,7 +48,7 @@ const api = {
 
   // ─── PERFIL ────────────────────────────────────────────────────────────────
   updateProfile: async ({ name, email, phone, country, bio }) => {
-    const response = await fetch(`${API_URL}/api/profile`, {
+    const response = await fetch(`${API_URL}/profile`, {
       method: 'PUT',
       headers: getHeaders(),
       body: JSON.stringify({ name, email, phone, country, bio })
@@ -58,7 +58,7 @@ const api = {
   },
 
   updatePassword: async ({ currentPassword, newPassword }) => {
-    const response = await fetch(`${API_URL}/api/profile/password`, {
+    const response = await fetch(`${API_URL}/profile/password`, {
       method: 'PUT',
       headers: getHeaders(),
       body: JSON.stringify({ currentPassword, newPassword })
@@ -68,7 +68,7 @@ const api = {
   },
 
   deleteAccount: async ({ password }) => {
-    const response = await fetch(`${API_URL}/api/profile`, {
+    const response = await fetch(`${API_URL}/profile`, {
       method: 'DELETE',
       headers: getHeaders(),
       body: JSON.stringify({ password })

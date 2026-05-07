@@ -51,8 +51,8 @@ function App() {
           <Route path="/admin/articles" element={<AdminArticles />} />
           <Route path="/privacidad" element={<PoliticaPrivacidad />} />
           <Route path="/politica-cookies" element={<PoliticaCookies />} />
-          <Route path="*" element={<NotFoundPage />} />
           <Route path="/perfil" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AnimatePresence>
     </AuthProvider>
