@@ -50,7 +50,7 @@ router.post(
       res.status(201).json({
         message: 'Usuario registrado correctamente',
         token,
-        user: { id: user.id, email: user.email, name: user.name, role: user.role || 'user' },
+        user: { id: user.id, email: user.email, name: user.name, role: user.role || 'user', avatar: user.avatar || null},
       })
     } catch (error) {
       console.error('Error en registro:', error)
@@ -86,7 +86,7 @@ router.post(
       res.json({
         message: 'Login exitoso',
         token,
-        user: { id: user.id, email: user.email, name: user.name, role: user.role },
+        user: { id: user.id, email: user.email, name: user.name, role: user.role, avatar: user.avatar || null },
       })
     } catch (error) {
       console.error('Error en login:', error)
@@ -120,7 +120,7 @@ router.post('/google-login', async (req, res) => {
     res.json({
       message: 'Inicio de sesión con Google exitoso',
       token,
-      user: { id: user.id, email: user.email, name: user.name, role: user.role || 'user' },
+      user: { id: user.id, email: user.email, name: user.name, role: user.role || 'user',avatar: user.avatar || null },
     })
   } catch (error) {
     console.error('Error en Google login:', error)
