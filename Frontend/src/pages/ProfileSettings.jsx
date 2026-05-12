@@ -11,6 +11,7 @@ import {
 } from '@carbon/icons-react'
 import api from '../services/api'
 import './ProfileSettings.css'
+import { useAuth } from '../../contexts/AuthContext'
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://studios-web-sites-u6qh.vercel.app'
 
@@ -23,6 +24,19 @@ function ProfileSettings() {
     timezone: 'Europe/Madrid',
     emailNotifications: true,
   })
+
+  function ProfileSettings() {
+  const { updateUser } = useAuth()
+
+  // En saveProfile, reemplaza el bloque de localStorage:
+  const updated = await api.updateProfile(profile)
+  updateUser({ name: updated.name || profile.name, email: updated.email || profile.email })
+
+  // En handleAvatarChange, tras recibir la respuesta:
+  const data = await response.json()
+  setAvatarPreview(data.avatar)
+  updateUser({ avatar: data.avatar })
+}
 
   const [passwords, setPasswords] = useState({
     currentPassword: '',
