@@ -162,8 +162,6 @@ function Header() {
                   </Link>
 
                   <div className="profile__dropdown-divider" />
-
-                  {/* ✅ Toggle modo oscuro */}
                   <button
                     type="button"
                     className="profile__dropdown-item profile__dropdown-item--theme"

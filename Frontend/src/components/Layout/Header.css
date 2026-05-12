@@ -528,6 +528,50 @@
   object-fit: cover;
 }
 
+.profile__dropdown-item--theme {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* Empuja el toggle pill al extremo derecho */
+.profile__dropdown-item--theme span:nth-child(2) {
+  flex: 1;
+  text-align: left;
+}
+
+.toggle-pill {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 9999px;
+  background: #d1d5db;
+  flex-shrink: 0;
+  transition: background 200ms ease;
+}
+
+.toggle-pill--on {
+  background: #6366f1;
+}
+
+.toggle-pill__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 200ms ease;
+  display: block;
+}
+
+.toggle-pill--on .toggle-pill__thumb {
+  transform: translateX(16px);
+}
+
 /* ---- Responsive ----------------------------------------- */
 @media (max-width: 768px) {
   .header-nav,
