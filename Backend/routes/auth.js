@@ -143,6 +143,7 @@ router.get('/profile', authenticateToken, async (req, res) => {
       language: user.language || 'es',
       timezone: user.timezone || 'Europe/Madrid',
       emailNotifications: user.emailNotifications ?? true,
+      avatar: user.avatar || null,
     })
   } catch {
     res.status(500).json({ error: 'Error al obtener perfil' })
@@ -187,6 +188,18 @@ router.put('/password', authenticateToken, async (req, res) => {
     res.json({ message: 'Contraseña actualizada correctamente.' })
   } catch {
     res.status(500).json({ error: 'Error al cambiar la contraseña.' })
+  }
+})
+
+router.put('/avatar', authenticateToken, async (req, res) => {
+  try {
+    const { avatar } = req.body
+    if (!avatar) return res.status(400).json({ error: 'No se proporcionó imagen.' })
+
+    await pool.query('UPDATE users SET avatar = ? WHERE id = ?', [avatar, req.user.id])
+    res.json({ message: 'Avatar actualizado correctamente.' })
+  } catch {
+    res.status(500).json({ error: 'Error al actualizar el avatar.' })
   }
 })
 
