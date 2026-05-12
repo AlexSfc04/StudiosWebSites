@@ -222,12 +222,18 @@ function Header() {
           {user ? (
             <>
               <div className="mobile-menu__user">
-                <span className="mobile-menu__avatar">{initials}</span>
+                {avatarUrl ? (
+                  <img
+                    src={avatarUrl}
+                    alt={displayName}
+                    className="mobile-menu__avatar mobile-menu__avatar--img"
+                  />
+                ) : (
+                  <span className="mobile-menu__avatar">{initials}</span>
+                )}
                 <div>
                   <p className="mobile-menu__user-name">{displayName}</p>
-                  {user?.email && (
-                    <p className="mobile-menu__user-email">{user.email}</p>
-                  )}
+                  {user?.email && <p className="mobile-menu__user-email">{user.email}</p>}
                 </div>
               </div>
               {isAdmin && (

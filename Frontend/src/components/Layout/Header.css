@@ -513,6 +513,20 @@
 .theme-toggle:active {
   transform: scale(0.95);
 }
+.profile__avatar--img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.mobile-menu__avatar--img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
 /* ---- Responsive ----------------------------------------- */
 @media (max-width: 768px) {
