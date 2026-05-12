@@ -70,6 +70,7 @@ function Header() {
 
   const displayName = user?.name || user?.nombre || user?.email?.split('@')[0] || 'Usuario'
   const initials = displayName.slice(0, 1).toUpperCase()
+  const avatarUrl = user?.avatar || null 
 
   return (
     <>
@@ -110,23 +111,31 @@ function Header() {
 
             {user ? (
               <div className="profile" ref={dropdownRef}>
-                <button
-                  className="profile__trigger"
-                  onClick={() => setIsProfileOpen(v => !v)}
-                  aria-expanded={isProfileOpen}
-                  aria-haspopup="menu"
-                  aria-label={`Menú de ${displayName}`}
-                >
+              <button
+                className="profile__trigger"
+                onClick={() => setIsProfileOpen(v => !v)}
+                aria-expanded={isProfileOpen}
+                aria-haspopup="menu"
+                aria-label={`Menú de ${displayName}`}
+              >
+                {avatarUrl ? (
+                  <img
+                    src={avatarUrl}
+                    alt={displayName}
+                    className="profile__avatar profile__avatar--img"
+                  />
+                ) : (
                   <span className="profile__avatar" aria-hidden="true">{initials}</span>
-                  <span className="profile__name">{displayName}</span>
-                  <svg
-                    className={`profile__chevron${isProfileOpen ? ' profile__chevron--open' : ''}`}
-                    width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"
-                  >
-                    <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.5"
-                      strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
+                )}
+                <span className="profile__name">{displayName}</span>
+                <svg
+                  className={`profile__chevron${isProfileOpen ? ' profile__chevron--open' : ''}`}
+                  width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"
+                >
+                  <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
 
                {isProfileOpen && (
                 <div className="profile__dropdown" role="menu">
