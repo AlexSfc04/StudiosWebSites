@@ -162,6 +162,19 @@ const api = {
     return response.json()
   },
 
+  updateAvatar: async (base64Image) => {
+  const response = await fetch(`${API_URL}/auth/avatar`, {
+    method: 'PUT',
+    headers: getHeaders(),
+    body: JSON.stringify({ avatar: base64Image }),
+  })
+  if (!response.ok) {
+    const err = await response.json()
+    throw new Error(err.message || 'No se pudo actualizar la foto.')
+  }
+  return response.json()
+},
+
 }
 
 export default api

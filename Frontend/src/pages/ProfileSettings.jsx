@@ -38,11 +38,14 @@ function ProfileSettings() {
   const [savingPassword, setSavingPassword] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [avatarPreview, setAvatarPreview] = useState(null)
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
 
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const data = await api.getProfile() // ← antes: fetch('http://localhost:5000/users/me')
+        const data = await api.getProfile()
+        setAvatarPreview(data.avatar || null)
         setProfile({
           name: data.name || '',
           email: data.email || '',
@@ -76,6 +79,43 @@ const saveProfile = async (e) => {
   setSavingProfile(true)
   setMessage('')
   setError('')
+
+const handleAvatarChange = async (e) => {
+  const file = e.target.files[0]
+  if (!file) return
+
+  // Validaciones
+  if (!file.type.startsWith('image/')) {
+    setError('Solo se permiten imágenes.')
+    return
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    setError('La imagen no puede superar los 2MB.')
+    return
+  }
+
+  setUploadingAvatar(true)
+  setError('')
+
+  // Convertir a Base64
+  const reader = new FileReader()
+  reader.onloadend = async () => {
+    const base64 = reader.result
+    try {
+      await api.updateAvatar(base64)
+      setAvatarPreview(base64)
+      // Actualiza localStorage
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+      localStorage.setItem('user', JSON.stringify({ ...currentUser, avatar: base64 }))
+      setMessage('Foto de perfil actualizada.')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setUploadingAvatar(false)
+    }
+  }
+  reader.readAsDataURL(file)
+}
 
   try {
     const updated = await api.updateProfile(profile)
@@ -137,6 +177,31 @@ const saveProfile = async (e) => {
 
         {message && <div className="settings-feedback success">{message}</div>}
         {error && <div className="settings-feedback error">{error}</div>}
+
+        <div className="avatar-section">
+        <div className="avatar-wrapper">
+          {avatarPreview ? (
+            <img src={avatarPreview} alt="Avatar" className="avatar-img" />
+          ) : (
+            <div className="avatar-placeholder">
+              {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+            </div>
+          )}
+          <label className="avatar-upload-btn" title="Cambiar foto">
+            {uploadingAvatar ? '...' : '📷'}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
+              style={{ display: 'none' }}
+            />
+          </label>
+        </div>
+        <div className="avatar-info">
+          <p className="avatar-name">{profile.name || 'Tu nombre'}</p>
+          <p className="avatar-email">{profile.email}</p>
+        </div>
+      </div>
 
         <div className="profile-settings-grid">
           <form className="settings-card" onSubmit={saveProfile}>
