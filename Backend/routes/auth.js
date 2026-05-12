@@ -5,6 +5,7 @@ const { body, validationResult } = require('express-validator')
 const { OAuth2Client } = require('google-auth-library')
 const crypto = require('crypto')
 const User = require('../models/user')
+const { upload } = require('../config/cloudinary')
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 const router = express.Router()
@@ -191,14 +192,17 @@ router.put('/password', authenticateToken, async (req, res) => {
   }
 })
 
-router.put('/avatar', authenticateToken, async (req, res) => {
+  router.put('/avatar', authenticateToken, upload.single('avatar'), async (req, res) => {
   try {
-    const { avatar } = req.body
-    if (!avatar) return res.status(400).json({ error: 'No se proporcionó imagen.' })
+    if (!req.file) return res.status(400).json({ error: 'No se proporcionó imagen.' })
 
-    await pool.query('UPDATE users SET avatar = ? WHERE id = ?', [avatar, req.user.id])
-    res.json({ message: 'Avatar actualizado correctamente.' })
-  } catch {
+    const avatarUrl = req.file.path // URL de Cloudinary
+
+    await pool.query('UPDATE users SET avatar = ? WHERE id = ?', [avatarUrl, req.user.id])
+
+    res.json({ message: 'Avatar actualizado.', avatar: avatarUrl })
+  } catch (error) {
+    console.error('Error avatar:', error)
     res.status(500).json({ error: 'Error al actualizar el avatar.' })
   }
 })
