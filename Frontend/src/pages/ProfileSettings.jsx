@@ -12,6 +12,8 @@ import {
 import api from '../services/api'
 import './ProfileSettings.css'
 
+const API_URL = import.meta.env.VITE_API_URL || 'https://studios-web-sites-u6qh.vercel.app'
+
 function ProfileSettings() {
   const [profile, setProfile] = useState({
     name: '',
@@ -74,37 +76,11 @@ function ProfileSettings() {
     setPasswords((prev) => ({ ...prev, [name]: value }))
   }
 
-  const saveProfile = async (e) => {
-    e.preventDefault()
-    setSavingProfile(true)
-    setMessage('')
-    setError('')
-
-    try {
-      const updated = await api.updateProfile(profile)
-      const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          ...currentUser,
-          name: updated.name || profile.name,
-          email: updated.email || profile.email,
-        }),
-      )
-
-      setMessage('La información de la cuenta se ha actualizado correctamente.')
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setSavingProfile(false)
-    }
-  }
-
+  // ✅ handleAvatarChange correctamente declarada dentro del componente
   const handleAvatarChange = async (e) => {
     const file = e.target.files[0]
     if (!file) return
 
-    // Validaciones
     if (!file.type.startsWith('image/')) {
       setError('Solo se permiten imágenes.')
       return
@@ -117,24 +93,61 @@ function ProfileSettings() {
     setUploadingAvatar(true)
     setError('')
 
-    // Convertir a Base64
-    const reader = new FileReader()
-    reader.onloadend = async () => {
-      const base64 = reader.result
-      try {
-        await api.updateAvatar(base64)
-        setAvatarPreview(base64)
-        // Actualiza localStorage
-        const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
-        localStorage.setItem('user', JSON.stringify({ ...currentUser, avatar: base64 }))
-        setMessage('Foto de perfil actualizada.')
-      } catch (err) {
-        setError(err.message)
-      } finally {
-        setUploadingAvatar(false)
+    try {
+      const localPreview = URL.createObjectURL(file)
+      setAvatarPreview(localPreview)
+
+      const formData = new FormData()
+      formData.append('avatar', file)
+
+      const response = await fetch(`${API_URL}/auth/avatar`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const err = await response.json()
+        throw new Error(err.error || 'No se pudo actualizar la foto.')
       }
+
+      const data = await response.json()
+      setAvatarPreview(data.avatar)
+
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+      localStorage.setItem('user', JSON.stringify({ ...currentUser, avatar: data.avatar }))
+
+      setMessage('Foto de perfil actualizada.')
+    } catch (err) {
+      setError(err.message)
+      setAvatarPreview(null)
+    } finally {
+      setUploadingAvatar(false)
     }
-    reader.readAsDataURL(file)
+  }
+
+  const saveProfile = async (e) => {
+    e.preventDefault()
+    setSavingProfile(true)
+    setMessage('')
+    setError('')
+
+    try {
+      const updated = await api.updateProfile(profile)
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+      localStorage.setItem('user', JSON.stringify({
+        ...currentUser,
+        name: updated.name || profile.name,
+        email: updated.email || profile.email,
+      }))
+      setMessage('La información de la cuenta se ha actualizado correctamente.')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSavingProfile(false)
+    }
   }
 
   const changePassword = async (e) => {
@@ -155,7 +168,7 @@ function ProfileSettings() {
     }
 
     try {
-      await api.changePassword(passwords.currentPassword, passwords.newPassword) // ← antes: fetch('http://localhost:5000/users/me/password', PUT)
+      await api.changePassword(passwords.currentPassword, passwords.newPassword)
       setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' })
       setMessage('La contraseña se ha actualizado correctamente.')
     } catch (err) {
@@ -182,29 +195,29 @@ function ProfileSettings() {
         {error && <div className="settings-feedback error">{error}</div>}
 
         <div className="avatar-section">
-        <div className="avatar-wrapper">
-          {avatarPreview ? (
-            <img src={avatarPreview} alt="Avatar" className="avatar-img" />
-          ) : (
-            <div className="avatar-placeholder">
-              {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
-            </div>
-          )}
-          <label className="avatar-upload-btn" title="Cambiar foto">
-            {uploadingAvatar ? '...' : '📷'}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-              style={{ display: 'none' }}
-            />
-          </label>
+          <div className="avatar-wrapper">
+            {avatarPreview ? (
+              <img src={avatarPreview} alt="Avatar" className="avatar-img" />
+            ) : (
+              <div className="avatar-placeholder">
+                {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+              </div>
+            )}
+            <label className="avatar-upload-btn" title="Cambiar foto">
+              {uploadingAvatar ? '...' : '📷'}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarChange}
+                style={{ display: 'none' }}
+              />
+            </label>
+          </div>
+          <div className="avatar-info">
+            <p className="avatar-name">{profile.name || 'Tu nombre'}</p>
+            <p className="avatar-email">{profile.email}</p>
+          </div>
         </div>
-        <div className="avatar-info">
-          <p className="avatar-name">{profile.name || 'Tu nombre'}</p>
-          <p className="avatar-email">{profile.email}</p>
-        </div>
-      </div>
 
         <div className="profile-settings-grid">
           <form className="settings-card" onSubmit={saveProfile}>
@@ -305,6 +318,6 @@ function ProfileSettings() {
       </div>
     </section>
   )
-}
+}  
 
 export default ProfileSettings
