@@ -10,7 +10,7 @@ import {
   Settings,
 } from '@carbon/icons-react'
 import api from '../services/api'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../contexts/AuthContext'
 import './ProfileSettings.css'
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://studios-web-sites-u6qh.vercel.app'
