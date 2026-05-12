@@ -10,12 +10,14 @@ import {
   Settings,
 } from '@carbon/icons-react'
 import api from '../services/api'
-import './ProfileSettings.css'
 import { useAuth } from '../../contexts/AuthContext'
+import './ProfileSettings.css'
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://studios-web-sites-u6qh.vercel.app'
 
 function ProfileSettings() {
+  const { updateUser } = useAuth()
+
   const [profile, setProfile] = useState({
     name: '',
     email: '',
@@ -24,19 +26,6 @@ function ProfileSettings() {
     timezone: 'Europe/Madrid',
     emailNotifications: true,
   })
-
-  function ProfileSettings() {
-  const { updateUser } = useAuth()
-
-  // En saveProfile, reemplaza el bloque de localStorage:
-  const updated = await api.updateProfile(profile)
-  updateUser({ name: updated.name || profile.name, email: updated.email || profile.email })
-
-  // En handleAvatarChange, tras recibir la respuesta:
-  const data = await response.json()
-  setAvatarPreview(data.avatar)
-  updateUser({ avatar: data.avatar })
-}
 
   const [passwords, setPasswords] = useState({
     currentPassword: '',
@@ -58,58 +47,56 @@ function ProfileSettings() {
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
 
   useEffect(() => {
-  const loadProfile = async () => {
-    try {
-      const data = await api.getProfile()
-      setAvatarPreview(data.avatar || null)
-      setProfile({
-        name: data.name || '',
-        email: data.email || '',
-        country: data.country || '',
-        language: data.language || 'es',
-        timezone: data.timezone || 'Europe/Madrid',
-        emailNotifications: data.emailNotifications ?? true,
-      })
-    } catch {
-      setError('No se pudo cargar la información de la cuenta.')
+    const loadProfile = async () => {
+      try {
+        const data = await api.getProfile()
+        setAvatarPreview(data.avatar || null)
+        setProfile({
+          name: data.name || '',
+          email: data.email || '',
+          country: data.country || '',
+          language: data.language || 'es',
+          timezone: data.timezone || 'Europe/Madrid',
+          emailNotifications: data.emailNotifications ?? true,
+        })
+      } catch {
+        setError('No se pudo cargar la información de la cuenta.')
+      }
     }
+    loadProfile()
+  }, [])
+
+  const handleProfileChange = (e) => {
+    const { name, value, type, checked } = e.target
+    setProfile((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }))
   }
-  loadProfile()
-}, [])
-
-const handleProfileChange = (e) => {
-  const { name, value, type, checked } = e.target
-  setProfile((prev) => ({
-    ...prev,
-    [name]: type === 'checkbox' ? checked : value,
-  }))
-}
-
-// ── Función para sincronizar localStorage y notificar al navbar ──
-const syncUserStorage = (newData) => {
-  const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
-  localStorage.setItem('user', JSON.stringify({ ...currentUser, ...newData }))
-  window.dispatchEvent(new Event('userUpdated')) // ✅ el navbar escuchará esto
-}
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target
     setPasswords((prev) => ({ ...prev, [name]: value }))
   }
 
-  // ✅ handleAvatarChange correctamente declarada dentro del componente
   const handleAvatarChange = async (e) => {
-  const data = await response.json()
-    setAvatarPreview(data.avatar)
-    syncUserStorage({ avatar: data.avatar }) // ✅ una sola línea, ya notifica al navbar
-    setMessage('Foto de perfil actualizada.')
+    const file = e.target.files[0]
+    if (!file) return
+
+    if (!file.type.startsWith('image/')) {
+      setError('Solo se permiten imágenes.')
+      return
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setError('La imagen no puede superar los 2MB.')
+      return
+    }
 
     setUploadingAvatar(true)
     setError('')
 
     try {
-      const localPreview = URL.createObjectURL(file)
-      setAvatarPreview(localPreview)
+      setAvatarPreview(URL.createObjectURL(file))
 
       const formData = new FormData()
       formData.append('avatar', file)
@@ -129,10 +116,7 @@ const syncUserStorage = (newData) => {
 
       const data = await response.json()
       setAvatarPreview(data.avatar)
-
-      const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
-      localStorage.setItem('user', JSON.stringify({ ...currentUser, avatar: data.avatar }))
-
+      updateUser({ avatar: data.avatar }) // ✅ actualiza navbar al instante
       setMessage('Foto de perfil actualizada.')
     } catch (err) {
       setError(err.message)
@@ -150,7 +134,7 @@ const syncUserStorage = (newData) => {
 
     try {
       const updated = await api.updateProfile(profile)
-      syncUserStorage({ name: updated.name || profile.name, email: updated.email || profile.email })
+      updateUser({ name: updated.name || profile.name, email: updated.email || profile.email }) // ✅
       setMessage('La información de la cuenta se ha actualizado correctamente.')
     } catch (err) {
       setError(err.message)
@@ -327,6 +311,6 @@ const syncUserStorage = (newData) => {
       </div>
     </section>
   )
-}  
+}
 
 export default ProfileSettings
