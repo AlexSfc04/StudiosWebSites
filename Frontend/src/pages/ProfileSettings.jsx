@@ -74,65 +74,68 @@ function ProfileSettings() {
     setPasswords((prev) => ({ ...prev, [name]: value }))
   }
 
-const saveProfile = async (e) => {
-  e.preventDefault()
-  setSavingProfile(true)
-  setMessage('')
-  setError('')
+  const saveProfile = async (e) => {
+    e.preventDefault()
+    setSavingProfile(true)
+    setMessage('')
+    setError('')
 
-const handleAvatarChange = async (e) => {
-  const file = e.target.files[0]
-  if (!file) return
-
-  // Validaciones
-  if (!file.type.startsWith('image/')) {
-    setError('Solo se permiten imágenes.')
-    return
-  }
-  if (file.size > 2 * 1024 * 1024) {
-    setError('La imagen no puede superar los 2MB.')
-    return
-  }
-
-  setUploadingAvatar(true)
-  setError('')
-
-  // Convertir a Base64
-  const reader = new FileReader()
-  reader.onloadend = async () => {
-    const base64 = reader.result
     try {
-      await api.updateAvatar(base64)
-      setAvatarPreview(base64)
-      // Actualiza localStorage
+      const updated = await api.updateProfile(profile)
       const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
-      localStorage.setItem('user', JSON.stringify({ ...currentUser, avatar: base64 }))
-      setMessage('Foto de perfil actualizada.')
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          ...currentUser,
+          name: updated.name || profile.name,
+          email: updated.email || profile.email,
+        }),
+      )
+
+      setMessage('La información de la cuenta se ha actualizado correctamente.')
     } catch (err) {
       setError(err.message)
     } finally {
-      setUploadingAvatar(false)
+      setSavingProfile(false)
     }
   }
-  reader.readAsDataURL(file)
-}
 
-  try {
-    const updated = await api.updateProfile(profile)
-    const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
-    localStorage.setItem('user', JSON.stringify({
-      ...currentUser,
-      name: updated.name || profile.name,
-      email: updated.email || profile.email,
-    }))
+  const handleAvatarChange = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
 
-    setMessage('La información de la cuenta se ha actualizado correctamente.')
-  } catch (err) {
-    setError(err.message)
-  } finally {
-    setSavingProfile(false)
+    // Validaciones
+    if (!file.type.startsWith('image/')) {
+      setError('Solo se permiten imágenes.')
+      return
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setError('La imagen no puede superar los 2MB.')
+      return
+    }
+
+    setUploadingAvatar(true)
+    setError('')
+
+    // Convertir a Base64
+    const reader = new FileReader()
+    reader.onloadend = async () => {
+      const base64 = reader.result
+      try {
+        await api.updateAvatar(base64)
+        setAvatarPreview(base64)
+        // Actualiza localStorage
+        const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+        localStorage.setItem('user', JSON.stringify({ ...currentUser, avatar: base64 }))
+        setMessage('Foto de perfil actualizada.')
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setUploadingAvatar(false)
+      }
+    }
+    reader.readAsDataURL(file)
   }
-}
 
   const changePassword = async (e) => {
     e.preventDefault()
