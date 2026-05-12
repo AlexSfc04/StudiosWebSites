@@ -196,6 +196,49 @@ p {
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
 
+/* ── Fix modo oscuro: títulos y gradientes de texto ── */
+[data-theme="dark"] .section-title h2 {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Fix artículo de blog — el h1/h2/h3 dentro del contenido
+   no debe heredar el gradient-text del section-title */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+  color: var(--text-dark); /* en dark = #f0eeff */
+  /* Resetea el gradient-text heredado si lo hay */
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+}
+
+/* Excepción: section-title sí mantiene el gradiente */
+[data-theme="dark"] .section-title h2 {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Fix body de artículo */
+[data-theme="dark"] p {
+  color: var(--text-medium);
+}
+
+/* Fix badge en dark */
+[data-theme="dark"] .badge {
+  background: rgba(99, 102, 241, 0.15);
+  color: #818cf8;
+}
+
 @media (max-width: 992px) {
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
