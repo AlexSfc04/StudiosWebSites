@@ -44,32 +44,39 @@ function ProfileSettings() {
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
 
   useEffect(() => {
-    const loadProfile = async () => {
-      try {
-        const data = await api.getProfile()
-        setAvatarPreview(data.avatar || null)
-        setProfile({
-          name: data.name || '',
-          email: data.email || '',
-          country: data.country || '',
-          language: data.language || 'es',
-          timezone: data.timezone || 'Europe/Madrid',
-          emailNotifications: data.emailNotifications ?? true,
-        })
-      } catch {
-        setError('No se pudo cargar la información de la cuenta.')
-      }
+  const loadProfile = async () => {
+    try {
+      const data = await api.getProfile()
+      setAvatarPreview(data.avatar || null)
+      setProfile({
+        name: data.name || '',
+        email: data.email || '',
+        country: data.country || '',
+        language: data.language || 'es',
+        timezone: data.timezone || 'Europe/Madrid',
+        emailNotifications: data.emailNotifications ?? true,
+      })
+    } catch {
+      setError('No se pudo cargar la información de la cuenta.')
     }
-    loadProfile()
-  }, [])
-
-  const handleProfileChange = (e) => {
-    const { name, value, type, checked } = e.target
-    setProfile((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }))
   }
+  loadProfile()
+}, [])
+
+const handleProfileChange = (e) => {
+  const { name, value, type, checked } = e.target
+  setProfile((prev) => ({
+    ...prev,
+    [name]: type === 'checkbox' ? checked : value,
+  }))
+}
+
+// ── Función para sincronizar localStorage y notificar al navbar ──
+const syncUserStorage = (newData) => {
+  const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+  localStorage.setItem('user', JSON.stringify({ ...currentUser, ...newData }))
+  window.dispatchEvent(new Event('userUpdated')) // ✅ el navbar escuchará esto
+}
 
   const handlePasswordChange = (e) => {
     const { name, value } = e.target
@@ -78,17 +85,10 @@ function ProfileSettings() {
 
   // ✅ handleAvatarChange correctamente declarada dentro del componente
   const handleAvatarChange = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-
-    if (!file.type.startsWith('image/')) {
-      setError('Solo se permiten imágenes.')
-      return
-    }
-    if (file.size > 2 * 1024 * 1024) {
-      setError('La imagen no puede superar los 2MB.')
-      return
-    }
+  const data = await response.json()
+    setAvatarPreview(data.avatar)
+    syncUserStorage({ avatar: data.avatar }) // ✅ una sola línea, ya notifica al navbar
+    setMessage('Foto de perfil actualizada.')
 
     setUploadingAvatar(true)
     setError('')
@@ -136,12 +136,7 @@ function ProfileSettings() {
 
     try {
       const updated = await api.updateProfile(profile)
-      const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
-      localStorage.setItem('user', JSON.stringify({
-        ...currentUser,
-        name: updated.name || profile.name,
-        email: updated.email || profile.email,
-      }))
+      syncUserStorage({ name: updated.name || profile.name, email: updated.email || profile.email })
       setMessage('La información de la cuenta se ha actualizado correctamente.')
     } catch (err) {
       setError(err.message)
