@@ -137,7 +137,7 @@ function Header() {
                 </svg>
               </button>
 
-               {isProfileOpen && (
+              {isProfileOpen && (
                 <div className="profile__dropdown" role="menu">
                   <div className="profile__dropdown-header">
                     <span className="profile__dropdown-name">{displayName}</span>
@@ -155,12 +155,30 @@ function Header() {
                     </Link>
                   )}
 
-                  {/* ✅ NUEVO */}
                   <Link to="/perfil" className="profile__dropdown-item" role="menuitem"
                     onClick={() => setIsProfileOpen(false)}>
                     <UserProfile size={16} aria-hidden="true" />
                     <span>Configuración de cuenta</span>
                   </Link>
+
+                  <div className="profile__dropdown-divider" />
+
+                  {/* ✅ Toggle modo oscuro */}
+                  <button
+                    type="button"
+                    className="profile__dropdown-item profile__dropdown-item--theme"
+                    onClick={toggleTheme}
+                    role="menuitem"
+                  >
+                    {theme === 'dark'
+                      ? <Sun size={16} aria-hidden="true" />
+                      : <Moon size={16} aria-hidden="true" />
+                    }
+                    <span>{theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}</span>
+                    <span className={`toggle-pill ${theme === 'dark' ? 'toggle-pill--on' : ''}`}>
+                      <span className="toggle-pill__thumb" />
+                    </span>
+                  </button>
 
                   <div className="profile__dropdown-divider" />
 
