@@ -71,20 +71,28 @@ function ProfileSettings() {
     setPasswords((prev) => ({ ...prev, [name]: value }))
   }
 
-  const saveProfile = async (e) => {
-    e.preventDefault()
-    setSavingProfile(true)
-    setMessage('')
-    setError('')
-    try {
-      await api.updateProfile(profile) // ← antes: fetch('http://localhost:5000/users/me', PUT)
-      setMessage('La información de la cuenta se ha actualizado correctamente.')
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setSavingProfile(false)
-    }
+const saveProfile = async (e) => {
+  e.preventDefault()
+  setSavingProfile(true)
+  setMessage('')
+  setError('')
+
+  try {
+    const updated = await api.updateProfile(profile)
+    const currentUser = JSON.parse(localStorage.getItem('user') || '{}')
+    localStorage.setItem('user', JSON.stringify({
+      ...currentUser,
+      name: updated.name || profile.name,
+      email: updated.email || profile.email,
+    }))
+
+    setMessage('La información de la cuenta se ha actualizado correctamente.')
+  } catch (err) {
+    setError(err.message)
+  } finally {
+    setSavingProfile(false)
   }
+}
 
   const changePassword = async (e) => {
     e.preventDefault()
