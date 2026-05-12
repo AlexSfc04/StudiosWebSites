@@ -192,13 +192,12 @@ router.put('/password', authenticateToken, async (req, res) => {
   }
 })
 
-  router.put('/avatar', authenticateToken, upload.single('avatar'), async (req, res) => {
+router.put('/avatar', authenticateToken, upload.single('avatar'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No se proporcionó imagen.' })
 
     const avatarUrl = req.file.path // URL de Cloudinary
-
-    await pool.query('UPDATE users SET avatar = ? WHERE id = ?', [avatarUrl, req.user.id])
+    await User.updateAvatar(req.user.id, avatarUrl)  // ✅ usa el modelo
 
     res.json({ message: 'Avatar actualizado.', avatar: avatarUrl })
   } catch (error) {

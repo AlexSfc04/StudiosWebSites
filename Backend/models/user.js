@@ -86,6 +86,13 @@ class User {
   static async verifyPassword(plainPassword, hashedPassword) {
     return await bcrypt.compare(plainPassword, hashedPassword);
   }
+
+  static async updateAvatar(id, avatarUrl) {
+  await pool.query('UPDATE users SET avatar = ? WHERE id = ?', [avatarUrl, id])
+  return User.findById(id)
 }
+
+}
+
 
 module.exports = User;
