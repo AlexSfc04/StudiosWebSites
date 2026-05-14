@@ -13,13 +13,13 @@ import {
 import api from '../services/api'
 import { useAuth } from '../contexts/AuthContext'
 import './ProfileSettings.css'
-import { useNavigate } from 'react-router-dom' 
+import { useNavigate } from 'react-router-dom'
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://studios-web-sites-u6qh.vercel.app'
-const navigate = useNavigate()
 
 function ProfileSettings() {
   const { updateUser } = useAuth()
+  const navigate = useNavigate()
 
   const [profile, setProfile] = useState({
     name: '',
