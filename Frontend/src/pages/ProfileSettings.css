@@ -250,6 +250,32 @@
   font-size: 0.9rem;
 }
 
+/* ── Botón volver ── */
+.settings-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--text-medium);
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 0;
+  margin-bottom: 20px;
+  transition: color 0.2s ease, gap 0.2s ease;
+}
+
+.settings-back-btn:hover {
+  color: var(--primary);
+  gap: 12px;
+}
+
+/* ── Icono alineado verticalmente con el título ── */
+.profile-settings-title-wrap {
+  align-items: center;
+}
+
 @media (max-width: 900px) {
   .profile-settings-grid {
     grid-template-columns: 1fr;

@@ -458,6 +458,17 @@
   width: 100% !important;
 }
 
+[data-theme="dark"] .auth-page {
+  --bg-light:    #f8f7ff;
+  --bg-white:    #ffffff;
+  --text-dark:   #1a1a1a;
+  --text-medium: #4a5568;
+  --text-light:  #718096;
+  --border:      #e5e7eb;
+  --shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.10);
+  --shadow-md:   0 4px 6px rgba(0, 0, 0, 0.10);
+  --shadow-lg:   0 10px 15px rgba(0, 0, 0, 0.10);
+}
 /* ===== RESPONSIVE ===== */
 
 /* Tablet grande (1024px) */

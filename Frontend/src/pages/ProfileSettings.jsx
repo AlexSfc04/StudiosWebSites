@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
+  ArrowLeft,
   User,
   Email,
   Location,
@@ -12,8 +13,10 @@ import {
 import api from '../services/api'
 import { useAuth } from '../contexts/AuthContext'
 import './ProfileSettings.css'
+import { useNavigate } from 'react-router-dom' 
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://studios-web-sites-u6qh.vercel.app'
+const navigate = useNavigate()
 
 function ProfileSettings() {
   const { updateUser } = useAuth()
@@ -175,6 +178,10 @@ function ProfileSettings() {
     <section className="profile-settings-page">
       <div className="profile-settings-container">
         <div className="profile-settings-header">
+          <button className="settings-back-btn" onClick={() => navigate('/')} aria-label="Volver al inicio">
+            <ArrowLeft size={18} aria-hidden="true" />
+            Volver
+          </button>
           <div className="profile-settings-title-wrap">
             <Settings size={24} aria-hidden="true" />
             <div>
