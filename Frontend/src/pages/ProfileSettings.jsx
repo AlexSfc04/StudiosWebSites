@@ -9,6 +9,7 @@ import {
   View,
   ViewOff,
   Settings,
+  LogoGoogle,
 } from '@carbon/icons-react'
 import api from '../services/api'
 import { useAuth } from '../contexts/AuthContext'
@@ -29,6 +30,10 @@ function ProfileSettings() {
     timezone: 'Europe/Madrid',
     emailNotifications: true,
   })
+
+  // ✅ Nuevos campos para gestionar cuentas de Google
+  const [provider, setProvider] = useState('local')
+  const [hasPassword, setHasPassword] = useState(true)
 
   const [passwords, setPasswords] = useState({
     currentPassword: '',
@@ -54,6 +59,8 @@ function ProfileSettings() {
       try {
         const data = await api.getProfile()
         setAvatarPreview(data.avatar || null)
+        setProvider(data.provider || 'local')
+        setHasPassword(!!data.hasPassword)
         setProfile({
           name: data.name || '',
           email: data.email || '',
@@ -106,9 +113,7 @@ function ProfileSettings() {
 
       const response = await fetch(`${API_URL}/auth/avatar`, {
         method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: formData,
       })
 
@@ -119,7 +124,7 @@ function ProfileSettings() {
 
       const data = await response.json()
       setAvatarPreview(data.avatar)
-      updateUser({ avatar: data.avatar }) // ✅ actualiza navbar al instante
+      updateUser({ avatar: data.avatar })
       setMessage('Foto de perfil actualizada.')
     } catch (err) {
       setError(err.message)
@@ -137,7 +142,7 @@ function ProfileSettings() {
 
     try {
       const updated = await api.updateProfile(profile)
-      updateUser({ name: updated.name || profile.name, email: updated.email || profile.email }) // ✅
+      updateUser({ name: updated.name || profile.name, email: updated.email || profile.email })
       setMessage('La información de la cuenta se ha actualizado correctamente.')
     } catch (err) {
       setError(err.message)
@@ -166,13 +171,22 @@ function ProfileSettings() {
     try {
       await api.changePassword(passwords.currentPassword, passwords.newPassword)
       setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' })
-      setMessage('La contraseña se ha actualizado correctamente.')
+      // ✅ Tras establecer contraseña por primera vez, actualiza el estado local
+      setHasPassword(true)
+      setMessage(
+        hasPassword
+          ? 'La contraseña se ha actualizado correctamente.'
+          : 'Contraseña establecida. Ya puedes iniciar sesión con email y contraseña.'
+      )
     } catch (err) {
       setError(err.message)
     } finally {
       setSavingPassword(false)
     }
   }
+
+  // ✅ Usuario de Google sin contraseña → no necesita introducir la actual
+  const isGoogleWithoutPassword = provider === 'google' && !hasPassword
 
   return (
     <section className="profile-settings-page">
@@ -205,21 +219,24 @@ function ProfileSettings() {
             )}
             <label className="avatar-upload-btn" title="Cambiar foto">
               {uploadingAvatar ? '...' : '📷'}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleAvatarChange}
-                style={{ display: 'none' }}
-              />
+              <input type="file" accept="image/*" onChange={handleAvatarChange} style={{ display: 'none' }} />
             </label>
           </div>
           <div className="avatar-info">
             <p className="avatar-name">{profile.name || 'Tu nombre'}</p>
             <p className="avatar-email">{profile.email}</p>
+            {/* ✅ Badge que indica cuenta vinculada con Google */}
+            {provider === 'google' && (
+              <span className="google-badge">
+                <LogoGoogle size={14} aria-hidden="true" />
+                Cuenta de Google
+              </span>
+            )}
           </div>
         </div>
 
         <div className="profile-settings-grid">
+          {/* ── INFORMACIÓN ── */}
           <form className="settings-card" onSubmit={saveProfile}>
             <div className="settings-card-header">
               <h2>Información de la cuenta</h2>
@@ -269,26 +286,47 @@ function ProfileSettings() {
             </button>
           </form>
 
+          {/* ── SEGURIDAD ── */}
           <form className="settings-card" onSubmit={changePassword}>
             <div className="settings-card-header">
               <h2>Seguridad</h2>
-              <p>Cambia tu contraseña cuando lo necesites.</p>
+              {/* ✅ Subtítulo adaptado según el caso */}
+              <p>
+                {isGoogleWithoutPassword
+                  ? 'Establece una contraseña para poder iniciar sesión también con email.'
+                  : 'Cambia tu contraseña cuando lo necesites.'}
+              </p>
             </div>
 
-            <label className="settings-field">
-              <span className="settings-label"><Password size={16} aria-hidden="true" />Contraseña actual</span>
-              <div className="settings-password-wrap">
-                <input type={show.current ? 'text' : 'password'} name="currentPassword" value={passwords.currentPassword} onChange={handlePasswordChange} placeholder="Introduce tu contraseña actual" />
-                <button type="button" className="password-toggle-btn" onClick={() => setShow((prev) => ({ ...prev, current: !prev.current }))}>
-                  {show.current ? <ViewOff size={18} /> : <View size={18} />}
-                </button>
-              </div>
-            </label>
+            {/* ✅ Campo "contraseña actual" solo si ya tiene contraseña */}
+            {!isGoogleWithoutPassword && (
+              <label className="settings-field">
+                <span className="settings-label"><Password size={16} aria-hidden="true" />Contraseña actual</span>
+                <div className="settings-password-wrap">
+                  <input
+                    type={show.current ? 'text' : 'password'}
+                    name="currentPassword"
+                    value={passwords.currentPassword}
+                    onChange={handlePasswordChange}
+                    placeholder="Introduce tu contraseña actual"
+                  />
+                  <button type="button" className="password-toggle-btn" onClick={() => setShow((prev) => ({ ...prev, current: !prev.current }))}>
+                    {show.current ? <ViewOff size={18} /> : <View size={18} />}
+                  </button>
+                </div>
+              </label>
+            )}
 
             <label className="settings-field">
               <span className="settings-label"><Password size={16} aria-hidden="true" />Nueva contraseña</span>
               <div className="settings-password-wrap">
-                <input type={show.next ? 'text' : 'password'} name="newPassword" value={passwords.newPassword} onChange={handlePasswordChange} placeholder="Mínimo 8 caracteres" />
+                <input
+                  type={show.next ? 'text' : 'password'}
+                  name="newPassword"
+                  value={passwords.newPassword}
+                  onChange={handlePasswordChange}
+                  placeholder="Mínimo 8 caracteres"
+                />
                 <button type="button" className="password-toggle-btn" onClick={() => setShow((prev) => ({ ...prev, next: !prev.next }))}>
                   {show.next ? <ViewOff size={18} /> : <View size={18} />}
                 </button>
@@ -298,7 +336,13 @@ function ProfileSettings() {
             <label className="settings-field">
               <span className="settings-label"><Password size={16} aria-hidden="true" />Confirmar nueva contraseña</span>
               <div className="settings-password-wrap">
-                <input type={show.confirm ? 'text' : 'password'} name="confirmPassword" value={passwords.confirmPassword} onChange={handlePasswordChange} placeholder="Repite la nueva contraseña" />
+                <input
+                  type={show.confirm ? 'text' : 'password'}
+                  name="confirmPassword"
+                  value={passwords.confirmPassword}
+                  onChange={handlePasswordChange}
+                  placeholder="Repite la nueva contraseña"
+                />
                 <button type="button" className="password-toggle-btn" onClick={() => setShow((prev) => ({ ...prev, confirm: !prev.confirm }))}>
                   {show.confirm ? <ViewOff size={18} /> : <View size={18} />}
                 </button>
@@ -311,7 +355,11 @@ function ProfileSettings() {
 
             <button className="settings-primary-btn" type="submit" disabled={savingPassword}>
               <Password size={18} aria-hidden="true" />
-              {savingPassword ? 'Actualizando...' : 'Actualizar contraseña'}
+              {savingPassword
+                ? 'Guardando...'
+                : isGoogleWithoutPassword
+                  ? 'Establecer contraseña'
+                  : 'Actualizar contraseña'}
             </button>
           </form>
         </div>
