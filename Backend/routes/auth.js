@@ -24,6 +24,8 @@ const authenticateToken = (req, res, next) => {
   })
 }
 
+
+
 // ── REGISTRO ─────────────────────────────────────────────
 router.post(
   '/register',
@@ -106,45 +108,54 @@ router.post('/google-login', async (req, res) => {
     const payload = ticket.getPayload()
     if (!payload.email_verified) return res.status(403).json({ error: 'El correo de Google no está verificado' })
 
-    let user = await User.findByEmail(payload.email)
-    if (!user) {
-      const randomPassword = crypto.randomBytes(20).toString('hex')
-      user = await User.create(payload.email, randomPassword, payload.name || 'Usuario de Google')
-    }
+    // ✅ Usa findOrCreateGoogle en lugar de crear con contraseña falsa
+    const user = await User.findOrCreateGoogle({
+      googleId: payload.sub,
+      email:    payload.email,
+      name:     payload.name || 'Usuario de Google',
+      avatar:   payload.picture || null,
+    })
 
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role || 'user' },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     )
+
     res.json({
       message: 'Inicio de sesión con Google exitoso',
       token,
-      user: { id: user.id, email: user.email, name: user.name, role: user.role || 'user',avatar: user.avatar || null },
+      user: {
+        id:       user.id,
+        email:    user.email,
+        name:     user.name,
+        role:     user.role || 'user',
+        avatar:   user.avatar || null,
+        provider: user.provider || 'google',  // ← útil en el frontend
+      },
     })
   } catch (error) {
     console.error('Error en Google login:', error)
     res.status(500).json({ error: 'Error al autenticar con Google' })
   }
 })
-
 // ── GET /profile ──────────────────────────────────────────
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
 
-    // ✅ Devuelve el objeto plano, sin anidarlo en { user: {} }
     res.json({
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      country: user.country || '',
-      language: user.language || 'es',
-      timezone: user.timezone || 'Europe/Madrid',
+      id:                 user.id,
+      email:              user.email,
+      name:               user.name,
+      role:               user.role,
+      country:            user.country || '',
+      language:           user.language || 'es',
+      timezone:           user.timezone || 'Europe/Madrid',
       emailNotifications: user.emailNotifications ?? true,
-      avatar: user.avatar || null,
+      avatar:             user.avatar || null,
+      provider:           user.provider || 'local',  // ← nuevo
     })
   } catch {
     res.status(500).json({ error: 'Error al obtener perfil' })
@@ -170,12 +181,19 @@ router.put('/profile', authenticateToken, async (req, res) => {
   }
 })
 
+
+
 // ── PUT /password ─────────────────────────────────────────
 router.put('/password', authenticateToken, async (req, res) => {
   const { currentPassword, newPassword } = req.body
   try {
-    const user = await User.findByEmail(req.user.email)
+    const user = await User.findById(req.user.id)
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
+
+    // ✅ Bloquea cuentas de Google
+    if (user.provider === 'google') {
+      return res.status(400).json({ message: 'Las cuentas de Google no pueden cambiar la contraseña aquí.' })
+    }
 
     const isMatch = await bcrypt.compare(currentPassword, user.password)
     if (!isMatch) return res.status(400).json({ message: 'La contraseña actual es incorrecta.' })
