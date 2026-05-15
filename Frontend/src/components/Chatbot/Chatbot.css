@@ -16,13 +16,13 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #6c63ff;       
+  background: var(--primary);       
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
   padding: 0;                
   overflow: hidden;          
   z-index: 9999;
@@ -39,17 +39,17 @@
 .chatbot-window {
   width: 340px;
   height: 480px;
-  background: white;
+  background: var(--bg-white);
   border-radius: 18px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
 }
 
 .chatbot-header {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: var(--gradient-primary);
   padding: 14px 16px;
   display: flex;
   align-items: center;
@@ -68,7 +68,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #cfbff0;       
+  background: color-mix(in srgb, var(--secondary) 30%, transparent);       
 }
 
 .chatbot-avatar img {
@@ -105,14 +105,14 @@
 }
 
 .chatbot-msg.bot {
-  background: #f3f4f6;
-  color: #111827;
+  background: var(--bg-light);
+  color: var(--text-dark);
   align-self: flex-start;
   border-bottom-left-radius: 4px;
 }
 
 .chatbot-msg.user {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: var(--gradient-primary);
   color: white;
   align-self: flex-end;
   border-bottom-right-radius: 4px;
@@ -166,23 +166,25 @@
   display: flex;
   gap: 8px;
   padding: 12px;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid var(--border);
 }
 
 .chatbot-input {
   flex: 1;
-  border: 1.5px solid #e5e7eb;
+  border: 1.5px solid var(--border);
   border-radius: 10px;
   padding: 9px 12px;
   font-size: 0.875rem;
   outline: none;
   transition: border-color 0.2s;
+  color: var(--text-dark);
+  background: var(--bg-white);
 }
 
-.chatbot-input:focus { border-color: #6366f1; }
+.chatbot-input:focus { border-color: var(--primary); }
 
 .chatbot-send {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: var(--gradient-primary);
   color: white;
   border: none;
   border-radius: 10px;
