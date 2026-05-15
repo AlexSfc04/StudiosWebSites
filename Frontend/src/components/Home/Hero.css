@@ -29,8 +29,8 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: inline-block;
+  min-width: 200px;        /* evita que colapse al cambiar palabra */
   min-height: 1.3em;
-  vertical-align: bottom;
 }
 
 .hero-title-purple .Typewriter { display: inline-block; }
