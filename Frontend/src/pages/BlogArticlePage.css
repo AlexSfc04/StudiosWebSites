@@ -1,6 +1,6 @@
 .article-page {
   padding: 80px 20px;
-  background: #ffffff;
+  background: var(--bg-light);
 }
 
 .article-page-inner {
@@ -20,15 +20,16 @@
 .article-page-title {
   font-size: 2rem;
   margin-bottom: 8px;
+  color: var(--text-dark);
 }
 
 .article-page-meta {
-  color: #64748b;
+  color: var(--text-light);
   margin-bottom: 24px;
 }
 
 .article-page-content {
   line-height: 1.7;
-  color: #334155;
+  color: var(--text-medium);
   white-space: pre-wrap;
 }
