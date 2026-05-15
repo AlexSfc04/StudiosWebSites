@@ -155,7 +155,8 @@ router.get('/profile', authenticateToken, async (req, res) => {
       timezone:           user.timezone || 'Europe/Madrid',
       emailNotifications: user.emailNotifications ?? true,
       avatar:             user.avatar || null,
-      provider:           user.provider || 'local',  // ← nuevo
+      provider:           user.provider || 'local',
+      hasPassword:  !!user.password,
     })
   } catch {
     res.status(500).json({ error: 'Error al obtener perfil' })
@@ -190,21 +191,28 @@ router.put('/password', authenticateToken, async (req, res) => {
     const user = await User.findById(req.user.id)
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' })
 
-    // ✅ Bloquea cuentas de Google
-    if (user.provider === 'google') {
-      return res.status(400).json({ message: 'Las cuentas de Google no pueden cambiar la contraseña aquí.' })
-    }
-
-    const isMatch = await bcrypt.compare(currentPassword, user.password)
-    if (!isMatch) return res.status(400).json({ message: 'La contraseña actual es incorrecta.' })
-
-    if (newPassword.length < 8)
+    if (newPassword?.length < 8)
       return res.status(400).json({ message: 'La nueva contraseña debe tener al menos 8 caracteres.' })
 
-    const hashed = await bcrypt.hash(newPassword, 10)
-    await User.updatePassword(req.user.id, hashed)
+    // ✅ Usuario de Google SIN contraseña previa → puede establecer una nueva directamente
+    if (user.provider === 'google' && !user.password) {
+      const hashed = await bcrypt.hash(newPassword, 10)
+      await User.updatePassword(user.id, hashed)
+      return res.json({ message: 'Contraseña establecida correctamente.' })
+    }
 
+    // ✅ Cualquier usuario CON contraseña → debe verificar la actual
+    if (!currentPassword)
+      return res.status(400).json({ message: 'Debes proporcionar tu contraseña actual.' })
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password)
+    if (!isMatch)
+      return res.status(400).json({ message: 'La contraseña actual es incorrecta.' })
+
+    const hashed = await bcrypt.hash(newPassword, 10)
+    await User.updatePassword(user.id, hashed)
     res.json({ message: 'Contraseña actualizada correctamente.' })
+
   } catch {
     res.status(500).json({ error: 'Error al cambiar la contraseña.' })
   }
