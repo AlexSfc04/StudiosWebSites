@@ -276,6 +276,19 @@
   align-items: center;
 }
 
+.google-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: #e8f0fe;
+  color: #1a73e8;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
 @media (max-width: 900px) {
   .profile-settings-grid {
     grid-template-columns: 1fr;
