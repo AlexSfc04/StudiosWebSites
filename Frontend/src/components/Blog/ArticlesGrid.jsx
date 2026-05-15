@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../../services/api'
 import './ArticlesGrid.css'
-import { optimizeImage } from '../utils/cloudinary'
+import { optimizeImage } from '../../utils/cloudinary'
 
 function ArticlesGrid() {
   const [activeFilter, setActiveFilter] = useState('all')
