@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../../services/api'
 import './ArticlesGrid.css'
+import { optimizeImage } from '../utils/cloudinary'
 
 function ArticlesGrid() {
   const [activeFilter, setActiveFilter] = useState('all')
@@ -48,7 +49,15 @@ function ArticlesGrid() {
             {filteredArticles.map(article => (
               <Link key={article.id} to={`/blog/${article.id}`} className="article-card">
                 <div className="article-image-container">
-                  <img src={article.image} alt={article.title} className="article-image" />
+                  <img
+                    src={optimizeImage(article.image, 600)}
+                    alt={article.title}
+                    className="article-image"
+                    width={600}
+                    height={315}
+                    loading="lazy"
+                    decoding="async"
+                  />                  
                   <span className="article-category-badge">
                     {categories.find(c => c.id === article.category)?.name}
                   </span>
