@@ -4,18 +4,30 @@
   min-height: 100vh;
 }
 
-/* Forzar tema claro en la página de autenticación
-   Esto evita que `data-theme="dark"` afecte Login/Register */
+/* Variables por defecto para la página de autenticación (modo claro)
+   Se usan colores oscuros sobre fondos claros. En modo oscuro se
+   aplican las variables específicas más abajo. */
 .auth-page {
+  --bg-light:       #f8f7ff;
+  --bg-white:       #ffffff;
+  --text-dark:      #1a1a1a;
+  --text-medium:    #4a5568;
+  --text-light:     #718096;
+  --border:         #e5e7eb;
+  --shadow-sm:      0 1px 3px rgba(0, 0, 0, 0.10);
+  --shadow-md:      0 4px 6px  rgba(0, 0, 0, 0.10);
+  --shadow-lg:      0 10px 15px rgba(0, 0, 0, 0.10);
+}
+
+/* Cuando el sitio está en modo oscuro, aplicar variables para que el
+   panel de autenticación mantenga contraste (texto blanco sobre fondo oscuro). */
+[data-theme="dark"] .auth-page {
   --bg-light:       transparent;
   --bg-white:       transparent;
   --text-dark:      #ffffff;
   --text-medium:    rgba(255,255,255,0.75);
   --text-light:     rgba(255,255,255,0.6);
   --border:         rgba(255,255,255,0.08);
-  --shadow-sm:      0 1px 3px rgba(0, 0, 0, 0.10);
-  --shadow-md:      0 4px 6px  rgba(0, 0, 0, 0.10);
-  --shadow-lg:      0 10px 15px rgba(0, 0, 0, 0.10);
 }
 
 /* ===== LEFT SIDE — Formulario ===== */
