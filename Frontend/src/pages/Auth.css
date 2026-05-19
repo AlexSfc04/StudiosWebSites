@@ -4,6 +4,20 @@
   min-height: 100vh;
 }
 
+/* Forzar tema claro en la página de autenticación
+   Esto evita que `data-theme="dark"` afecte Login/Register */
+.auth-page {
+  --bg-light:       transparent;
+  --bg-white:       transparent;
+  --text-dark:      #ffffff;
+  --text-medium:    rgba(255,255,255,0.75);
+  --text-light:     rgba(255,255,255,0.6);
+  --border:         rgba(255,255,255,0.08);
+  --shadow-sm:      0 1px 3px rgba(0, 0, 0, 0.10);
+  --shadow-md:      0 4px 6px  rgba(0, 0, 0, 0.10);
+  --shadow-lg:      0 10px 15px rgba(0, 0, 0, 0.10);
+}
+
 /* ===== LEFT SIDE — Formulario ===== */
 .auth-form-side {
   flex: 1;
@@ -458,18 +472,6 @@
 #google-signin-button-register iframe {
   width: 100% !important;
 }
-
-[data-theme="dark"] .auth-page {
-  --bg-light:    #f8f7ff;
-  --bg-white:    #ffffff;
-  --text-dark:   #1a1a1a;
-  --text-medium: #4a5568;
-  --text-light:  #718096;
-  --border:      #e5e7eb;
-  --shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.10);
-  --shadow-md:   0 4px 6px rgba(0, 0, 0, 0.10);
-  --shadow-lg:   0 10px 15px rgba(0, 0, 0, 0.10);
-}
 /* ===== RESPONSIVE ===== */
 
 /* Tablet grande (1024px) */
@@ -527,6 +529,12 @@
     pointer-events: none;
     z-index: 0;
   }
+
+/* Forzar colores claros dentro de .auth-page aunque el documento tenga data-theme="dark".
+   Esto evita que reglas globales de [data-theme="dark"] cambien el color de texto
+   o bordes dentro de la página de login/registro. */
+/* No aplicar modo oscuro dentro de la página de autenticación; se controla
+   por las variables locales de `.auth-page` más arriba. */
 
   /* Círculo decorativo inferior izquierda */
   .auth-form-side::after {
