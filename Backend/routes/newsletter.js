@@ -217,13 +217,19 @@ const formatDateToMySQLDatetimeUTC = (date) => {
   return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}`
 }
 
-const sendPendingNewsletterCampaigns = async () => {
-  const [campaigns] = await db.query(
-    'SELECT * FROM newsletter_campaigns WHERE scheduled_at <= UTC_TIMESTAMP() AND sent_at IS NULL ORDER BY scheduled_at ASC'
-  )
+const sendPendingNewsletterCampaigns = async (force = false) => {
+  const query = force
+    ? 'SELECT * FROM newsletter_campaigns WHERE sent_at IS NULL ORDER BY scheduled_at ASC'
+    : 'SELECT * FROM newsletter_campaigns WHERE scheduled_at <= UTC_TIMESTAMP() AND sent_at IS NULL ORDER BY scheduled_at ASC'
+
+  const [campaigns] = await db.query(query)
 
   if (campaigns.length === 0) {
-    return { sentCount: 0, subscriberCount: 0, reason: 'no_campaigns' }
+    return {
+      sentCount: 0,
+      subscriberCount: 0,
+      reason: force ? 'no_campaigns' : 'no_due_campaigns',
+    }
   }
 
   const emails = await getConfirmedSubscriberEmails()
@@ -453,11 +459,14 @@ router.delete('/campaigns/:id', authenticateToken, requireAdmin, async (req, res
 // ── ADMIN: enviar campañas pendientes ahora ───────────────────
 router.post('/campaigns/send', authenticateToken, requireAdmin, async (req, res) => {
   try {
-    const result = await sendPendingNewsletterCampaigns()
+    const force = req.query.force === 'true'
+    const result = await sendPendingNewsletterCampaigns(force)
     const message = result.sentCount === 0
       ? result.reason === 'no_subscribers'
         ? 'No hay suscriptores confirmados para enviar la campaña.'
-        : 'No hay campañas pendientes para enviar.'
+        : force
+          ? 'No hay campañas pendientes para enviar.'
+          : 'No hay campañas programadas listas para enviar ahora.'
       : `Se han enviado ${result.sentCount} campaña(s) pendientes.`
 
     return res.status(200).json({
