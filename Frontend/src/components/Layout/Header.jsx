@@ -24,13 +24,12 @@ const NAV_LINKS = [
   { to: '/contacto', label: 'Contacto' },
 ]
 
-// ── Header ──────────────────────────────────────────────────
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { user, logout, isAdmin } = useAuth()
-  const { theme, toggleTheme } = useDarkMode()          // ← NUEVO
+  const { theme, toggleTheme } = useDarkMode()
   const navigate = useNavigate()
   const location = useLocation()
   const dropdownRef = useRef(null)
@@ -70,10 +69,11 @@ function Header() {
 
   const displayName = user?.name || user?.nombre || user?.email?.split('@')[0] || 'Usuario'
   const initials = displayName.slice(0, 1).toUpperCase()
-  const avatarUrl = user?.avatar || null 
+  const avatarUrl = user?.avatar || null
 
   return (
     <>
+      {/* ── Header principal ── */}
       <header className={`header${scrolled ? ' header--scrolled' : ''}`}>
         <div className="header-inner">
 
@@ -99,7 +99,7 @@ function Header() {
           {/* Acciones */}
           <div className="header-actions">
 
-            {/* ── Botón Dark Mode ── */}
+            {/* Botón dark mode (solo cuando NO hay sesión) */}
             {!user && (
               <button
                 className="theme-toggle"
@@ -107,93 +107,103 @@ function Header() {
                 aria-label={theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'}
                 title={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
               >
-                {theme === 'dark' ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+                {theme === 'dark'
+                  ? <Sun size={18} aria-hidden="true" />
+                  : <Moon size={18} aria-hidden="true" />
+                }
               </button>
             )}
 
+            {/* Perfil (logueado) */}
             {user ? (
               <div className="profile" ref={dropdownRef}>
-              <button
-                className="profile__trigger"
-                onClick={() => setIsProfileOpen(v => !v)}
-                aria-expanded={isProfileOpen}
-                aria-haspopup="menu"
-                aria-label={`Menú de ${displayName}`}
-              >
-                {avatarUrl ? (
-                  <img
-                    src={avatarUrl}
-                    alt={displayName}
-                    className="profile__avatar profile__avatar--img"
-                  />
-                ) : (
-                  <span className="profile__avatar" aria-hidden="true">{initials}</span>
-                )}
-                <span className="profile__name">{displayName}</span>
-                <svg
-                  className={`profile__chevron${isProfileOpen ? ' profile__chevron--open' : ''}`}
-                  width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"
+                <button
+                  className="profile__trigger"
+                  onClick={() => setIsProfileOpen(v => !v)}
+                  aria-expanded={isProfileOpen}
+                  aria-haspopup="menu"
+                  aria-label={`Menú de ${displayName}`}
                 >
-                  <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.5"
-                    strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-
-              {isProfileOpen && (
-                <div className="profile__dropdown" role="menu">
-                  <div className="profile__dropdown-header">
-                    <span className="profile__dropdown-name">{displayName}</span>
-                    {user?.email && (
-                      <span className="profile__dropdown-email">{user.email}</span>
-                    )}
-                  </div>
-                  <div className="profile__dropdown-divider" />
-
-                  {isAdmin && (
-                    <Link to="/admin" className="profile__dropdown-item" role="menuitem"
-                      onClick={() => setIsProfileOpen(false)}>
-                      <Settings size={16} aria-hidden="true" />
-                      <span>Admin Panel</span>
-                    </Link>
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      alt={displayName}
+                      className="profile__avatar profile__avatar--img"
+                    />
+                  ) : (
+                    <span className="profile__avatar" aria-hidden="true">{initials}</span>
                   )}
-
-                  <Link to="/perfil" className="profile__dropdown-item" role="menuitem"
-                    onClick={() => setIsProfileOpen(false)}>
-                    <UserProfile size={16} aria-hidden="true" />
-                    <span>Configuración de cuenta</span>
-                  </Link>
-
-                  <div className="profile__dropdown-divider" />
-                  <button
-                    type="button"
-                    className="profile__dropdown-item profile__dropdown-item--theme"
-                    onClick={toggleTheme}
-                    role="menuitem"
+                  <span className="profile__name">{displayName}</span>
+                  <svg
+                    className={`profile__chevron${isProfileOpen ? ' profile__chevron--open' : ''}`}
+                    width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"
                   >
-                    {theme === 'dark'
-                      ? <Sun size={16} aria-hidden="true" />
-                      : <Moon size={16} aria-hidden="true" />
-                    }
-                    <span>{theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}</span>
-                    <span className={`toggle-pill ${theme === 'dark' ? 'toggle-pill--on' : ''}`}>
-                      <span className="toggle-pill__thumb" />
-                    </span>
-                  </button>
+                    <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
 
-                  <div className="profile__dropdown-divider" />
+                {isProfileOpen && (
+                  <div className="profile__dropdown" role="menu">
+                    <div className="profile__dropdown-header">
+                      <span className="profile__dropdown-name">{displayName}</span>
+                      {user?.email && (
+                        <span className="profile__dropdown-email">{user.email}</span>
+                      )}
+                    </div>
+                    <div className="profile__dropdown-divider" />
 
-                  <button
-                    className="profile__dropdown-item profile__dropdown-item--danger"
-                    role="menuitem"
-                    onClick={handleLogout}
-                  >
-                    <Logout size={16} aria-hidden="true" />
-                    <span>Cerrar sesión</span>
-                  </button>
-                </div>
-              )}
+                    {isAdmin && (
+                      <Link to="/admin" className="profile__dropdown-item" role="menuitem"
+                        onClick={() => setIsProfileOpen(false)}>
+                        <Settings size={16} aria-hidden="true" />
+                        <span>Admin Panel</span>
+                      </Link>
+                    )}
+
+                    <Link to="/perfil" className="profile__dropdown-item" role="menuitem"
+                      onClick={() => setIsProfileOpen(false)}>
+                      <UserProfile size={16} aria-hidden="true" />
+                      <span>Configuración de cuenta</span>
+                    </Link>
+
+                    <div className="profile__dropdown-divider" />
+
+                    {/* Toggle dark mode */}
+                    <button
+                      type="button"
+                      className="profile__dropdown-item profile__dropdown-item--theme"
+                      onClick={toggleTheme}
+                      role="menuitem"
+                    >
+                      {theme === 'dark'
+                        ? <Sun size={16} aria-hidden="true" />
+                        : <Moon size={16} aria-hidden="true" />
+                      }
+                      <span className="profile__dropdown-item-label">
+                        {theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+                      </span>
+                      <span className={`toggle-pill${theme === 'dark' ? ' toggle-pill--on' : ''}`}>
+                        <span className="toggle-pill__thumb" />
+                      </span>
+                    </button>
+
+                    <div className="profile__dropdown-divider" />
+
+                    <button
+                      className="profile__dropdown-item profile__dropdown-item--danger"
+                      role="menuitem"
+                      onClick={handleLogout}
+                    >
+                      <Logout size={16} aria-hidden="true" />
+                      <span>Cerrar sesión</span>
+                    </button>
+                  </div>
+                )}
               </div>
+
             ) : (
+              /* Auth (no logueado) */
               <div className="header-auth">
                 <Link to="/login" className="header-auth__login">Iniciar sesión</Link>
                 <Link to="/registro" className="header-auth__register">Registro</Link>
@@ -217,7 +227,7 @@ function Header() {
         </div>
       </header>
 
-      {/* Menú móvil */}
+      {/* ── Menú móvil ── */}
       <div
         id="mobile-menu"
         className={`mobile-menu${isMenuOpen ? ' mobile-menu--open' : ''}`}
@@ -254,6 +264,7 @@ function Header() {
                   {user?.email && <p className="mobile-menu__user-email">{user.email}</p>}
                 </div>
               </div>
+
               {isAdmin && (
                 <Link to="/admin" className="mobile-menu__action"
                   onClick={() => setIsMenuOpen(false)}>
@@ -261,6 +272,7 @@ function Header() {
                   Admin Panel
                 </Link>
               )}
+
               <button
                 className="mobile-menu__action mobile-menu__action--danger"
                 onClick={handleLogout}
@@ -289,7 +301,8 @@ function Header() {
       </div>
 
       {isMenuOpen && (
-        <div className="mobile-menu__overlay"
+        <div
+          className="mobile-menu__overlay"
           onClick={() => setIsMenuOpen(false)}
           aria-hidden="true"
         />

@@ -537,7 +537,8 @@
 }
 
 /* Empuja el toggle pill al extremo derecho */
-.profile__dropdown-item--theme span:nth-child(2) {
+/* ✅ AHORA — clase explícita */
+.profile__dropdown-item-label {
   flex: 1;
   text-align: left;
 }
