@@ -83,7 +83,7 @@ function Register() {
             theme: 'outline',
             size: 'large',
             width: container.offsetWidth || 400,  // ← píxeles reales
-            height: 50,  // altura fija para evitar problemas de renderizadoº
+            height: container.offsetHeight || 50,  // altura fija para evitar problemas de renderizadoº
           })
         }
         setGoogleReady(true)
