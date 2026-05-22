@@ -70,12 +70,17 @@ function Login() {
     const renderButton = () => {
       if (window.google?.accounts?.id) {
         window.google.accounts.id.initialize({
+          
           client_id: GOOGLE_CLIENT_ID,
           callback: handleGoogleCredentialResponse,
           ux_mode: 'popup',
           auto_select: false,
           cancel_on_tap_outside: true,
+          use_fedcm_for_prompt: false,
         })
+        
+        window.google.accounts.id.cancel()
+
         const container = document.getElementById('google-signin-button-login')
         if (container) {
           container.innerHTML = ''

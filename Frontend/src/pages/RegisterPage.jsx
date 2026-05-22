@@ -59,7 +59,6 @@ function Register() {
       setError('El servicio de Google no está listo. Por favor recarga la página.')
       return
     }
-    window.google.accounts.id.prompt()
   }
 
   useEffect(() => {
@@ -72,7 +71,11 @@ function Register() {
           callback: handleGoogleCredentialResponse,
           ux_mode: 'popup',
           auto_select: false,
+          use_fedcm_for_prompt: false,
         })
+
+        window.google.accounts.id.cancel()
+
         const container = document.getElementById('google-signin-button-register')
         if (container) {
           container.innerHTML = ''
