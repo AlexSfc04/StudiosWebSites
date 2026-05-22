@@ -145,6 +145,13 @@ function Header() {
 
                 {isProfileOpen && (
                   <div className="profile__dropdown" role="menu">
+                    <div className="profile__dropdown-header">
+                      <span className="profile__dropdown-name">{displayName}</span>
+                      {user?.email && (
+                        <span className="profile__dropdown-email">{user.email}</span>
+                      )}
+                    </div>
+                    <div className="profile__dropdown-divider" />
                     {isAdmin && (
                       <Link to="/admin" className="profile__dropdown-item" role="menuitem"
                         onClick={() => setIsProfileOpen(false)}>
@@ -269,8 +276,6 @@ function Header() {
                 className="mobile-menu__action mobile-menu__action--danger"
                 onClick={handleLogout}
               >
-                <Logout size={16} aria-hidden="true" />
-                Cerrar sesión
               </button>
             </>
           ) : (
