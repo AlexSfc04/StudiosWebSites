@@ -16,6 +16,7 @@ import PageTransition from './components/PageTransition/PageTransition'
 import ScrollToTop from './components/ScrollToTop/ScrollToTop'
 import AdminProjects from './pages/AdminProjects'
 import AdminArticles from './pages/AdminArticles'
+import AdminNewsletter from './pages/AdminNewsletter'
 import BlogArticlePage from './pages/BlogArticlePage'
 import ProjectPage from './pages/ProjectPage'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
@@ -49,6 +50,7 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/projects" element={<AdminProjects />} />
           <Route path="/admin/articles" element={<AdminArticles />} />
+          <Route path="/admin/newsletter" element={<AdminNewsletter />} />
           <Route path="/privacidad" element={<PoliticaPrivacidad />} />
           <Route path="/politica-cookies" element={<PoliticaCookies />} />
           <Route path="/perfil" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />

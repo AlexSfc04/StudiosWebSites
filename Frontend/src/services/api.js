@@ -152,6 +152,31 @@ const api = {
     return response.json()
   },
 
+  // ── NEWSLETTER CAMPAIGNS ──────────────────────────────────
+  getNewsletterCampaigns: async () => {
+    const response = await fetch(`${API_URL}/newsletter/campaigns`, {
+      headers: getHeaders(),
+    })
+    return response.json()
+  },
+
+  createNewsletterCampaign: async (data) => {
+    const response = await fetch(`${API_URL}/newsletter/campaigns`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    })
+    return response.json()
+  },
+
+  sendNewsletterCampaigns: async () => {
+    const response = await fetch(`${API_URL}/newsletter/campaigns/send`, {
+      method: 'POST',
+      headers: getHeaders(),
+    })
+    return response.json()
+  },
+
   // ── CONTACT ──────────────────────────────────────────────
   sendContact: async (name, email, message) => {
     const response = await fetch(`${API_URL}/contact`, {

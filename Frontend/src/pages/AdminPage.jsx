@@ -78,6 +78,15 @@ function AdminPage() {
       tagOk: true,
     },
     {
+      icon: <Email size={24} />,
+      title: 'Newsletter',
+      desc: 'Programar envíos',
+      color: 'purple',
+      path: '/admin/newsletter',
+      tag: 'Activo',
+      tagOk: true,
+    },
+    {
       icon: <Settings size={24} />,
       title: 'Servicios',
       desc: 'Editar servicios',
@@ -169,6 +178,13 @@ function AdminPage() {
             className={`adm-sidebar-link ${isActive('/admin/articles') ? 'adm-sidebar-link--active' : ''}`}
           >
             <Edit size={18} /> Blog
+          </Link>
+
+          <Link
+            to="/admin/newsletter"
+            className={`adm-sidebar-link ${isActive('/admin/newsletter') ? 'adm-sidebar-link--active' : ''}`}
+          >
+            <Email size={18} /> Newsletter
           </Link>
 
           <p className="adm-sidebar-section-label" style={{ marginTop: '24px' }}>
