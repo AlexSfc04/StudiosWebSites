@@ -271,12 +271,6 @@ function Header() {
                   Admin Panel
                 </Link>
               )}
-
-              <button
-                className="mobile-menu__action mobile-menu__action--danger"
-                onClick={handleLogout}
-              >
-              </button>
             </>
           ) : (
             <div className="mobile-menu__auth">
