@@ -118,7 +118,7 @@ function AdminNewsletter() {
     setStatus(null)
     setSending(true)
     try {
-      const res = await api.sendNewsletterCampaigns()
+      const res = await api.sendNewsletterCampaigns(true)
       setStatus({ type: res.sentCount === 0 ? 'error' : 'success', message: res.message || 'Campañas enviadas.' })
       await loadCampaigns()
     } catch (error) {

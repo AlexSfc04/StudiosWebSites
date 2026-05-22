@@ -177,8 +177,9 @@ const api = {
     return response.json()
   },
 
-  sendNewsletterCampaigns: async () => {
-    const response = await fetch(`${API_URL}/newsletter/campaigns/send`, {
+  sendNewsletterCampaigns: async (force = false) => {
+    const query = force ? '?force=true' : ''
+    const response = await fetch(`${API_URL}/newsletter/campaigns/send${query}`, {
       method: 'POST',
       headers: getHeaders(),
     })
