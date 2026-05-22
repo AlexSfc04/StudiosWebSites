@@ -3,6 +3,7 @@ const router = express.Router()
 const db = require('../config/database')
 const nodemailer = require('nodemailer')
 const crypto = require('crypto')
+const { authenticateToken, requireAdmin } = require('../middleware/authMiddleware')
 
 // ── Transporter ──────────────────────────────────────────────
 const transporter = nodemailer.createTransport({
@@ -100,31 +101,161 @@ const emailTemplate = (confirmUrl) => `
   <div class="wrapper">
     <div class="header">
       <h1>StudiosWebSites</h1>
-      <p>Newsletter de diseno y desarrollo web</p>
+      <p>Newsletter de diseño y desarrollo web</p>
     </div>
     <div class="body">
       <p>Hola,</p>
       <p>
-        Gracias por suscribirte. Recibiras consejos exclusivos sobre diseno web,
+        Gracias por suscribirte. Recibirás consejos exclusivos sobre diseño web,
         desarrollo y tendencias digitales directamente en tu bandeja de entrada.
       </p>
-      <p>Haz clic en el boton para confirmar tu suscripcion:</p>
+      <p>Haz clic en el botón para confirmar tu suscripción:</p>
       <div class="btn-wrap">
-        <a href="${confirmUrl}" class="btn">Confirmar suscripcion</a>
+        <a href="${confirmUrl}" class="btn">Confirmar suscripción</a>
       </div>
       <div class="divider"></div>
       <p class="note">
-        Si no solicitaste esta suscripcion, ignora este email.
+        Si no solicitaste esta suscripción, ignora este email.
         El enlace expira en 24 horas.
       </p>
     </div>
     <div class="footer">
-      <p>© 2026 StudiosWebSites · Sevilla, Andalucia, ES</p>
+      <p>© 2026 StudiosWebSites · Sevilla, Andalucía</p>
     </div>
   </div>
 </body>
 </html>
 `
+
+const campaignEmailTemplate = (subject, bodyHtml) => `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${subject}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      padding: 32px 16px;
+    }
+    .wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 20px 80px rgba(15, 23, 42, 0.08);
+    }
+    .header {
+      background: linear-gradient(135deg, #4338ca 0%, #8b5cf6 100%);
+      padding: 32px;
+      text-align: left;
+    }
+    .header h1 {
+      color: #ffffff;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    .header p {
+      color: rgba(255,255,255,0.82);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .content {
+      padding: 32px;
+      line-height: 1.75;
+      color: #334155;
+    }
+    .content h2 {
+      color: #0f172a;
+      margin-bottom: 16px;
+      font-size: 20px;
+    }
+    .content p {
+      margin-bottom: 18px;
+      font-size: 15px;
+    }
+    .footer {
+      background: #f8fafc;
+      padding: 24px 32px;
+      border-top: 1px solid #e2e8f0;
+      color: #64748b;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <h1>${subject}</h1>
+      <p>Contenido exclusivo de StudiosWebSites para suscriptores.</p>
+    </div>
+    <div class="content">
+      ${bodyHtml}
+    </div>
+    <div class="footer">
+      <p>Estás recibiendo este correo porque te suscribiste a la newsletter de StudiosWebSites.</p>
+    </div>
+  </div>
+</body>
+</html>
+`
+
+const getConfirmedSubscriberEmails = async () => {
+  const [rows] = await db.query('SELECT email FROM newsletter WHERE confirmado = TRUE')
+  return rows.map(row => row.email)
+}
+
+const sendPendingNewsletterCampaigns = async () => {
+  const [campaigns] = await db.query(
+    'SELECT * FROM newsletter_campaigns WHERE scheduled_at <= NOW() AND sent_at IS NULL ORDER BY scheduled_at ASC'
+  )
+
+  if (campaigns.length === 0) {
+    return 0
+  }
+
+  const emails = await getConfirmedSubscriberEmails()
+  if (emails.length === 0) {
+    console.log('[Newsletter] No hay suscriptores confirmados para enviar campañas pendientes.')
+    return 0
+  }
+
+  for (const campaign of campaigns) {
+    await transporter.sendMail({
+      from: `"StudiosWebSites" <${process.env.SMTP_USER}>`,
+      to: process.env.SMTP_USER,
+      bcc: emails,
+      subject: campaign.subject,
+      html: campaignEmailTemplate(campaign.subject, campaign.html),
+      text: campaign.html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(),
+    })
+
+    await db.query(
+      'UPDATE newsletter_campaigns SET sent_at = NOW() WHERE id = ?',
+      [campaign.id]
+    )
+  }
+
+  return campaigns.length
+}
+
+const scheduleNewsletterCampaigns = () => {
+  setInterval(async () => {
+    try {
+      await sendPendingNewsletterCampaigns()
+    } catch (error) {
+      console.error('[Newsletter] Scheduler error:', error)
+    }
+  }, 10 * 60 * 1000)
+}
+
+scheduleNewsletterCampaigns()
 
 // ── POST /api/newsletter ─────────────────────────────────────
 router.post('/', async (req, res) => {
@@ -215,7 +346,6 @@ router.get('/confirmar', async (req, res) => {
       [token]
     )
 
-    // Devuelve JSON — el frontend React gestiona la UI
     return res.status(200).json({
       message: 'Suscripcion confirmada correctamente.'
     })
@@ -223,6 +353,75 @@ router.get('/confirmar', async (req, res) => {
   } catch (error) {
     console.error('[Newsletter] GET confirmar error:', error)
     return res.status(500).json({ message: 'Error al confirmar la suscripcion.' })
+  }
+})
+
+// ── ADMIN: listar campañas ──────────────────────────────────
+router.get('/campaigns', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const [campaigns] = await db.query(
+      'SELECT id, subject, scheduled_at, sent_at, created_at FROM newsletter_campaigns ORDER BY scheduled_at DESC'
+    )
+    const [countResult] = await db.query(
+      'SELECT COUNT(*) AS confirmed FROM newsletter WHERE confirmado = TRUE'
+    )
+
+    return res.status(200).json({
+      confirmedSubscribers: countResult[0]?.confirmed || 0,
+      campaigns,
+    })
+  } catch (error) {
+    console.error('[Newsletter] GET campaigns error:', error)
+    return res.status(500).json({ message: 'Error al obtener las campañas de newsletter.' })
+  }
+})
+
+// ── ADMIN: crear campaña ────────────────────────────────────
+router.post('/campaigns', authenticateToken, requireAdmin, async (req, res) => {
+  const { subject, html, scheduledAt } = req.body
+
+  if (!subject || !html) {
+    return res.status(400).json({ message: 'El asunto y el contenido son obligatorios.' })
+  }
+
+  const scheduledDate = scheduledAt ? new Date(scheduledAt) : new Date()
+  if (Number.isNaN(scheduledDate.getTime())) {
+    return res.status(400).json({ message: 'Fecha de programación inválida.' })
+  }
+
+  try {
+    const [result] = await db.query(
+      'INSERT INTO newsletter_campaigns (subject, html, scheduled_at) VALUES (?, ?, ?)',
+      [subject.trim(), html, scheduledDate]
+    )
+
+    return res.status(201).json({
+      message: 'Campaña programada correctamente.',
+      campaign: {
+        id: result.insertId,
+        subject: subject.trim(),
+        scheduled_at: scheduledDate,
+        sent_at: null,
+        created_at: new Date(),
+      },
+    })
+  } catch (error) {
+    console.error('[Newsletter] POST campaigns error:', error)
+    return res.status(500).json({ message: 'Error al crear la campaña de newsletter.' })
+  }
+})
+
+// ── ADMIN: enviar campañas pendientes ahora ───────────────────
+router.post('/campaigns/send', authenticateToken, requireAdmin, async (req, res) => {
+  try {
+    const sentCount = await sendPendingNewsletterCampaigns()
+    return res.status(200).json({
+      message: `Se han enviado ${sentCount} campaña(s) pendientes.`,
+      sentCount,
+    })
+  } catch (error) {
+    console.error('[Newsletter] POST campaigns/send error:', error)
+    return res.status(500).json({ message: 'Error al enviar las campañas pendientes.' })
   }
 })
 

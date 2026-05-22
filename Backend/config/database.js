@@ -56,8 +56,25 @@ const initDatabase = async () => {
         email VARCHAR(255) NOT NULL UNIQUE,
         confirmado BOOLEAN DEFAULT FALSE,
         token VARCHAR(255),
+        token_expires_at DATETIME DEFAULT NULL,
         fecha_suscripcion DATETIME DEFAULT CURRENT_TIMESTAMP
       )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS newsletter_campaigns (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        subject VARCHAR(255) NOT NULL,
+        html MEDIUMTEXT NOT NULL,
+        scheduled_at DATETIME NOT NULL,
+        sent_at DATETIME DEFAULT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await pool.query(`
+      ALTER TABLE newsletter
+      ADD COLUMN IF NOT EXISTS token_expires_at DATETIME DEFAULT NULL
     `);
     
     console.log('✅ Base de datos inicializada correctamente');

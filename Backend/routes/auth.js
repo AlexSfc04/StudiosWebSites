@@ -1,28 +1,14 @@
 const express = require('express')
-const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { body, validationResult } = require('express-validator')
 const { OAuth2Client } = require('google-auth-library')
 const crypto = require('crypto')
 const User = require('../models/user')
 const { upload } = require('../config/cloudinary')
+const { authenticateToken } = require('../middleware/authMiddleware')
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 const router = express.Router()
-
-// ── MIDDLEWARE JWT ────────────────────────────────────────
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
-
-  if (!token) return res.status(401).json({ error: 'Token no proporcionado' })
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ error: 'Token inválido' })
-    req.user = user
-    next()
-  })
-}
 
 
 
