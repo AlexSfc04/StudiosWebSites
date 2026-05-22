@@ -40,6 +40,7 @@ function AdminNewsletter() {
   const [loadingCampaigns, setLoadingCampaigns] = useState(true)
   const [saving, setSaving] = useState(false)
   const [sending, setSending] = useState(false)
+  const [deletingId, setDeletingId] = useState(null)
   const [status, setStatus] = useState(null)
   const [confirmedSubscribers, setConfirmedSubscribers] = useState(0)
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -118,13 +119,28 @@ function AdminNewsletter() {
     setSending(true)
     try {
       const res = await api.sendNewsletterCampaigns()
-      setStatus({ type: 'success', message: res.message || 'Campañas enviadas.' })
+      setStatus({ type: res.sentCount === 0 ? 'error' : 'success', message: res.message || 'Campañas enviadas.' })
       await loadCampaigns()
     } catch (error) {
       console.error(error)
       setStatus({ type: 'error', message: 'Error al enviar las campañas pendientes.' })
     } finally {
       setSending(false)
+    }
+  }
+
+  const handleDeleteCampaign = async (id) => {
+    setStatus(null)
+    setDeletingId(id)
+    try {
+      const res = await api.deleteNewsletterCampaign(id)
+      setStatus({ type: res.message?.includes('eliminada') ? 'success' : 'error', message: res.message || 'No se pudo eliminar la campaña.' })
+      await loadCampaigns()
+    } catch (error) {
+      console.error(error)
+      setStatus({ type: 'error', message: 'Error al eliminar la campaña pendiente.' })
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -331,6 +347,16 @@ function AdminNewsletter() {
                           </span>
                         </div>
                       </div>
+                      {!campaign.sent_at && (
+                        <button
+                          type="button"
+                          className="admin-btn-danger"
+                          disabled={deletingId === campaign.id}
+                          onClick={() => handleDeleteCampaign(campaign.id)}
+                        >
+                          {deletingId === campaign.id ? 'Eliminando...' : 'Eliminar'}
+                        </button>
+                      )}
                     </div>
                   ))
                 )}

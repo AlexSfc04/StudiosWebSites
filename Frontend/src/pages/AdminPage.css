@@ -612,6 +612,25 @@ select.admin-input { cursor: pointer; }
 
 .admin-btn-secondary:hover { background: #e2e8f0; }
 
+.admin-btn-danger {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+
+.admin-btn-danger:hover {
+  background: #f5c2d2;
+}
+
 /* LISTA */
 .admin-list {
   display: flex;

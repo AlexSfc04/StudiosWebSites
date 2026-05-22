@@ -169,6 +169,14 @@ const api = {
     return response.json()
   },
 
+  deleteNewsletterCampaign: async (id) => {
+    const response = await fetch(`${API_URL}/newsletter/campaigns/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    })
+    return response.json()
+  },
+
   sendNewsletterCampaigns: async () => {
     const response = await fetch(`${API_URL}/newsletter/campaigns/send`, {
       method: 'POST',
