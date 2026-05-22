@@ -43,9 +43,12 @@ function AdminNewsletter() {
   const [status, setStatus] = useState(null)
   const [confirmedSubscribers, setConfirmedSubscribers] = useState(0)
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [authChecked, setAuthChecked] = useState(false)
 
   useEffect(() => {
     if (loading) return
+    setAuthChecked(true)
+
     if (!user) {
       navigate('/login')
       return
@@ -137,8 +140,31 @@ function AdminNewsletter() {
 
   const isActive = (path) => location.pathname === path
 
-  if (loading) return null
-  if (!user || user.role !== 'admin') return null
+  if (loading || !authChecked) {
+    return (
+      <div className="adm-root">
+        <main className="adm-main">
+          <div className="adm-content" style={{ padding: '40px', color: '#64748b' }}>
+            Cargando administración...
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  if (!user || user.role !== 'admin') {
+    return (
+      <div className="adm-root">
+        <main className="adm-main">
+          <div className="adm-content" style={{ padding: '40px', color: '#64748b' }}>
+            <h2>Acceso restringido</h2>
+            <p>Debes iniciar sesión con un usuario administrador para acceder a este panel.</p>
+            <Link to="/login" className="admin-btn-primary">Iniciar sesión</Link>
+          </div>
+        </main>
+      </div>
+    )
+  }
 
   return (
     <div className="adm-root">
