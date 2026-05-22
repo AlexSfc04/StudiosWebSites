@@ -62,7 +62,6 @@ function Login() {
       setError('El servicio de Google no está listo. Por favor recarga la página.')
       return
     }
-    window.google.accounts.id.prompt()
   }
 
   useEffect(() => {
@@ -75,6 +74,7 @@ function Login() {
           callback: handleGoogleCredentialResponse,
           ux_mode: 'popup',
           auto_select: false,
+          cancel_on_tap_outside: true,
         })
         const container = document.getElementById('google-signin-button-login')
         if (container) {
