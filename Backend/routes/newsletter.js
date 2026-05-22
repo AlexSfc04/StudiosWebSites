@@ -211,19 +211,25 @@ const getConfirmedSubscriberEmails = async () => {
   return rows.map(row => row.email)
 }
 
+const formatDateToMySQLDatetimeUTC = (date) => {
+  const d = date instanceof Date ? date : new Date(date)
+  const pad = (value) => String(value).padStart(2, '0')
+  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}`
+}
+
 const sendPendingNewsletterCampaigns = async () => {
   const [campaigns] = await db.query(
-    'SELECT * FROM newsletter_campaigns WHERE scheduled_at <= NOW() AND sent_at IS NULL ORDER BY scheduled_at ASC'
+    'SELECT * FROM newsletter_campaigns WHERE scheduled_at <= UTC_TIMESTAMP() AND sent_at IS NULL ORDER BY scheduled_at ASC'
   )
 
   if (campaigns.length === 0) {
-    return 0
+    return { sentCount: 0, subscriberCount: 0, reason: 'no_campaigns' }
   }
 
   const emails = await getConfirmedSubscriberEmails()
   if (emails.length === 0) {
     console.log('[Newsletter] No hay suscriptores confirmados para enviar campañas pendientes.')
-    return 0
+    return { sentCount: 0, subscriberCount: 0, reason: 'no_subscribers' }
   }
 
   for (const campaign of campaigns) {
@@ -237,12 +243,12 @@ const sendPendingNewsletterCampaigns = async () => {
     })
 
     await db.query(
-      'UPDATE newsletter_campaigns SET sent_at = NOW() WHERE id = ?',
+      'UPDATE newsletter_campaigns SET sent_at = UTC_TIMESTAMP() WHERE id = ?',
       [campaign.id]
     )
   }
 
-  return campaigns.length
+  return { sentCount: campaigns.length, subscriberCount: emails.length, reason: 'sent' }
 }
 
 const scheduleNewsletterCampaigns = () => {
@@ -360,7 +366,14 @@ router.get('/confirmar', async (req, res) => {
 router.get('/campaigns', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const [campaigns] = await db.query(
-      'SELECT id, subject, scheduled_at, sent_at, created_at FROM newsletter_campaigns ORDER BY scheduled_at DESC'
+      `SELECT
+         id,
+         subject,
+         DATE_FORMAT(scheduled_at, '%Y-%m-%dT%H:%i:%sZ') AS scheduled_at,
+         DATE_FORMAT(sent_at, '%Y-%m-%dT%H:%i:%sZ') AS sent_at,
+         DATE_FORMAT(created_at, '%Y-%m-%dT%H:%i:%sZ') AS created_at
+       FROM newsletter_campaigns
+       ORDER BY scheduled_at DESC`
     )
     const [countResult] = await db.query(
       'SELECT COUNT(*) AS confirmed FROM newsletter WHERE confirmado = TRUE'
@@ -390,9 +403,10 @@ router.post('/campaigns', authenticateToken, requireAdmin, async (req, res) => {
   }
 
   try {
+    const scheduledAtUTC = formatDateToMySQLDatetimeUTC(scheduledDate)
     const [result] = await db.query(
       'INSERT INTO newsletter_campaigns (subject, html, scheduled_at) VALUES (?, ?, ?)',
-      [subject.trim(), html, scheduledDate]
+      [subject.trim(), html, scheduledAtUTC]
     )
 
     return res.status(201).json({
@@ -400,7 +414,7 @@ router.post('/campaigns', authenticateToken, requireAdmin, async (req, res) => {
       campaign: {
         id: result.insertId,
         subject: subject.trim(),
-        scheduled_at: scheduledDate,
+        scheduled_at: scheduledDate.toISOString(),
         sent_at: null,
         created_at: new Date(),
       },
@@ -411,13 +425,45 @@ router.post('/campaigns', authenticateToken, requireAdmin, async (req, res) => {
   }
 })
 
+// ── ADMIN: eliminar campaña pendiente ─────────────────────────
+router.delete('/campaigns/:id', authenticateToken, requireAdmin, async (req, res) => {
+  const { id } = req.params
+
+  if (!id || Number.isNaN(Number(id))) {
+    return res.status(400).json({ message: 'ID de campaña inválido.' })
+  }
+
+  try {
+    const [result] = await db.query(
+      'DELETE FROM newsletter_campaigns WHERE id = ? AND sent_at IS NULL',
+      [id]
+    )
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'No se encontró ninguna campaña pendiente con ese ID.' })
+    }
+
+    return res.status(200).json({ message: 'Campaña pendiente eliminada correctamente.' })
+  } catch (error) {
+    console.error('[Newsletter] DELETE campaigns/:id error:', error)
+    return res.status(500).json({ message: 'Error al eliminar la campaña pendiente.' })
+  }
+})
+
 // ── ADMIN: enviar campañas pendientes ahora ───────────────────
 router.post('/campaigns/send', authenticateToken, requireAdmin, async (req, res) => {
   try {
-    const sentCount = await sendPendingNewsletterCampaigns()
+    const result = await sendPendingNewsletterCampaigns()
+    const message = result.sentCount === 0
+      ? result.reason === 'no_subscribers'
+        ? 'No hay suscriptores confirmados para enviar la campaña.'
+        : 'No hay campañas pendientes para enviar.'
+      : `Se han enviado ${result.sentCount} campaña(s) pendientes.`
+
     return res.status(200).json({
-      message: `Se han enviado ${sentCount} campaña(s) pendientes.`,
-      sentCount,
+      message,
+      sentCount: result.sentCount,
+      subscriberCount: result.subscriberCount,
     })
   } catch (error) {
     console.error('[Newsletter] POST campaigns/send error:', error)
