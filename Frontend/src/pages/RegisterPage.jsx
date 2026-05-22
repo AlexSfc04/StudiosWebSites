@@ -76,15 +76,17 @@ function Register() {
 
         window.google.accounts.id.cancel()
 
-        const container = document.getElementById('google-signin-button-register')
-        if (container) {
-          container.innerHTML = ''
-          window.google.accounts.id.renderButton(container, {
-            theme: 'outline',
-            size: 'large',
-            width: container.offsetWidth || 400,  // ← píxeles reales
-          })
-        }
+      const parentWidth = container.parentElement?.offsetWidth || 400
+      const buttonWidth = Math.min(parentWidth, 400) // máximo 400px (límite de Google)
+
+      window.google.accounts.id.renderButton(container, {
+        theme: 'outline',
+        size: 'large',
+        width: buttonWidth,
+        text: 'signin_with',  // "Iniciar sesión con Google"
+        shape: 'rectangular',
+        logo_alignment: 'left',
+      })
         setGoogleReady(true)
         if (intervalId) { clearInterval(intervalId); intervalId = null }
       }
