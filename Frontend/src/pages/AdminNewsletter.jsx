@@ -60,7 +60,7 @@ function AdminNewsletter() {
     loadCampaigns()
     const timer = setInterval(() => setCurrentTime(new Date()), 60000)
     return () => clearInterval(timer)
-  }, [user, loading, navigate])
+  }, [user, authLoading, navigate])
 
   const loadCampaigns = async () => {
     setLoadingCampaigns(true)
