@@ -32,12 +32,12 @@ const emptyForm = {
 }
 
 function AdminNewsletter() {
-  const { user, logout, loading } = useAuth()
+  const { user, logout, loading: authLoading } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [campaigns, setCampaigns] = useState([])
   const [form, setForm] = useState(emptyForm)
-  const [loading, setLoading] = useState(true)
+  const [loadingCampaigns, setLoadingCampaigns] = useState(true)
   const [saving, setSaving] = useState(false)
   const [sending, setSending] = useState(false)
   const [status, setStatus] = useState(null)
@@ -46,7 +46,7 @@ function AdminNewsletter() {
   const [authChecked, setAuthChecked] = useState(false)
 
   useEffect(() => {
-    if (loading) return
+    if (authLoading) return
     setAuthChecked(true)
 
     if (!user) {
@@ -63,7 +63,7 @@ function AdminNewsletter() {
   }, [user, loading, navigate])
 
   const loadCampaigns = async () => {
-    setLoading(true)
+    setLoadingCampaigns(true)
     try {
       const data = await api.getNewsletterCampaigns()
       setCampaigns(Array.isArray(data.campaigns) ? data.campaigns : [])
@@ -71,7 +71,7 @@ function AdminNewsletter() {
     } catch (error) {
       console.error(error)
     } finally {
-      setLoading(false)
+      setLoadingCampaigns(false)
     }
   }
 
@@ -140,7 +140,7 @@ function AdminNewsletter() {
 
   const isActive = (path) => location.pathname === path
 
-  if (loading || !authChecked) {
+  if (authLoading || !authChecked) {
     return (
       <div className="adm-root">
         <main className="adm-main">
@@ -313,7 +313,7 @@ function AdminNewsletter() {
               </div>
             </div>
 
-            {loading ? (
+            {loadingCampaigns ? (
               <p style={{ color: '#64748b', fontSize: '0.875rem' }}>Cargando campañas...</p>
             ) : (
               <div className="admin-list">
