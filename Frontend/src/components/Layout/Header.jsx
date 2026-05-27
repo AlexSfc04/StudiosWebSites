@@ -152,14 +152,6 @@ function Header() {
                       )}
                     </div>
                     <div className="profile__dropdown-divider" />
-                    {isAdmin && (
-                      <Link to="/admin" className="profile__dropdown-item" role="menuitem"
-                        onClick={() => setIsProfileOpen(false)}>
-                        <Settings size={16} aria-hidden="true" />
-                        <span>Admin Panel</span>
-                      </Link>
-                    )}
-
                     <Link to="/perfil" className="profile__dropdown-item" role="menuitem"
                       onClick={() => setIsProfileOpen(false)}>
                       <UserProfile size={16} aria-hidden="true" />
@@ -264,13 +256,6 @@ function Header() {
                 </div>
               </div>
 
-              {isAdmin && (
-                <Link to="/admin" className="mobile-menu__action"
-                  onClick={() => setIsMenuOpen(false)}>
-                  <Settings size={16} aria-hidden="true" />
-                  Admin Panel
-                </Link>
-              )}
             </>
           ) : (
             <div className="mobile-menu__auth">
